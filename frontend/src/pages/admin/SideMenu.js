@@ -37,7 +37,7 @@ const SideMenu = () => {
           <ul class="flex flex-col w-full">
             <li class="my-px">
               <Link
-                to="/advisor/dashboard"
+                to="/admin/dashboard"
                 class="flex flex-row items-center h-10 px-3 rounded-lg text-gray-700 bg-gray-100"
               >
                 <span class="flex items-center justify-center text-lg text-black">
@@ -53,7 +53,7 @@ const SideMenu = () => {
                     <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                 </span>
-                <Link to="/advisor/dashboard">
+                <Link to="/admin/dashboard">
                   <span class="ml-3">Dashboard</span>
                 </Link>
               </Link>
@@ -61,7 +61,7 @@ const SideMenu = () => {
 
             <li class="my-px">
               <Link
-                to="/advisor/add-leads"
+                to="/admin/add-leads"
                 class="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span class="flex items-center justify-center text-lg text-black">
@@ -77,7 +77,7 @@ const SideMenu = () => {
                     <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </span>
-                <Link to="/advisor/add-leads">
+                <Link to="/admin/add-leads">
                   <span class="ml-3">Add Leads</span>
                 </Link>
                 {/* <span class="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
@@ -92,7 +92,7 @@ const SideMenu = () => {
             </li>
             <li class="my-px">
               <Link
-                to="/advisor/profile"
+                to="/admin/profile"
                 class="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span class="flex items-center justify-center text-lg text-black">
@@ -108,7 +108,7 @@ const SideMenu = () => {
                     <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </span>
-                <Link to="/advisor/profile">
+                <Link to="/admin/profile">
                   <span class="ml-3">Profile</span>
                 </Link>
               </Link>
@@ -139,7 +139,7 @@ const SideMenu = () => {
             </li>
             <li class="my-px">
               <Link
-                to="/advisor/dashboard"
+                to="/admin/dashboard"
                 class="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span class="flex items-center justify-center text-lg text-black">

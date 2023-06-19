@@ -14,9 +14,21 @@ const authUser = asyncHandler(async (req, res) => {
     generateToken(res, user._id);
     res.status(201).json({
       _id: user._id,
-      profilePicture: user.profilePicture,
-      name: user.name,
+      firstName: user.firstName,
+      middleName: user.middleName,
+      lastName: user.lastName,
+      age: user.age,
+      contactNumber: user.contactNumber,
+      gender: user.gender,
+      birthDate: user.birthDate,
       email: user.email,
+      address: user.address,
+      facebook: user.facebook,
+      instagram: user.instagram,
+      linkedIn: user.linkedIn,
+      password: user.password,
+      profilePicture: user.profilePicture,
+      userType: user.userType,
     });
   } else {
     res.status(400);
@@ -28,7 +40,23 @@ const authUser = asyncHandler(async (req, res) => {
 // @route POST /api/users
 // @access Public
 const addUser = asyncHandler(async (req, res) => {
-  const { profilePicture, name, email, password } = req.body;
+  const {
+    firstName,
+    middleName,
+    lastName,
+    age,
+    contactNumber,
+    gender,
+    birthDate,
+    email,
+    address,
+    facebook,
+    instagram,
+    linkedIn,
+    password,
+    profilePicture,
+    userType,
+  } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -38,19 +66,42 @@ const addUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    profilePicture,
-    name,
+    firstName,
+    middleName,
+    lastName,
+    age,
+    contactNumber,
+    gender,
+    birthDate,
     email,
+    address,
+    facebook,
+    instagram,
+    linkedIn,
     password,
+    profilePicture,
+    userType,
   });
 
   if (user) {
     generateToken(res, user._id);
     res.status(201).json({
-      profilePicture: user.profilePicture,
       _id: user._id,
-      name: user.name,
+      firstName: user.firstName,
+      middleName: user.middleName,
+      lastName: user.lastName,
+      age: user.age,
+      contactNumber: user.contactNumber,
+      gender: user.gender,
+      birthDate: user.birthDate,
       email: user.email,
+      address: user.address,
+      facebook: user.facebook,
+      instagram: user.instagram,
+      linkedIn: user.linkedIn,
+      password: user.password,
+      profilePicture: user.profilePicture,
+      userType: user.userType,
     });
   } else {
     res.status(400);
@@ -70,20 +121,32 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "User logged out" });
 });
 
-// @desc Get user user
+// @desc Get current user
 // @route GET /api/users/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
   const user = {
-    profilePicture: req.user.profilePicture,
     _id: req.user._id,
-    name: req.user.name,
+    firstName: req.user.firstName,
+    middleName: req.user.middleName,
+    lastName: req.user.lastName,
+    age: req.user.age,
+    contactNumber: req.user.contactNumber,
+    gender: req.user.gender,
+    birthDate: req.user.birthDate,
     email: req.user.email,
+    address: req.user.address,
+    facebook: req.user.facebook,
+    instagram: req.user.instagram,
+    linkedIn: req.user.linkedIn,
+    password: req.user.password,
+    profilePicture: req.user.profilePicture,
+    userType: req.user.userType,
   };
   res.status(200).json(user);
 });
 
-// @desc Get user user
+// @desc Update current user
 // @route PUT /api/users/profile
 // @access Private
 const updateUserProfile = asyncHandler(async (req, res) => {

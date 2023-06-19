@@ -16,14 +16,6 @@ const Login = () => {
 
   const [login] = useLoginMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/advisor-dashboard");
-    }
-  }, [navigate, userInfo]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -33,8 +25,12 @@ const Login = () => {
         password,
       }).unwrap();
       dispatch(setCredentials({ ...res }));
-      console.log(res);
-      navigate("/advisor-dashboard");
+
+      if (res.userType === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/advisor/dashboard");
+      }
     } catch (err) {
       toast.error(err?.data?.message || err.message, {
         position: "top-right",

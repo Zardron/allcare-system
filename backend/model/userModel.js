@@ -7,7 +7,31 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    name: {
+    firstName: {
+      type: String,
+      required: true,
+    },
+    middleName: {
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    age: {
+      type: String,
+      required: true,
+    },
+    contactNumber: {
+      type: String,
+      required: true,
+    },
+    gender: {
+      type: String,
+      required: true,
+    },
+    birthDate: {
       type: String,
       required: true,
     },
@@ -16,7 +40,27 @@ const userSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
+    facebook: {
+      type: String,
+      required: true,
+    },
+    instagram: {
+      type: String,
+      required: true,
+    },
+    linkedIn: {
+      type: String,
+      required: true,
+    },
     password: {
+      type: String,
+      required: true,
+    },
+    userType: {
       type: String,
       required: true,
     },
