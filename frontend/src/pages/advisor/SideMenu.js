@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
   Card,
   Chip,
   List,
   ListItem,
   ListItemPrefix,
   ListItemSuffix,
+  Typography,
 } from "@material-tailwind/react";
 import {
+  ChevronDownIcon,
+  PresentationChartBarIcon,
+  MagnifyingGlassIcon,
   UserCircleIcon,
   Cog6ToothIcon,
   BellIcon,
@@ -20,6 +27,7 @@ import { useLogoutMutation } from "../../slices/usersApiSlice";
 import { logout } from "../../slices/authSlice";
 
 const SideMenu = () => {
+  const [open, setOpen] = useState();
   const { userInfo } = useSelector((state) => state.auth);
   const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch();
@@ -34,6 +42,14 @@ const SideMenu = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleClose = (id) => {
+    setOpen(id);
+  };
+
+  const handleOpen = (id) => {
+    setOpen(id);
   };
   return (
     <Card className="fixed h-full  border-r rounded-none border-gray-400 w-full max-w-[15rem] shadow-xl shadow-blue-gray-900/5">
@@ -58,7 +74,7 @@ const SideMenu = () => {
         </div>
       </div>
       <List>
-        {/* <Accordion
+        <Accordion
           open={open === 1}
           icon={
             <ChevronDownIcon
@@ -71,81 +87,38 @@ const SideMenu = () => {
         >
           <ListItem className="p-0" selected={open === 1}>
             <AccordionHeader
-              onClick={() => handleOpen(1)}
+              onClick={() => (open === 1 ? handleClose(0) : handleOpen(1))}
               className="border-b-0 p-3"
             >
               <ListItemPrefix>
                 <PresentationChartBarIcon className="h-5 w-5" />
               </ListItemPrefix>
               <Typography color="blue-gray" className="mr-auto font-normal">
-                Dashboard
+                Leads
               </Typography>
             </AccordionHeader>
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Analytics
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Reporting
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Projects
-              </ListItem>
+              <Link to="/add-leads">
+                <ListItem>
+                  <ListItemPrefix>
+                    <UserGroupIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  Add Leads
+                </ListItem>
+              </Link>
+              <Link to="/view-leads">
+                <ListItem>
+                  <ListItemPrefix>
+                    <MagnifyingGlassIcon strokeWidth={3} className="h-3 w-5" />
+                  </ListItemPrefix>
+                  View Leads
+                </ListItem>
+              </Link>
             </List>
           </AccordionBody>
         </Accordion>
-        <Accordion
-          open={open === 2}
-          icon={
-            <ChevronDownIcon
-              strokeWidth={2.5}
-              className={`mx-auto h-4 w-4 transition-transform ${
-                open === 2 ? "rotate-180" : ""
-              }`}
-            />
-          }
-        >
-          <ListItem className="p-0" selected={open === 2}>
-            <AccordionHeader
-              onClick={() => handleOpen(2)}
-              className="border-b-0 p-3"
-            >
-              <ListItemPrefix>
-                <ShoppingBagIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              <Typography color="blue-gray" className="mr-auto font-normal">
-                E-Commerce
-              </Typography>
-            </AccordionHeader>
-          </ListItem>
-          <AccordionBody className="py-1">
-            <List className="p-0">
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Orders
-              </ListItem>
-              <ListItem>
-                <ListItemPrefix>
-                  <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
-                </ListItemPrefix>
-                Products
-              </ListItem>
-            </List>
-          </AccordionBody>
-        </Accordion> */}
         <hr className="my-2 border-blue-gray-50" />
         <ListItem>
           <ListItemPrefix>
@@ -162,23 +135,6 @@ const SideMenu = () => {
             />
           </ListItemSuffix>
         </ListItem>
-        <Link to={"/add-leads"}>
-          <ListItem>
-            <ListItemPrefix>
-              <UserGroupIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Add Leads
-            {/* <ListItemSuffix>
-            <Chip
-              value="14"
-              size="sm"
-              variant="ghost"
-              color="blue-gray"
-              className="rounded-full"
-            />
-          </ListItemSuffix> */}
-          </ListItem>
-        </Link>
         <Link to="/my-profile">
           <ListItem>
             <ListItemPrefix>

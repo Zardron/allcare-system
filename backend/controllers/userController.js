@@ -90,6 +90,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.userId);
 
   if (user) {
+    user.profilePicture = req.body.profilePicture || user.profilePicture;
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
 
@@ -101,6 +102,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     res.status(200).json({
       _id: updatedUser._id,
+      profilePicture: updatedUser.profilePicture,
       name: updatedUser.name,
       email: updatedUser.email,
     });

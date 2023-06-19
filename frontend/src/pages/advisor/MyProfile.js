@@ -42,7 +42,6 @@ const AddLeads = () => {
     e.preventDefault();
     const file = e.target.files[0];
     const base64 = await convertToBase64(file);
-
     setProfilePicture(base64);
   };
 
@@ -64,6 +63,7 @@ const AddLeads = () => {
       try {
         const profileUpdate = await updateProfile({
           userId,
+          profilePicture,
           name,
           email,
           password,
