@@ -33,9 +33,6 @@ const MyProfile = () => {
   const [facebook, setFacebook] = useState("");
   const [instagram, setInstagram] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
-  const [expertise, setExpertise] = useState("");
-  const [education, setEducation] = useState("");
-  const [company, setCompany] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
@@ -54,9 +51,6 @@ const MyProfile = () => {
     setFacebook(userInfo.facebook);
     setInstagram(userInfo.instagram);
     setLinkedIn(userInfo.linkedIn);
-    setExpertise(userInfo.expertise);
-    setEducation(userInfo.education);
-    setCompany(userInfo.company);
   }, [userInfo]);
 
   return (
@@ -115,33 +109,20 @@ const MyProfile = () => {
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Expertise:
-                          </Typography>
-                          <Input value={expertise} disabled />
+                          <Button
+                            size="md"
+                            variant="outlined"
+                            color="blue-gray"
+                            className="flex items-center gap-3 w-full"
+                            onClick={(e) => {
+                              window.open(`https://www.${facebook}`, "_blank");
+                            }}
+                          >
+                            <AiFillFacebook className="h-5 w-5 text-[#3b5998]" />
+                            Facebook Profile
+                          </Button>
                         </div>
                       </div>
-                      {facebook && (
-                        <div className="mb-6">
-                          <div className="w-64">
-                            <Button
-                              size="md"
-                              variant="outlined"
-                              color="blue-gray"
-                              className="flex items-center gap-3 w-full"
-                              onClick={(e) => {
-                                window.open(
-                                  `https://www.${facebook}`,
-                                  "_blank"
-                                );
-                              }}
-                            >
-                              <AiFillFacebook className="h-5 w-5 text-[#3b5998]" />
-                              Facebook Profile
-                            </Button>
-                          </div>
-                        </div>
-                      )}
                     </div>
 
                     {/* 2nd Column */}
@@ -180,33 +161,20 @@ const MyProfile = () => {
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Education:
-                          </Typography>
-                          <Input value={education} disabled />
+                          <Button
+                            size="md"
+                            variant="outlined"
+                            color="blue-gray"
+                            className="flex items-center gap-3 w-full"
+                            onClick={(e) => {
+                              window.open(`https://www.${instagram}`, "_blank");
+                            }}
+                          >
+                            <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
+                            Instagram Profile
+                          </Button>
                         </div>
                       </div>
-                      {instagram && (
-                        <div className="mb-6">
-                          <div className="w-64">
-                            <Button
-                              size="md"
-                              variant="outlined"
-                              color="blue-gray"
-                              className="flex items-center gap-3 w-full"
-                              onClick={(e) => {
-                                window.open(
-                                  `https://www.${instagram}`,
-                                  "_blank"
-                                );
-                              }}
-                            >
-                              <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
-                              Instagram Profile
-                            </Button>
-                          </div>
-                        </div>
-                      )}
                     </div>
                     {/* 3rd Column */}
                     <div className="flex flex-col items-center">
@@ -236,33 +204,20 @@ const MyProfile = () => {
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Company:
-                          </Typography>
-                          <Input value={company} disabled />
+                          <Button
+                            size="md"
+                            variant="outlined"
+                            color="blue-gray"
+                            className="flex items-center gap-3 w-full"
+                            onClick={(e) => {
+                              window.open(`https://www.${linkedIn}`, "_blank");
+                            }}
+                          >
+                            <AiFillLinkedin className="h-5 w-5 text-[#0072b1]" />
+                            LinkedIn Profile
+                          </Button>
                         </div>
                       </div>
-                      {linkedIn && (
-                        <div className="mb-6">
-                          <div className="w-64">
-                            <Button
-                              size="md"
-                              variant="outlined"
-                              color="blue-gray"
-                              className="flex items-center gap-3 w-full"
-                              onClick={(e) => {
-                                window.open(
-                                  `https://www.${linkedIn}`,
-                                  "_blank"
-                                );
-                              }}
-                            >
-                              <AiFillLinkedin className="h-5 w-5 text-[#0072b1]" />
-                              LinkedIn Profile
-                            </Button>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   </div>
 

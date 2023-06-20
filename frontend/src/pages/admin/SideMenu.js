@@ -24,7 +24,7 @@ const SideMenu = () => {
       <aside class="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-white">
         <div class="sidebar-header flex items-center justify-center py-4">
           <div class="inline-flex">
-            <Link to="/advisor-dashboard">
+            <Link to="/advisor/dashboard">
               <img
                 src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
                 alt="brand"
@@ -77,8 +77,8 @@ const SideMenu = () => {
                     <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </span>
-                <Link to="/admin/add-leads">
-                  <span class="ml-3">Add Leads</span>
+                <Link to="/admin/add-advisor">
+                  <span class="ml-3">Add Advisor</span>
                 </Link>
                 {/* <span class="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
                   1k

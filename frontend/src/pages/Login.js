@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import pic1 from "../assets/images/pic1.jpg";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
@@ -26,10 +27,21 @@ const Login = () => {
       }).unwrap();
       dispatch(setCredentials({ ...res }));
 
-      if (res.userType === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/advisor/dashboard");
+      switch (res.userType) {
+        case "Admin":
+          navigate("/admin/dashboard");
+          break;
+
+        case "Advisor":
+          navigate("/advisor/dashboard");
+          break;
+
+        case "Leads":
+          navigate("/leads/dashboard");
+          break;
+
+        default:
+          break;
       }
     } catch (err) {
       toast.error(err?.data?.message || err.message, {
@@ -105,6 +117,19 @@ const Login = () => {
                   <a href="#!" className="text-gray-800">
                     Forgot password?
                   </a>
+                </div>
+
+                <div className="flex items-center mb-6">
+                  <label
+                    className="form-check-label inline-block text-gray-800"
+                    htmlFor="exampleCheck2"
+                  >
+                    Don't have an account yet?{" "}
+                  </label>
+                  <Link to="/register" className="text-blue-600 ml-1">
+                    {" "}
+                    Register here!
+                  </Link>
                 </div>
 
                 <div className="text-center lg:text-left">

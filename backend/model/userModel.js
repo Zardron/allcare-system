@@ -46,15 +46,12 @@ const userSchema = mongoose.Schema(
     },
     facebook: {
       type: String,
-      required: true,
     },
     instagram: {
       type: String,
-      required: true,
     },
     linkedIn: {
       type: String,
-      required: true,
     },
     password: {
       type: String,
@@ -63,6 +60,19 @@ const userSchema = mongoose.Schema(
     userType: {
       type: String,
       required: true,
+    },
+    // additional fields for Advisor
+    expertise: {
+      type: String,
+    },
+    education: {
+      type: String,
+    },
+    company: {
+      type: String,
+    },
+    rating: {
+      type: String,
     },
   },
   {

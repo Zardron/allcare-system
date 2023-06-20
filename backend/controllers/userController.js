@@ -3,6 +3,19 @@ import User from "../model/userModel.js";
 import generateToken from "../util/generateToken.js";
 
 // @desc Auth User or Set Token
+// @route POST /api/users
+// @access Public
+const getAdvisorUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({ userType: "Advisor" })
+    .select("-password")
+    .lean();
+  if (!users?.length) {
+    return res.status(400).json({ message: "No users found" });
+  }
+  res.json(users);
+});
+
+// @desc Auth User or Set Token
 // @route POST /api/users/auth
 // @access Public
 const authUser = asyncHandler(async (req, res) => {
@@ -10,29 +23,59 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    generateToken(res, user._id);
-    res.status(201).json({
-      _id: user._id,
-      firstName: user.firstName,
-      middleName: user.middleName,
-      lastName: user.lastName,
-      age: user.age,
-      contactNumber: user.contactNumber,
-      gender: user.gender,
-      birthDate: user.birthDate,
-      email: user.email,
-      address: user.address,
-      facebook: user.facebook,
-      instagram: user.instagram,
-      linkedIn: user.linkedIn,
-      password: user.password,
-      profilePicture: user.profilePicture,
-      userType: user.userType,
-    });
+  if (user.userType === "Leads" || user.userType === "Admin") {
+    if (user && (await user.matchPassword(password))) {
+      generateToken(res, user._id);
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        age: user.age,
+        contactNumber: user.contactNumber,
+        gender: user.gender,
+        birthDate: user.birthDate,
+        email: user.email,
+        address: user.address,
+        facebook: user.facebook,
+        instagram: user.instagram,
+        linkedIn: user.linkedIn,
+        password: user.password,
+        profilePicture: user.profilePicture,
+        userType: user.userType,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid email or password");
+    }
   } else {
-    res.status(400);
-    throw new Error("Invalid email or password");
+    if (user && (await user.matchPassword(password))) {
+      generateToken(res, user._id);
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        age: user.age,
+        contactNumber: user.contactNumber,
+        gender: user.gender,
+        birthDate: user.birthDate,
+        email: user.email,
+        address: user.address,
+        facebook: user.facebook,
+        instagram: user.instagram,
+        linkedIn: user.linkedIn,
+        password: user.password,
+        profilePicture: user.profilePicture,
+        userType: user.userType,
+        expertise: user.expertise,
+        education: user.education,
+        company: user.company,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid email or password");
+    }
   }
 });
 
@@ -40,72 +83,153 @@ const authUser = asyncHandler(async (req, res) => {
 // @route POST /api/users
 // @access Public
 const addUser = asyncHandler(async (req, res) => {
-  const {
-    firstName,
-    middleName,
-    lastName,
-    age,
-    contactNumber,
-    gender,
-    birthDate,
-    email,
-    address,
-    facebook,
-    instagram,
-    linkedIn,
-    password,
-    profilePicture,
-    userType,
-  } = req.body;
+  if (req.body.userType === "Leads") {
+    const {
+      firstName,
+      middleName,
+      lastName,
+      age,
+      contactNumber,
+      gender,
+      birthDate,
+      email,
+      address,
+      facebook,
+      instagram,
+      linkedIn,
+      password,
+      profilePicture,
+      userType,
+    } = req.body;
 
-  const userExists = await User.findOne({ email });
+    const userExists = await User.findOne({ email });
 
-  if (userExists) {
-    res.status(400);
-    throw new Error("User already exist");
+    if (userExists) {
+      res.status(400);
+      throw new Error("User already exist");
+    }
+
+    const user = await User.create({
+      firstName,
+      middleName,
+      lastName,
+      age,
+      contactNumber,
+      gender,
+      birthDate,
+      email,
+      address,
+      facebook,
+      instagram,
+      linkedIn,
+      password,
+      profilePicture,
+      userType,
+    });
+
+    if (user) {
+      generateToken(res, user._id);
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        age: user.age,
+        contactNumber: user.contactNumber,
+        gender: user.gender,
+        birthDate: user.birthDate,
+        email: user.email,
+        address: user.address,
+        facebook: user.facebook,
+        instagram: user.instagram,
+        linkedIn: user.linkedIn,
+        password: user.password,
+        profilePicture: user.profilePicture,
+        userType: user.userType,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid user data");
+    }
   }
 
-  const user = await User.create({
-    firstName,
-    middleName,
-    lastName,
-    age,
-    contactNumber,
-    gender,
-    birthDate,
-    email,
-    address,
-    facebook,
-    instagram,
-    linkedIn,
-    password,
-    profilePicture,
-    userType,
-  });
+  if (req.body.userType === "Advisor") {
+    const {
+      firstName,
+      middleName,
+      lastName,
+      age,
+      contactNumber,
+      gender,
+      birthDate,
+      email,
+      address,
+      facebook,
+      instagram,
+      linkedIn,
+      password,
+      profilePicture,
+      userType,
+      expertise,
+      education,
+      company,
+    } = req.body;
 
-  if (user) {
-    generateToken(res, user._id);
-    res.status(201).json({
-      _id: user._id,
-      firstName: user.firstName,
-      middleName: user.middleName,
-      lastName: user.lastName,
-      age: user.age,
-      contactNumber: user.contactNumber,
-      gender: user.gender,
-      birthDate: user.birthDate,
-      email: user.email,
-      address: user.address,
-      facebook: user.facebook,
-      instagram: user.instagram,
-      linkedIn: user.linkedIn,
-      password: user.password,
-      profilePicture: user.profilePicture,
-      userType: user.userType,
+    const userExists = await User.findOne({ email });
+
+    if (userExists) {
+      res.status(400);
+      throw new Error("User already exist");
+    }
+
+    const user = await User.create({
+      firstName,
+      middleName,
+      lastName,
+      age,
+      contactNumber,
+      gender,
+      birthDate,
+      email,
+      address,
+      facebook,
+      instagram,
+      linkedIn,
+      password,
+      profilePicture,
+      userType,
+      expertise,
+      education,
+      company,
     });
-  } else {
-    res.status(400);
-    throw new Error("Invalid user data");
+
+    if (user) {
+      generateToken(res, user._id);
+      res.status(201).json({
+        _id: user._id,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        lastName: user.lastName,
+        age: user.age,
+        contactNumber: user.contactNumber,
+        gender: user.gender,
+        birthDate: user.birthDate,
+        email: user.email,
+        address: user.address,
+        facebook: user.facebook,
+        instagram: user.instagram,
+        linkedIn: user.linkedIn,
+        password: user.password,
+        profilePicture: user.profilePicture,
+        userType: user.userType,
+        expertise: user.expertise,
+        education: user.education,
+        company: user.company,
+      });
+    } else {
+      res.status(400);
+      throw new Error("Invalid user data");
+    }
   }
 });
 
@@ -125,25 +249,50 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @route GET /api/users/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = {
-    _id: req.user._id,
-    firstName: req.user.firstName,
-    middleName: req.user.middleName,
-    lastName: req.user.lastName,
-    age: req.user.age,
-    contactNumber: req.user.contactNumber,
-    gender: req.user.gender,
-    birthDate: req.user.birthDate,
-    email: req.user.email,
-    address: req.user.address,
-    facebook: req.user.facebook,
-    instagram: req.user.instagram,
-    linkedIn: req.user.linkedIn,
-    password: req.user.password,
-    profilePicture: req.user.profilePicture,
-    userType: req.user.userType,
-  };
-  res.status(200).json(user);
+  if (req.user.userType === "Advisor") {
+    const user = {
+      _id: req.user._id,
+      firstName: req.user.firstName,
+      middleName: req.user.middleName,
+      lastName: req.user.lastName,
+      age: req.user.age,
+      contactNumber: req.user.contactNumber,
+      gender: req.user.gender,
+      birthDate: req.user.birthDate,
+      email: req.user.email,
+      address: req.user.address,
+      facebook: req.user.facebook,
+      instagram: req.user.instagram,
+      linkedIn: req.user.linkedIn,
+      password: req.user.password,
+      profilePicture: req.user.profilePicture,
+      userType: req.user.userType,
+      expertise: req.user.expertise,
+      education: req.user.education,
+      company: req.user.company,
+    };
+    res.status(200).json(user);
+  } else {
+    const user = {
+      _id: req.user._id,
+      firstName: req.user.firstName,
+      middleName: req.user.middleName,
+      lastName: req.user.lastName,
+      age: req.user.age,
+      contactNumber: req.user.contactNumber,
+      gender: req.user.gender,
+      birthDate: req.user.birthDate,
+      email: req.user.email,
+      address: req.user.address,
+      facebook: req.user.facebook,
+      instagram: req.user.instagram,
+      linkedIn: req.user.linkedIn,
+      password: req.user.password,
+      profilePicture: req.user.profilePicture,
+      userType: req.user.userType,
+    };
+    res.status(200).json(user);
+  }
 });
 
 // @desc Update current user
@@ -175,4 +324,11 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, addUser, logoutUser, getUserProfile, updateUserProfile };
+export {
+  getAdvisorUsers,
+  authUser,
+  addUser,
+  logoutUser,
+  getUserProfile,
+  updateUserProfile,
+};

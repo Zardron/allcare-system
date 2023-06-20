@@ -6,9 +6,11 @@ import {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  getAdvisorUsers,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
+router.get("/advisor-list", getAdvisorUsers);
 router.post("/", addUser);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);

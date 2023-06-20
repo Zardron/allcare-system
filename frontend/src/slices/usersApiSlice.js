@@ -1,5 +1,10 @@
+import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
 const USERS_URL = "/api/users";
+
+const usersAdapter = createEntityAdapter({});
+
+const initialState = usersAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,6 +21,19 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+    }),
+    getAdvisorUsers: builder.query({
+      query: () => "/api/users/advisor-list",
+      validateStatus: (response, result) => {
+        return response.status === 200 && !result.isError;
+      },
+      transformResponse: (responseData) => {
+        const loadedUsers = responseData.map((user) => {
+          user.id = user._id;
+          return user;
+        });
+        return usersAdapter.setAll(initialState, loadedUsers);
+      },
     }),
     updateProfile: builder.mutation({
       query: (data) => ({
@@ -34,8 +52,15 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
+  useGetAdvisorUsersQuery,
   useLoginMutation,
   useLogoutMutation,
   useAddUserMutation,
   useUpdateProfileMutation,
 } = usersApiSlice;
+
+// returns the query result object
+export const selectUsersResult =
+  usersApiSlice.endpoints.getAdvisorUsers.select();
+
+// creates memoized selector

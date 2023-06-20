@@ -26,6 +26,9 @@ const AddAdvisor = () => {
   const [facebook, setFacebook] = useState("");
   const [instagram, setInstagram] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
+  const [expertise, setExpertise] = useState("");
+  const [education, setEducation] = useState("");
+  const [company, setCompany] = useState("");
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [profilePicture, setProfilePicture] = useState(
@@ -90,10 +93,13 @@ const AddAdvisor = () => {
           password,
           profilePicture,
           userType,
+          expertise,
+          education,
+          company,
         }).unwrap();
 
         if (savedUser) {
-          toast.success("User successfully added!", {
+          toast.success("Advisor has been successfully added!", {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: false,
@@ -189,6 +195,15 @@ const AddAdvisor = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Input
+                            label="Expertise"
+                            value={expertise}
+                            onChange={(e) => setExpertise(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Input
                             label="Facebook"
                             value={facebook}
                             onChange={(e) => setFacebook(e.target.value)}
@@ -226,6 +241,15 @@ const AddAdvisor = () => {
                             label="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Input
+                            label="Education"
+                            value={education}
+                            onChange={(e) => setEducation(e.target.value)}
                           />
                         </div>
                       </div>
@@ -271,6 +295,15 @@ const AddAdvisor = () => {
                             label="Address"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Input
+                            label="Company"
+                            value={company}
+                            onChange={(e) => setCompany(e.target.value)}
                           />
                         </div>
                       </div>

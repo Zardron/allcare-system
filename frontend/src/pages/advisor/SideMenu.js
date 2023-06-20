@@ -24,7 +24,7 @@ const SideMenu = () => {
       <aside class="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-white">
         <div class="sidebar-header flex items-center justify-center py-4">
           <div class="inline-flex">
-            <Link to="/advisor-dashboard">
+            <Link to="/advisor/dashboard">
               <img
                 src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
                 alt="brand"

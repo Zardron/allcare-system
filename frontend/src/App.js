@@ -1,5 +1,3 @@
-import Home from "./pages/Home";
-import Login from "./pages/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import PrivateRoute from "./PrivateRoute";
@@ -14,6 +12,14 @@ import AdminViewLeads from "./pages/advisor/ViewLeads";
 import AdvisorDashboard from "./pages/advisor/Dashboard";
 import AdvisorProfile from "./pages/advisor/MyProfile";
 
+// Leads Components
+import LeadsDashboard from "./pages/leads/Dashboard";
+import LeadsProfile from "./pages/leads/MyProfile";
+import LeadsViewAdvisor from "./pages/leads/ViewAdvisor";
+
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 function App() {
   return (
     <Router>
@@ -21,6 +27,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Admin Routes */}
         <Route path="" element={<PrivateRoute />}>
@@ -34,6 +41,13 @@ function App() {
         <Route path="" element={<PrivateRoute />}>
           <Route path="/advisor/dashboard" element={<AdvisorDashboard />} />
           <Route path="/advisor/profile" element={<AdvisorProfile />} />
+        </Route>
+
+        {/* Leads Routes */}
+        <Route path="" element={<PrivateRoute />}>
+          <Route path="/leads/dashboard" element={<LeadsDashboard />} />
+          <Route path="/leads/profile" element={<LeadsProfile />} />
+          <Route path="/leads/view-advisor" element={<LeadsViewAdvisor />} />
         </Route>
       </Routes>
     </Router>
