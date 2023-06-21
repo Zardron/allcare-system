@@ -1,10 +1,13 @@
-import { createEntityAdapter, createSelector } from "@reduxjs/toolkit";
+import { createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
 const USERS_URL = "/api/users";
+const COMPANY_URL = "/api/company";
 
-const usersAdapter = createEntityAdapter({});
+const advisorAdapter = createEntityAdapter({});
+const leadsAdapter = createEntityAdapter({});
 
-const initialState = usersAdapter.getInitialState();
+const advisorInitialState = advisorAdapter.getInitialState();
+const leadsInitialState = leadsAdapter.getInitialState();
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -22,17 +25,37 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    addCompany: builder.mutation({
+      query: (data) => ({
+        url: `${COMPANY_URL}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     getAdvisorUsers: builder.query({
       query: () => "/api/users/advisor-list",
       validateStatus: (response, result) => {
         return response.status === 200 && !result.isError;
       },
       transformResponse: (responseData) => {
-        const loadedUsers = responseData.map((user) => {
+        const loadedAdvisors = responseData.map((user) => {
           user.id = user._id;
           return user;
         });
-        return usersAdapter.setAll(initialState, loadedUsers);
+        return advisorAdapter.setAll(advisorInitialState, loadedAdvisors);
+      },
+    }),
+    getLeads: builder.query({
+      query: () => "/api/users/leads-list",
+      validateStatus: (response, result) => {
+        return response.status === 200 && !result.isError;
+      },
+      transformResponse: (responseData) => {
+        const loadedLeads = responseData.map((user) => {
+          user.id = user._id;
+          return user;
+        });
+        return leadsAdapter.setAll(leadsInitialState, loadedLeads);
       },
     }),
     updateProfile: builder.mutation({
@@ -53,14 +76,18 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetAdvisorUsersQuery,
+  useGetLeadsQuery,
   useLoginMutation,
   useLogoutMutation,
   useAddUserMutation,
   useUpdateProfileMutation,
+  useAddCompanyMutation,
 } = usersApiSlice;
 
 // returns the query result object
-export const selectUsersResult =
+export const selectAdvisorResult =
   usersApiSlice.endpoints.getAdvisorUsers.select();
+
+export const selectLeadsResult = usersApiSlice.endpoints.getLeads.select();
 
 // creates memoized selector

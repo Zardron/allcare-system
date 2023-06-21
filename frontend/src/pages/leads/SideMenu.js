@@ -30,7 +30,7 @@ const SideMenu = () => {
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-white">
         <div className="sidebar-header flex items-center justify-center py-4">
           <div className="inline-flex">
-            <Link to="/advisor/dashboard">
+            <Link to="/leads/dashboard">
               <img
                 src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
                 alt="brand"
@@ -79,29 +79,29 @@ const SideMenu = () => {
                 </span> */}
               </Link>
               <Link
-                to="/advisor/add-leads"
+                to="/leads/add-leads"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <RiProductHuntFill className="h-6 w-6" />
-                <Link to="/advisor/add-leads">
+                <Link to="/leads/add-leads">
                   <span className="ml-3">View Product</span>
                 </Link>
               </Link>
               <Link
-                to="/advisor/add-leads"
+                to="/leads/advisor-rating-list"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <RiStarHalfFill className="h-6 w-6" />
-                <Link to="/advisor/add-leads">
+                <Link to="/leads/advisor-rating-list">
                   <span className="ml-3">View Ratings</span>
                 </Link>
               </Link>
               <Link
-                to="/advisor/add-leads"
+                to="/leads/add-leads"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <MdReviews className="h-6 w-6" />
-                <Link to="/advisor/add-leads">
+                <Link to="/leads/add-leads">
                   <span className="ml-3">View Review</span>
                 </Link>
                 {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
@@ -109,11 +109,11 @@ const SideMenu = () => {
                 </span> */}
               </Link>
               <Link
-                to="/advisor/add-leads"
+                to="/leads/add-leads"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <MdOutlineRateReview className="h-6 w-6" />
-                <Link to="/advisor/add-leads">
+                <Link to="/leads/add-leads">
                   <span className="ml-3">Complaint</span>
                 </Link>
                 {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
@@ -128,7 +128,7 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
-                to="/advisor/profile"
+                to="/leads/profile"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span className="flex items-center justify-center text-lg text-black">
@@ -144,7 +144,7 @@ const SideMenu = () => {
                     <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </span>
-                <Link to="/advisor/profile">
+                <Link to="/leads/profile">
                   <span className="ml-3">Profile</span>
                 </Link>
               </Link>
@@ -175,7 +175,7 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
-                to="/advisor/dashboard"
+                to="/leads/dashboard"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span className="flex items-center justify-center text-lg text-black">

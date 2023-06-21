@@ -5,7 +5,14 @@ import SideMenu from "./SideMenu";
 import { useGetAdvisorUsersQuery } from "../../slices/usersApiSlice";
 import AdvisorTable from "./components/AdvisorTable";
 
-const TABLE_HEAD = ["Name", "Education", "Expertise", "Company", "Rating", ""];
+const TABLE_HEAD = [
+  "Profile Picture",
+  "Name",
+  "Education",
+  "Expertise",
+  "Company",
+  "Action",
+];
 
 const ViewAdvisor = () => {
   const { data: users, isLoading } = useGetAdvisorUsersQuery("usersList", {

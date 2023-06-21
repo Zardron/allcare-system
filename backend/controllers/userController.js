@@ -15,6 +15,16 @@ const getAdvisorUsers = asyncHandler(async (req, res) => {
   res.json(users);
 });
 
+const getLeads = asyncHandler(async (req, res) => {
+  const users = await User.find({ userType: "Leads" })
+    .select("-password")
+    .lean();
+  if (!users?.length) {
+    return res.status(400).json({ message: "No users found" });
+  }
+  res.json(users);
+});
+
 // @desc Auth User or Set Token
 // @route POST /api/users/auth
 // @access Public
@@ -295,6 +305,68 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get current user
+// @route GET /api/users/profile
+// @access Private
+const getAdvisorDetails = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const advisor = await User.findById({ userId });
+
+  if (advisor.userType === "Advisor") {
+    const user = {
+      _id: advisor._id,
+      firstName: advisor.firstName,
+      middleName: advisor.middleName,
+      lastName: advisor.lastName,
+      age: advisor.age,
+      contactNumber: advisor.contactNumber,
+      gender: advisor.gender,
+      birthDate: advisor.birthDate,
+      email: advisor.email,
+      address: advisor.address,
+      facebook: advisor.facebook,
+      instagram: advisor.instagram,
+      linkedIn: advisor.linkedIn,
+      password: advisor.password,
+      profilePicture: advisor.profilePicture,
+      userType: advisor.userType,
+      expertise: advisor.expertise,
+      education: advisor.education,
+      company: advisor.company,
+    };
+    res.status(200).json(user);
+  }
+});
+
+const getLeadsDetails = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const advisor = await User.findById({ userId });
+
+  if (advisor.userType === "Advisor") {
+    const user = {
+      _id: advisor._id,
+      firstName: advisor.firstName,
+      middleName: advisor.middleName,
+      lastName: advisor.lastName,
+      age: advisor.age,
+      contactNumber: advisor.contactNumber,
+      gender: advisor.gender,
+      birthDate: advisor.birthDate,
+      email: advisor.email,
+      address: advisor.address,
+      facebook: advisor.facebook,
+      instagram: advisor.instagram,
+      linkedIn: advisor.linkedIn,
+      password: advisor.password,
+      profilePicture: advisor.profilePicture,
+      userType: advisor.userType,
+    };
+    res.status(200).json(user);
+  }
+});
+
 // @desc Update current user
 // @route PUT /api/users/profile
 // @access Private
@@ -326,6 +398,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 export {
   getAdvisorUsers,
+  getLeads,
   authUser,
   addUser,
   logoutUser,

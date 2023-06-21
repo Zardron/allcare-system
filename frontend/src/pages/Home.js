@@ -8,11 +8,13 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userInfo.userType === "Admin") {
-      navigate("/admin/dashboard");
-    }
-    if (userInfo.userType === "Advisor") {
-      navigate("/advisor/dashboard");
+    if (userInfo) {
+      if (userInfo.userType === "Admin") {
+        navigate("/admin/dashboard");
+      }
+      if (userInfo.userType === "Advisor") {
+        navigate("/advisor/dashboard");
+      }
     }
   }, [navigate, userInfo]);
 

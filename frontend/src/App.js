@@ -11,11 +11,15 @@ import AdminViewLeads from "./pages/advisor/ViewLeads";
 // Advisor Components
 import AdvisorDashboard from "./pages/advisor/Dashboard";
 import AdvisorProfile from "./pages/advisor/MyProfile";
+import AdvisorViewLeads from "./pages/advisor/ViewLeads";
+import AdvisorViewLeadsDetails from "./pages/advisor/ViewLeadsDetails";
 
 // Leads Components
 import LeadsDashboard from "./pages/leads/Dashboard";
 import LeadsProfile from "./pages/leads/MyProfile";
 import LeadsViewAdvisor from "./pages/leads/ViewAdvisor";
+import LeadsViewAdvisorDetails from "./pages/leads/ViewAdvisorDetails";
+import LeadsAdvisorRatingList from "./pages/leads/AdvisorRatingList";
 
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -41,6 +45,11 @@ function App() {
         <Route path="" element={<PrivateRoute />}>
           <Route path="/advisor/dashboard" element={<AdvisorDashboard />} />
           <Route path="/advisor/profile" element={<AdvisorProfile />} />
+          <Route path="/advisor/view-leads" element={<AdvisorViewLeads />} />
+          <Route
+            path="/advisor/leads-details"
+            element={<AdvisorViewLeadsDetails />}
+          />
         </Route>
 
         {/* Leads Routes */}
@@ -48,6 +57,14 @@ function App() {
           <Route path="/leads/dashboard" element={<LeadsDashboard />} />
           <Route path="/leads/profile" element={<LeadsProfile />} />
           <Route path="/leads/view-advisor" element={<LeadsViewAdvisor />} />
+          <Route
+            path="/leads/advisor-details"
+            element={<LeadsViewAdvisorDetails />}
+          />
+          <Route
+            path="/leads/advisor-rating-list"
+            element={<LeadsAdvisorRatingList />}
+          />
         </Route>
       </Routes>
     </Router>

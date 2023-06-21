@@ -162,7 +162,7 @@ const Dashboard = () => {
             <h1 class="font-bold text-2xl text-gray-700">Dashboard</h1>
             <div class="flex flex-col flex-grow bg-white rounded mt-4">
               <div>
-                <div className="w-full flex flex-col px-10">
+                <div className="w-full flex flex-col">
                   <div className="bg-slate-200 w-full shadow-2xl py-10 rounded-3xl flex flex-row justify-around items-center ">
                     <div className="flex flex-wrap h-full justify-around items-start gap-10 w-full">
                       <div className="flex flex-col gap-10 w-[12.9rem]">

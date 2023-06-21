@@ -152,7 +152,7 @@ const AddAdvisor = () => {
                     <div className="mt-2">
                       <div className="w-64">
                         <Input
-                          label="Middle Name"
+                          label="Profile Picture"
                           type="file"
                           files={profilePicture}
                           onChange={handleFileUpload}

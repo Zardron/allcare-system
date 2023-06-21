@@ -1,19 +1,19 @@
 import { Typography } from "@material-tailwind/react";
 import React from "react";
-import { useGetAdvisorUsersQuery } from "../../../slices/usersApiSlice";
+import { useGetLeadsQuery } from "../../../slices/usersApiSlice";
 import { useNavigate } from "react-router-dom";
 import { SlMagnifier } from "react-icons/sl";
 
 const AdvisorTable = ({ userId }) => {
-  const { user } = useGetAdvisorUsersQuery("usersList", {
+  const { user } = useGetLeadsQuery("leadsList", {
     selectFromResult: ({ data }) => ({
       user: data?.entities[userId],
     }),
   });
   const navigate = useNavigate();
 
-  const handleSelectAdvisor = (id) => {
-    navigate("/leads/advisor-details", {
+  const handleSelectLeads = (id) => {
+    navigate("/advisor/leads-details", {
       state: {
         user,
       },
@@ -51,7 +51,7 @@ const AdvisorTable = ({ userId }) => {
             variant="small"
             color="blue"
             className="font-medium cursor-pointer"
-            onClick={() => handleSelectAdvisor(user._id)}
+            onClick={() => handleSelectLeads(user._id)}
           >
             <SlMagnifier className="h-6 w-6" />
           </Typography>
