@@ -3,6 +3,6 @@ const router = express.Router();
 import { addCompany, getCompany } from "../controllers/companyController.js";
 
 router.post("/", addCompany);
-router.get("/", getCompany);
+router.post("/get-company", getCompany);
 
 export default router;

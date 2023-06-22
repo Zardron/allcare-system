@@ -2,6 +2,7 @@ import { createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "./apiSlice";
 const USERS_URL = "/api/users";
 const COMPANY_URL = "/api/company";
+const PRODUCT_URL = "/api/product";
 
 const advisorAdapter = createEntityAdapter({});
 const leadsAdapter = createEntityAdapter({});
@@ -28,6 +29,13 @@ export const usersApiSlice = apiSlice.injectEndpoints({
     addCompany: builder.mutation({
       query: (data) => ({
         url: `${COMPANY_URL}`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    addProduct: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCT_URL}`,
         method: "POST",
         body: data,
       }),
@@ -80,6 +88,7 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useAddUserMutation,
+  useAddProductMutation,
   useUpdateProfileMutation,
   useAddCompanyMutation,
 } = usersApiSlice;

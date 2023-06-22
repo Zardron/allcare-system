@@ -7,7 +7,7 @@ import {
   useLogoutMutation,
 } from "../../slices/usersApiSlice";
 import { logout } from "../../slices/authSlice";
-import { RiUserSearchFill } from "react-icons/ri";
+import { RiUserSearchFill, RiProductHuntFill } from "react-icons/ri";
 import { BsHouseAddFill } from "react-icons/bs";
 import {
   Popover,
@@ -130,6 +130,20 @@ const SideMenu = () => {
                 <RiUserSearchFill className="h-6 w-6" />
                 <Link to="/advisor/view-leads">
                   <span className="ml-3">View Leads</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/add-product"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <RiProductHuntFill className="h-6 w-6" />
+                <Link to="/advisor/add-product">
+                  <span className="ml-3">Add Product</span>
                 </Link>
                 {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
                   1k
