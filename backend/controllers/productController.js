@@ -1,9 +1,16 @@
 import asyncHandler from "express-async-handler";
 import Product from "../model/productModel.js";
 
+// @desc get product by advisor
+// @route POST /api/product
+const getAllProduct = asyncHandler(async (req, res) => {
+  const allProduct = await Product.find();
+
+  res.send(allProduct);
+});
+
 // @desc Add product
 // @route POST /api/product
-// @access Public
 const addProduct = asyncHandler(async (req, res) => {
   const {
     userId,
@@ -46,4 +53,14 @@ const addProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { addProduct };
+// @desc get product by advisor
+// @route POST /api/product
+const getProductByAdvisor = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const productDetails = await Product.find({ userId: userId });
+
+  res.send(productDetails);
+});
+
+export { getAllProduct, addProduct, getProductByAdvisor };
