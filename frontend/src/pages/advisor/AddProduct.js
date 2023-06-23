@@ -6,7 +6,13 @@ import { useAddProductMutation } from "../../slices/usersApiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import { Input, Textarea } from "@material-tailwind/react";
+import {
+  Chip,
+  Input,
+  Switch,
+  Textarea,
+  Typography,
+} from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -17,7 +23,7 @@ const AddProduct = () => {
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productType, setProductType] = useState("");
-  const [productStatus, setProductStatus] = useState("");
+  const [productStatus, setProductStatus] = useState(true);
   const [company, setCompany] = useState("");
   const [productUrl, setProductUrl] = useState("");
 
@@ -39,6 +45,14 @@ const AddProduct = () => {
   };
 
   const [addProduct] = useAddProductMutation();
+
+  const clearFields = () => {
+    setProductName("");
+    setProductDescription("");
+    setProductType("");
+    setCompany("");
+    setProductUrl("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,6 +81,8 @@ const AddProduct = () => {
           theme: "colored",
         });
       }
+
+      clearFields();
     } catch (err) {
       toast.error(
         err?.data?.message ||
@@ -146,26 +162,7 @@ const AddProduct = () => {
                           />
                         </div>
                       </div>
-                      <div className="mb-5">
-                        <div className="w-64">
-                          <Input
-                            label="Product Status"
-                            value={productStatus}
-                            onChange={(e) => setProductStatus(e.target.value)}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mb-6">
-                        <div className="w-64">
-                          <Input
-                            label="Product Url"
-                            value={productUrl}
-                            onChange={(e) => setProductUrl(e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className="mb-[23px]">
+                      <div className="mb-[22px]">
                         <div className="w-64">
                           <select
                             id="countries"
@@ -180,6 +177,38 @@ const AddProduct = () => {
                               </option>
                             ))}
                           </select>
+                        </div>
+                      </div>
+                      <div className="mb-7">
+                        <div className="w-64">
+                          <Input
+                            label="Product Url"
+                            value={productUrl}
+                            onChange={(e) => setProductUrl(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="mb-5">
+                        <div className="w-64">
+                          <Switch
+                            disabled
+                            id="auto-update"
+                            label={
+                              <Typography className="flex flex-row">
+                                Product Status:{" "}
+                                <Chip
+                                  size="sm"
+                                  variant="ghost"
+                                  className="text-center ml-2 w-24"
+                                  value={productStatus ? "Active" : "Inactive"}
+                                  color={productStatus ? "green" : "red"}
+                                />
+                              </Typography>
+                            }
+                            checked={productStatus}
+                            onChange={(e) => setProductStatus(e.target.checked)}
+                          />
                         </div>
                       </div>
                     </div>

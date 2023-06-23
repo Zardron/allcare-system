@@ -19,7 +19,8 @@ const productSchema = mongoose.Schema(
       required: true,
     },
     productStatus: {
-      type: String,
+      type: Boolean,
+      default: true,
       required: true,
     },
     advisorName: {

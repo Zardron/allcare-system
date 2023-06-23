@@ -1,4 +1,11 @@
-import { Button, Rating, Textarea, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Chip,
+  Rating,
+  Textarea,
+  Typography,
+  Card,
+} from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
@@ -8,14 +15,38 @@ import {
   AiFillInstagram,
   AiFillLinkedin,
 } from "react-icons/ai";
-import { useState } from "react";
-import Test from "./Test";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const TABLE_HEAD = [
+  "Name",
+  "Description",
+  "Type",
+  "Company",
+  "URL",
+  "Status",
+  // "Action",
+];
 
 const ViewAdvisorDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const { user } = location.state;
+
+  const [userId] = useState(user._id);
+  const [myProducts, setMyProducts] = useState([]);
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:5000/api/product/advisor-product", {
+        userId: userId,
+      })
+      .then((result) => {
+        setMyProducts(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, [userId]);
 
   return (
     <>
@@ -26,8 +57,8 @@ const ViewAdvisorDetails = () => {
           <div class="main-content flex flex-col flex-grow p-4 ">
             <h1 class="font-bold text-2xl text-gray-700">ADVISOR PROFILE</h1>
             <section className="p-10 overflow-auto max-h-[74vh] bg-white">
-              <div className="flex flex-row justify-between px-6 h-full text-gray-800">
-                <div className="flex flex-col flex-[.3] gap-2 items-center justify-start mb-6">
+              <div className="flex flex-row px-6 text-gray-800 gap-10">
+                <div className="flex flex-col  w-[15%] gap-2 items-center justify-start mb-6">
                   <img
                     className="h-[215px] w-[220px]  w-auto border-2 rounded-full"
                     src={user.profilePicture}
@@ -90,7 +121,7 @@ const ViewAdvisorDetails = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-[.7] flex-col">
+                <div className="flex flex-col">
                   <table className="w-[40%] min-w-max table-auto text-left">
                     <tr>
                       <td>
@@ -211,7 +242,186 @@ const ViewAdvisorDetails = () => {
                   </table>
                 </div>
               </div>
-              <Test />
+              <h1 class="font-bold text-2xl text-gray-700">ADVISOR PRODUCTS</h1>
+              <Card className="overflow-scroll max-h-[30vh] w-full">
+                {myProducts.length === 0 ? (
+                  <>
+                    <table className="w-full min-w-max table-auto text-left">
+                      <thead>
+                        <tr>
+                          {TABLE_HEAD.map((head) => (
+                            <th
+                              key={head}
+                              className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                            >
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal leading-none opacity-70"
+                              >
+                                {head}
+                              </Typography>
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                    </table>
+                    <div className="flex w-full h-[50vh] items-center justify-center">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal text-4xl"
+                      >
+                        NO PRODUCT FOUND
+                      </Typography>
+                    </div>
+                  </>
+                ) : (
+                  <table className="w-full min-w-max table-auto text-left">
+                    <thead>
+                      <tr>
+                        {TABLE_HEAD.map((head) => (
+                          <th
+                            key={head}
+                            className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                          >
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal leading-none opacity-70"
+                            >
+                              {head}
+                            </Typography>
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {myProducts.map((data, key) => (
+                        <>
+                          <tr className="even:bg-blue-gray-50/50">
+                            <td className="p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {data.productName}
+                              </Typography>
+                            </td>
+                            <td className="p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {data.productDescription}
+                              </Typography>
+                            </td>
+                            <td className="p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {data.productType}
+                              </Typography>
+                            </td>
+                            <td className="p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {data.company}
+                              </Typography>
+                            </td>
+                            <td className="p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                {data.productUrl}
+                              </Typography>
+                            </td>
+                            <td className="p-4">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                              >
+                                <Chip
+                                  size="sm"
+                                  variant="ghost"
+                                  className="text-center ml-2 w-24"
+                                  value={
+                                    data.productStatus ? "Active" : "Inactive"
+                                  }
+                                  color={data.productStatus ? "green" : "red"}
+                                />
+                              </Typography>
+                            </td>
+                            {/* <td className="p-4">
+                            <Popover placement="bottom-end">
+                              <PopoverHandler>
+                                <Button>Edit Status</Button>
+                              </PopoverHandler>
+                              <PopoverContent className=" flex flex-col gap-4">
+                                <Typography className="flex flex-row items-center">
+                                  Current Status:{" "}
+                                  <Chip
+                                    size="sm"
+                                    variant="ghost"
+                                    className="text-center ml-2 w-24"
+                                    value={
+                                      data.productStatus ? "Active" : "Inactive"
+                                    }
+                                    color={data.productStatus ? "green" : "red"}
+                                  />
+                                </Typography>
+
+                                <Typography>Change Status:</Typography>
+                                <div className="flex flex-row items-center justify-between gap-2">
+                                  <Typography
+                                    onClick={() => handleSelect("green")}
+                                  >
+                                    <Chip
+                                      size="sm"
+                                      variant="ghost"
+                                      className={`text-center w-24  cursor-pointer ${
+                                        selectedGreen &&
+                                        "shadow-lg shadow-green-500/50"
+                                      }`}
+                                      value={"Active"}
+                                      color={"green"}
+                                    />
+                                  </Typography>
+                                  <Typography
+                                    onClick={() => handleSelect("red")}
+                                  >
+                                    <Chip
+                                      size="sm"
+                                      variant="ghost"
+                                      className={`text-center w-24  cursor-pointer ${
+                                        selectedRed &&
+                                        "shadow-lg shadow-red-500/50"
+                                      }`}
+                                      value={"Inactive"}
+                                      color={"red"}
+                                    />
+                                  </Typography>
+                                </div>
+                              </PopoverContent>
+                            </Popover>
+                          </td> */}
+                          </tr>
+                        </>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </Card>
             </section>
           </div>
           <DashboardFooter />
