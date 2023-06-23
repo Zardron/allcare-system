@@ -4,7 +4,18 @@ import generateToken from "../util/generateToken.js";
 
 // @desc Auth User or Set Token
 // @route POST /api/users
-// @access Public
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find();
+
+  if (users) {
+    res.status(200).send(users);
+  } else {
+    res.status(401).send({ errorMessage: "Something went wrong!" });
+  }
+});
+
+// @desc Auth User or Set Token
+// @route POST /api/users
 const getAdvisorUsers = asyncHandler(async (req, res) => {
   const users = await User.find({ userType: "Advisor" })
     .select("-password")
@@ -27,7 +38,6 @@ const getLeads = asyncHandler(async (req, res) => {
 
 // @desc Auth User or Set Token
 // @route POST /api/users/auth
-// @access Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -91,7 +101,6 @@ const authUser = asyncHandler(async (req, res) => {
 
 // @desc Add user
 // @route POST /api/users
-// @access Public
 const addUser = asyncHandler(async (req, res) => {
   if (req.body.userType === "Leads") {
     const {
@@ -245,7 +254,6 @@ const addUser = asyncHandler(async (req, res) => {
 
 // @desc Logout user
 // @route POST /api/users
-// @access Public
 const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
     httpOnly: true,
@@ -399,6 +407,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 export {
   getAdvisorUsers,
   getLeads,
+  getAllUsers,
   authUser,
   addUser,
   logoutUser,

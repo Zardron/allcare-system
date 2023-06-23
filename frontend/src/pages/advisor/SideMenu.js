@@ -138,7 +138,7 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
-                to="/advisor/view-leads"
+                to="/advisor/my-products"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <RiProductHuntFill className="h-6 w-6" />

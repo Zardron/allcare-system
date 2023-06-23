@@ -9,7 +9,7 @@ import {
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -17,6 +17,7 @@ import {
 } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { BsArrowLeft } from "react-icons/bs";
 
 const TABLE_HEAD = [
   "Name",
@@ -57,10 +58,17 @@ const ViewAdvisorDetails = () => {
           <div class="main-content flex flex-col flex-grow p-4 ">
             <h1 class="font-bold text-2xl text-gray-700">ADVISOR PROFILE</h1>
             <section className="p-10 overflow-auto max-h-[74vh] bg-white">
+              <Link
+                to={"/leads/view-advisor"}
+                className="flex flex-row gap-2 items-center mb-10"
+              >
+                <BsArrowLeft className="h-6 w-6" />
+                Go Back
+              </Link>
               <div className="flex flex-row px-6 text-gray-800 gap-10">
                 <div className="flex flex-col  w-[15%] gap-2 items-center justify-start mb-6">
                   <img
-                    className="h-[215px] w-[220px]  w-auto border-2 rounded-full"
+                    className="h-[215px] w-[220px] border-2 rounded-full"
                     src={user.profilePicture}
                     alt="nature image"
                   />
@@ -130,7 +138,7 @@ const ViewAdvisorDetails = () => {
                       <td>
                         <Typography className="capitalize">
                           {" "}
-                          <span className="mr-4"> :</span> {user.firstName}
+                          <span className="mx-4"> :</span> {user.firstName}
                         </Typography>
                       </td>
                     </tr>
@@ -140,7 +148,7 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.middleName}
+                          <span className="mx-4"> :</span> {user.middleName}
                         </Typography>
                       </td>
                     </tr>
@@ -150,7 +158,7 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.lastName}
+                          <span className="mx-4"> :</span> {user.lastName}
                         </Typography>
                       </td>
                     </tr>
@@ -160,7 +168,7 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.birthDate}
+                          <span className="mx-4"> :</span> {user.birthDate}
                         </Typography>
                       </td>
                     </tr>
@@ -170,7 +178,7 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.contactNumber}
+                          <span className="mx-4"> :</span> {user.contactNumber}
                         </Typography>
                       </td>
                     </tr>
@@ -180,7 +188,7 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.education}
+                          <span className="mx-4"> :</span> {user.education}
                         </Typography>
                       </td>
                     </tr>
@@ -190,7 +198,7 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.expertise}
+                          <span className="mx-4"> :</span> {user.expertise}
                         </Typography>
                       </td>
                     </tr>
@@ -200,49 +208,41 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.company}
+                          <span className="mx-4"> :</span> {user.company}
                         </Typography>
                       </td>
                     </tr>
-                    <Button onClick={() => setIsOpen(!isOpen)}>
-                      Show Ratings & Review
-                    </Button>
-                    {isOpen ? (
-                      <>
-                        <tr>
-                          <td>
-                            <span className="font-bold">Rating</span>{" "}
-                          </td>
-                          <td>
-                            <Typography className="flex items-center capitalize">
-                              <span className="mr-4"> :</span>{" "}
-                              <Rating value={4} readonly />
-                            </Typography>
-                          </td>
-                        </tr>
 
-                        <tr>
-                          <td className=" flex flex-start items-start">
-                            <span className="font-bold">Review</span>{" "}
-                          </td>
-                          <td>
-                            <Typography className="flex items-start capitalize">
-                              <span className="mr-4"> :</span>{" "}
-                              <Textarea
-                                className=" w-[20rem]"
-                                value={"Review text here"}
-                              />
-                            </Typography>
-                          </td>
-                        </tr>
-                      </>
-                    ) : (
-                      ""
-                    )}
+                    <tr>
+                      <td>
+                        <span className="font-bold">Rating</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="flex items-center capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          <Rating value={4} readonly />
+                        </Typography>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className=" flex flex-start items-start">
+                        <span className="font-bold">Review</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="flex items-start capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          <Textarea
+                            className="w-[20rem]"
+                            value={"Review text here"}
+                          />
+                        </Typography>
+                      </td>
+                    </tr>
                   </table>
                 </div>
               </div>
-              <h1 class="font-bold text-2xl text-gray-700">ADVISOR PRODUCTS</h1>
+              <h1 class="font-bold text-2xl text-gray-700 mb-2">PRODUCTS</h1>
               <Card className="overflow-scroll max-h-[30vh] w-full">
                 {myProducts.length === 0 ? (
                   <>
@@ -337,13 +337,14 @@ const ViewAdvisorDetails = () => {
                               </Typography>
                             </td>
                             <td className="p-4">
-                              <Typography
+                              <a
+                                href={data.productUrl}
                                 variant="small"
-                                color="blue-gray"
-                                className="font-normal"
+                                className="font-normal underline text-blue-600 cursor-pointer"
+                                target="_blank"
                               >
                                 {data.productUrl}
-                              </Typography>
+                              </a>
                             </td>
                             <td className="p-4">
                               <Typography

@@ -5,7 +5,7 @@ import PrivateRoute from "./PrivateRoute";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminAddAdvisor from "./pages/admin/AddAdvisor";
 import AdminProfile from "./pages/admin/MyProfile";
-import AdminViewLeads from "./pages/advisor/ViewLeads";
+import AdminViewUsers from "./pages/admin/ViewUsers";
 
 // Advisor Components
 import AdvisorDashboard from "./pages/advisor/Dashboard";
@@ -39,7 +39,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/add-advisor" element={<AdminAddAdvisor />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
-          <Route path="/admin/view-leads" element={<AdminViewLeads />} />
+          <Route path="/admin/view-users" element={<AdminViewUsers />} />
         </Route>
 
         {/* Advisor Routes */}

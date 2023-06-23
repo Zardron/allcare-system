@@ -79,15 +79,6 @@ const SideMenu = () => {
                 </span> */}
               </Link>
               <Link
-                to="/leads/add-leads"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <RiProductHuntFill className="h-6 w-6" />
-                <Link to="/leads/add-leads">
-                  <span className="ml-3">View Product</span>
-                </Link>
-              </Link>
-              <Link
                 to="/leads/advisor-rating-list"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
