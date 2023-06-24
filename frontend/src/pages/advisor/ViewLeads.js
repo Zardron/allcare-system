@@ -8,9 +8,9 @@ import LeadsTable from "./components/LeadsTable";
 const TABLE_HEAD = [
   "Profile Picture",
   "Name",
-  "Education",
-  "Expertise",
-  "Company",
+  "Contact #",
+  "Email",
+  "Social",
   "Action",
 ];
 

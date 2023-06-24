@@ -5,6 +5,7 @@ import {
   Textarea,
   Typography,
   Card,
+  Avatar,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -18,6 +19,7 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { BsArrowLeft } from "react-icons/bs";
+import { RxGlobe } from "react-icons/rx";
 
 const TABLE_HEAD = [
   "Name",
@@ -30,7 +32,6 @@ const TABLE_HEAD = [
 ];
 
 const ViewAdvisorDetails = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const { user } = location.state;
@@ -65,12 +66,13 @@ const ViewAdvisorDetails = () => {
                 <BsArrowLeft className="h-6 w-6" />
                 Go Back
               </Link>
-              <div className="flex flex-row px-6 text-gray-800 gap-10">
+              <div className="flex flex-row px-6 text-gray-800 gap-14">
                 <div className="flex flex-col  w-[15%] gap-2 items-center justify-start mb-6">
-                  <img
-                    className="h-[215px] w-[220px] border-2 rounded-full"
+                  <Avatar
+                    size="xxl"
+                    alt="avatar"
                     src={user.profilePicture}
-                    alt="nature image"
+                    className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
                   />
                   <div className=" flex flex-row item-center justify-center gap-2">
                     <div className="mb-6">
@@ -243,7 +245,7 @@ const ViewAdvisorDetails = () => {
                 </div>
               </div>
               <h1 class="font-bold text-2xl text-gray-700 mb-2">PRODUCTS</h1>
-              <Card className="overflow-scroll max-h-[30vh] w-full">
+              <Card className="overflow-scroll max-h-[50vh] w-full">
                 {myProducts.length === 0 ? (
                   <>
                     <table className="w-full min-w-max table-auto text-left">
@@ -297,73 +299,77 @@ const ViewAdvisorDetails = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {myProducts.map((data, key) => (
-                        <>
-                          <tr className="even:bg-blue-gray-50/50">
-                            <td className="p-4">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {data.productName}
-                              </Typography>
-                            </td>
-                            <td className="p-4">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {data.productDescription}
-                              </Typography>
-                            </td>
-                            <td className="p-4">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {data.productType}
-                              </Typography>
-                            </td>
-                            <td className="p-4">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {data.company}
-                              </Typography>
-                            </td>
-                            <td className="p-4">
-                              <a
-                                href={data.productUrl}
-                                variant="small"
-                                className="font-normal underline text-blue-600 cursor-pointer"
-                                target="_blank"
-                              >
-                                {data.productUrl}
-                              </a>
-                            </td>
-                            <td className="p-4">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                <Chip
-                                  size="sm"
-                                  variant="ghost"
-                                  className="text-center ml-2 w-24"
-                                  value={
-                                    data.productStatus ? "Active" : "Inactive"
-                                  }
-                                  color={data.productStatus ? "green" : "red"}
-                                />
-                              </Typography>
-                            </td>
-                            {/* <td className="p-4">
+                      {myProducts
+                        .filter((item) => item.productStatus === true)
+                        .map((data, key) => (
+                          <>
+                            <tr className="even:bg-blue-gray-50/50">
+                              <td className="p-4">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  {data.productName}
+                                </Typography>
+                              </td>
+                              <td className="p-4">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  {data.productDescription}
+                                </Typography>
+                              </td>
+                              <td className="p-4">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  {data.productType}
+                                </Typography>
+                              </td>
+                              <td className="p-4">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  {data.company}
+                                </Typography>
+                              </td>
+                              <td className="p-4">
+                                <Button
+                                  size="md"
+                                  variant="outlined"
+                                  className="flex items-center gap-3 text-blue-600"
+                                  onClick={(e) => {
+                                    window.open(`${data.productUrl}`, "_blank");
+                                  }}
+                                >
+                                  <RxGlobe className="h-5 w-5 text-blue-600" />
+                                </Button>
+                              </td>
+                              <td className="p-4">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal"
+                                >
+                                  <Chip
+                                    size="sm"
+                                    variant="ghost"
+                                    className="text-center ml-2 w-24"
+                                    value={
+                                      data.productStatus ? "Active" : "Inactive"
+                                    }
+                                    color={data.productStatus ? "green" : "red"}
+                                  />
+                                </Typography>
+                              </td>
+                              {/* <td className="p-4">
                             <Popover placement="bottom-end">
                               <PopoverHandler>
                                 <Button>Edit Status</Button>
@@ -416,9 +422,9 @@ const ViewAdvisorDetails = () => {
                               </PopoverContent>
                             </Popover>
                           </td> */}
-                          </tr>
-                        </>
-                      ))}
+                            </tr>
+                          </>
+                        ))}
                     </tbody>
                   </table>
                 )}

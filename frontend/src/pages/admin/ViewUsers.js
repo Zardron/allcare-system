@@ -50,7 +50,8 @@ const ViewUsers = () => {
         (user) =>
           user?.firstName?.toLowerCase().includes(search.toLowerCase()) ||
           user?.lastName?.toLowerCase().includes(search.toLowerCase()) ||
-          user?.userType?.toLowerCase().includes(search.toLowerCase())
+          user?.userType?.toLowerCase().includes(search.toLowerCase()) ||
+          user?.address?.toLowerCase().includes(search.toLowerCase())
       );
     }
 
@@ -72,7 +73,7 @@ const ViewUsers = () => {
         <main class="main flex flex-col flex-grow md:ml-0 transition-all duration-150 ease-in">
           <DashboardNavbar />
           <div class="main-content flex flex-col flex-grow p-4 ">
-            <Card className="overflow-scroll max-h-[70vh] h-full w-full">
+            <Card className="overflow-scroll h-full w-full">
               <CardHeader
                 floated={false}
                 shadow={false}
@@ -88,7 +89,7 @@ const ViewUsers = () => {
                     </Typography>
                   </div>
                   <div className="flex w-full shrink-0 gap-2 md:w-max">
-                    <div className="w-full md:w-72">
+                    <div className="w-full">
                       <Input
                         label="Search"
                         icon={<BsSearch className="h-5 w-5" />}
@@ -99,7 +100,7 @@ const ViewUsers = () => {
                   </div>
                 </div>
               </CardHeader>
-              <table className="w-full min-w-max table-auto text-left">
+              <table className="w-full min-w-max table-auto text-left cursor-pointer">
                 <TableHeader
                   headers={headers}
                   onSorting={(field, order) => setSorting({ field, order })}

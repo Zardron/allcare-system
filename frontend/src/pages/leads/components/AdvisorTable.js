@@ -1,4 +1,4 @@
-import { Typography } from "@material-tailwind/react";
+import { Avatar, Typography } from "@material-tailwind/react";
 import React from "react";
 import { useGetAdvisorUsersQuery } from "../../../slices/usersApiSlice";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +24,12 @@ const AdvisorTable = ({ userId }) => {
     <>
       <tr className="even:bg-blue-gray-50/50">
         <td className="p-4">
-          <img src={user.profilePicture} className="h-10 w-10 rounded-full" />
+          <Avatar
+            size="sm"
+            alt="avatar"
+            src={user.profilePicture}
+            className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
+          />
         </td>
         <td className="p-4">
           <Typography variant="small" color="blue-gray" className="font-normal">

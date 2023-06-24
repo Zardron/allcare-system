@@ -195,6 +195,20 @@ const SideMenu = () => {
               </Popover>
             </li>
             <li className="my-px">
+              <Link
+                to="/advisor/view-company"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <RiProductHuntFill className="h-6 w-6" />
+                <Link to="/advisor/view-company">
+                  <span className="ml-3">View Company</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
               <span className="flex font-medium text-sm text-black px-4 my-4 uppercase">
                 Account
               </span>

@@ -5,14 +5,14 @@ import Company from "../model/companyModel.js";
 // @route POST /api/product
 // @access Public
 const addCompany = asyncHandler(async (req, res) => {
-  const { userId, companyName } = req.body;
+  const { userId, companyName } = req.body; //mo hold sa data from frontend to backend
 
-  const checkCompany = await Company.findOne({ companyName });
+  const checkCompany = await Company.findOne({ companyName }); // e check niya if ang company is na exist or wala
 
   if (checkCompany) {
     res.status(400);
     throw new Error("Company already exist");
-  }
+  } // kung
 
   if (!companyName) {
     res.status(401).send({ message: "Company name is required!" });
@@ -44,4 +44,31 @@ const getCompany = asyncHandler(async (req, res) => {
   }
 });
 
-export { addCompany, getCompany };
+const updateUser = asyncHandler(async (req, res) => {
+  const { userId, companyId, companyStatus } = req.body;
+
+  const company = await Company.findById(companyId).exec();
+
+  if (company.companyStatus === companyStatus) {
+    res.status(400).send({
+      message: `Status is already ${
+        companyStatus === true ? "Active." : "Inactive."
+      } `,
+    });
+  }
+  company.companyStatus = companyStatus;
+
+  const updateCompany = await company.save();
+
+  if (updateCompany) {
+    const companyInfo = await Company.find({ userId: userId });
+
+    if (companyInfo) {
+      res.status(200).send(companyInfo);
+    } else {
+      res.status(401).send({ errorMessage: "Something went wrong!" });
+    }
+  }
+});
+
+export { addCompany, getCompany, updateUser };

@@ -171,11 +171,13 @@ const AddProduct = () => {
                             onClick={loadCompany}
                           >
                             <option selected>Select Company</option>
-                            {companyList.map((data, key) => (
-                              <option value={data.companyName}>
-                                {data.companyName}
-                              </option>
-                            ))}
+                            {companyList
+                              .filter((item) => item.companyStatus === true)
+                              .map((data, key) => (
+                                <option value={data.companyName}>
+                                  {data.companyName}
+                                </option>
+                              ))}
                           </select>
                         </div>
                       </div>
@@ -190,7 +192,7 @@ const AddProduct = () => {
                       </div>
 
                       <div className="mb-5">
-                        <div className="w-64">
+                        <div className="w-54">
                           <Switch
                             disabled
                             id="auto-update"

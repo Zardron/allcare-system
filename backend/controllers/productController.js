@@ -63,4 +63,31 @@ const getProductByAdvisor = asyncHandler(async (req, res) => {
   res.send(productDetails);
 });
 
-export { getAllProduct, addProduct, getProductByAdvisor };
+const updateProduct = asyncHandler(async (req, res) => {
+  const { userId, productId, productStatus } = req.body;
+
+  const product = await Product.findById(productId).exec();
+
+  if (product.productStatus === productStatus) {
+    res.status(400).send({
+      message: `Status is already ${
+        productStatus === true ? "Active." : "Inactive."
+      } `,
+    });
+  }
+  product.productStatus = productStatus;
+
+  const updateProduct = await product.save();
+
+  if (updateProduct) {
+    const productInfo = await Product.find({ userId: userId });
+
+    if (productInfo) {
+      res.status(200).send(productInfo);
+    } else {
+      res.status(401).send({ errorMessage: "Something went wrong!" });
+    }
+  }
+});
+
+export { getAllProduct, addProduct, getProductByAdvisor, updateProduct };

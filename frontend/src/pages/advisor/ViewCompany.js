@@ -2,10 +2,10 @@ import {
   Button,
   Card,
   Chip,
+  Popover,
   PopoverContent,
   PopoverHandler,
   Typography,
-  Popover,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -13,68 +13,58 @@ import SideMenu from "./SideMenu";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
-import { RxGlobe } from "react-icons/rx";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const TABLE_HEAD = [
-  "Name",
-  "Description",
-  "Type",
-  "Company",
-  "URL",
-  "Status",
-  "Action",
-];
+const TABLE_HEAD = ["Name", "Status", "Action"];
 
-const MyProducts = () => {
+const ViewCompany = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [userId] = useState(userInfo._id);
-  const [myProducts, setMyProducts] = useState([]);
+  const [myCompany, setMyCompany] = useState([]);
 
   // Edit Status Variables
-  const [productStatus, setProductStatus] = useState();
+  const [companyStatus, setCompanyStatus] = useState();
   const [selectedGreen, setSelectedGreen] = useState(false);
   const [selectedRed, setSelectedRed] = useState(false);
-  const [productId, setProductId] = useState(false);
+  const [companyId, setCompanyId] = useState(false);
 
   const handleSelect = (color) => {
     if (color === "green") {
       setSelectedGreen(true);
       setSelectedRed(false);
-      setProductStatus(true);
+      setCompanyStatus(true);
     } else {
       setSelectedGreen(false);
       setSelectedRed(true);
-      setProductStatus(false);
+      setCompanyStatus(false);
     }
   };
 
   const handleChangeStatus = (id) => {
-    setProductId(id);
+    setCompanyId(id);
   };
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/product/advisor-product", {
+      .post("http://localhost:5000/api/company/get-company", {
         userId: userId,
       })
       .then((result) => {
-        setMyProducts(result.data);
+        setMyCompany(result.data);
       })
       .catch((error) => console.log(error));
   }, [userId]);
 
   const handleSave = () => {
     axios
-      .put("http://localhost:5000/api/product/", {
+      .put("http://localhost:5000/api/company/", {
         userId: userId,
-        productId: productId,
-        productStatus: productStatus,
+        companyId: companyId,
+        companyStatus: companyStatus,
       })
       .then((result) => {
-        setMyProducts(result.data);
+        setMyCompany(result.data);
         setSelectedRed(false);
         setSelectedGreen(false);
         if (result.status === 200) {
@@ -111,9 +101,9 @@ const MyProducts = () => {
         <main class="main flex flex-col flex-grow md:ml-0 transition-all duration-150 ease-in">
           <DashboardNavbar />
           <div class="main-content flex flex-col flex-grow p-4 ">
-            <h1 class="font-bold text-2xl text-gray-700">MY PRODUCTS</h1>
+            <h1 class="font-bold text-2xl text-gray-700">MY COMPANY</h1>
             <Card className="overflow-scroll max-h-[70vh] h-full w-full">
-              {myProducts.length === 0 ? (
+              {myCompany.length === 0 ? (
                 <>
                   <table className="w-full min-w-max table-auto text-left">
                     <thead>
@@ -166,7 +156,7 @@ const MyProducts = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {myProducts.map((data, key) => (
+                    {myCompany.map((data, key) => (
                       <>
                         <tr className="even:bg-blue-gray-50/50">
                           <td className="p-4">
@@ -175,48 +165,10 @@ const MyProducts = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {data.productName}
+                              {data.companyName}
                             </Typography>
                           </td>
-                          <td className="p-4">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {data.productDescription}
-                            </Typography>
-                          </td>
-                          <td className="p-4">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {data.productType}
-                            </Typography>
-                          </td>
-                          <td className="p-4">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {data.company}
-                            </Typography>
-                          </td>
-                          <td className="p-4">
-                            <Button
-                              size="md"
-                              variant="outlined"
-                              className="flex items-center gap-3 text-blue-600"
-                              onClick={(e) => {
-                                window.open(`${data.productUrl}`, "_blank");
-                              }}
-                            >
-                              <RxGlobe className="h-5 w-5 text-blue-600" />
-                            </Button>
-                          </td>
+
                           <td className="p-4">
                             <Typography
                               variant="small"
@@ -228,9 +180,9 @@ const MyProducts = () => {
                                 variant="ghost"
                                 className="text-center ml-2 w-24"
                                 value={
-                                  data.productStatus ? "Active" : "Inactive"
+                                  data.companyStatus ? "Active" : "Inactive"
                                 }
-                                color={data.productStatus ? "green" : "red"}
+                                color={data.companyStatus ? "green" : "red"}
                               />
                             </Typography>
                           </td>
@@ -249,12 +201,12 @@ const MyProducts = () => {
                                     variant="ghost"
                                     className="text-center ml-2 w-24"
                                     value={
-                                      data.productStatus === true
+                                      data.companyStatus === true
                                         ? "Active"
                                         : "Inactive"
                                     }
                                     color={
-                                      data.productStatus === true
+                                      data.companyStatus === true
                                         ? "green"
                                         : "red"
                                     }
@@ -319,4 +271,4 @@ const MyProducts = () => {
   );
 };
 
-export default MyProducts;
+export default ViewCompany;

@@ -14,6 +14,7 @@ import AdvisorViewLeads from "./pages/advisor/ViewLeads";
 import AdvisorViewLeadsDetails from "./pages/advisor/ViewLeadsDetails";
 import AdvisorAddProduct from "./pages/advisor/AddProduct";
 import AdvisorProducts from "./pages/advisor/MyProduct";
+import AdvisorViewCompany from "./pages/advisor/ViewCompany";
 
 // Leads Components
 import LeadsDashboard from "./pages/leads/Dashboard";
@@ -53,6 +54,10 @@ function App() {
           />
           <Route path="/advisor/add-product" element={<AdvisorAddProduct />} />
           <Route path="/advisor/my-products" element={<AdvisorProducts />} />
+          <Route
+            path="/advisor/view-company"
+            element={<AdvisorViewCompany />}
+          />
         </Route>
 
         {/* Leads Routes */}

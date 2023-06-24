@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
 import {
+  Avatar,
   Button,
   Input,
   Option,
@@ -65,10 +66,11 @@ const MyProfile = () => {
               <div className="px-6 h-full text-gray-800">
                 <form className="bg-white p-10 shadow-2xl">
                   <div className="flex flex-col gap-2 items-center justify-center mb-6">
-                    <img
-                      className="h-56 w-56 border-2 rounded-full"
+                    <Avatar
+                      size="xxl"
+                      alt="avatar"
                       src={profilePicture}
-                      alt="nature image"
+                      className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
                     />
                   </div>
                   <div className="flex flex-row items-center justify-center gap-5">
