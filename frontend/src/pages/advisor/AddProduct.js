@@ -31,7 +31,7 @@ const AddProduct = () => {
 
   const loadCompany = () => {
     axios
-      .post("http://localhost:5000/api/company/get-company", {
+      .post("http://localhost:8080/api/company/get-company", {
         userId: userId,
       })
       .then((result) => {

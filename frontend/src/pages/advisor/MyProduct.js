@@ -57,7 +57,7 @@ const MyProducts = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/product/advisor-product", {
+      .post("http://localhost:8080/api/product/advisor-product", {
         userId: userId,
       })
       .then((result) => {
@@ -68,7 +68,7 @@ const MyProducts = () => {
 
   const handleSave = () => {
     axios
-      .put("http://localhost:5000/api/product/", {
+      .put("http://localhost:8080/api/product/", {
         userId: userId,
         productId: productId,
         productStatus: productStatus,

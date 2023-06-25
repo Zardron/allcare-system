@@ -15,6 +15,7 @@ import AdvisorViewLeadsDetails from "./pages/advisor/ViewLeadsDetails";
 import AdvisorAddProduct from "./pages/advisor/AddProduct";
 import AdvisorProducts from "./pages/advisor/MyProduct";
 import AdvisorViewCompany from "./pages/advisor/ViewCompany";
+import AdvisorMyAvailability from "./pages/advisor/MyAvailability";
 
 // Leads Components
 import LeadsDashboard from "./pages/leads/Dashboard";
@@ -22,6 +23,7 @@ import LeadsProfile from "./pages/leads/MyProfile";
 import LeadsViewAdvisor from "./pages/leads/ViewAdvisor";
 import LeadsViewAdvisorDetails from "./pages/leads/ViewAdvisorDetails";
 import LeadsAdvisorRatingList from "./pages/leads/AdvisorRatingList";
+import LeadsBookAppointment from "./pages/leads/BookAppointment";
 
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -58,6 +60,10 @@ function App() {
             path="/advisor/view-company"
             element={<AdvisorViewCompany />}
           />
+          <Route
+            path="/advisor/availability"
+            element={<AdvisorMyAvailability />}
+          />
         </Route>
 
         {/* Leads Routes */}
@@ -72,6 +78,10 @@ function App() {
           <Route
             path="/leads/advisor-rating-list"
             element={<LeadsAdvisorRatingList />}
+          />
+          <Route
+            path="/leads/book-appointment"
+            element={<LeadsBookAppointment />}
           />
         </Route>
       </Routes>

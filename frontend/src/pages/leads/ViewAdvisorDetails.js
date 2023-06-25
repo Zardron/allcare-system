@@ -10,7 +10,7 @@ import {
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -18,8 +18,9 @@ import {
 } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BsArrowLeft } from "react-icons/bs";
+import { BsArrowLeft, BsCalendar2Check } from "react-icons/bs";
 import { RxGlobe } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 const TABLE_HEAD = [
   "Name",
@@ -28,20 +29,22 @@ const TABLE_HEAD = [
   "Company",
   "URL",
   "Status",
-  // "Action",
+  "Action",
 ];
 
 const ViewAdvisorDetails = () => {
+  const { userInfo } = useSelector((state) => state.auth);
   const location = useLocation();
 
   const { user } = location.state;
+  const navigate = useNavigate();
 
   const [userId] = useState(user._id);
   const [myProducts, setMyProducts] = useState([]);
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/product/advisor-product", {
+      .post("http://localhost:8080/api/product/advisor-product", {
         userId: userId,
       })
       .then((result) => {
@@ -49,6 +52,16 @@ const ViewAdvisorDetails = () => {
       })
       .catch((error) => console.log(error));
   }, [userId]);
+
+  const handleAppointment = (productId, advisorId, leadsId) => {
+    navigate("/leads/book-appointment", {
+      state: {
+        productId: productId,
+        advisorId: advisorId,
+        leadsId: leadsId,
+      },
+    });
+  };
 
   return (
     <>
@@ -369,59 +382,23 @@ const ViewAdvisorDetails = () => {
                                   />
                                 </Typography>
                               </td>
-                              {/* <td className="p-4">
-                            <Popover placement="bottom-end">
-                              <PopoverHandler>
-                                <Button>Edit Status</Button>
-                              </PopoverHandler>
-                              <PopoverContent className=" flex flex-col gap-4">
-                                <Typography className="flex flex-row items-center">
-                                  Current Status:{" "}
-                                  <Chip
-                                    size="sm"
-                                    variant="ghost"
-                                    className="text-center ml-2 w-24"
-                                    value={
-                                      data.productStatus ? "Active" : "Inactive"
+                              <td className="p-4">
+                                <Typography
+                                  variant="small"
+                                  className="font-normal underline text-blue-600 cursor-pointer"
+                                >
+                                  <BsCalendar2Check
+                                    onClick={() =>
+                                      handleAppointment(
+                                        data._id,
+                                        user._id,
+                                        userInfo._id
+                                      )
                                     }
-                                    color={data.productStatus ? "green" : "red"}
+                                    className="h-6 w-6"
                                   />
                                 </Typography>
-
-                                <Typography>Change Status:</Typography>
-                                <div className="flex flex-row items-center justify-between gap-2">
-                                  <Typography
-                                    onClick={() => handleSelect("green")}
-                                  >
-                                    <Chip
-                                      size="sm"
-                                      variant="ghost"
-                                      className={`text-center w-24  cursor-pointer ${
-                                        selectedGreen &&
-                                        "shadow-lg shadow-green-500/50"
-                                      }`}
-                                      value={"Active"}
-                                      color={"green"}
-                                    />
-                                  </Typography>
-                                  <Typography
-                                    onClick={() => handleSelect("red")}
-                                  >
-                                    <Chip
-                                      size="sm"
-                                      variant="ghost"
-                                      className={`text-center w-24  cursor-pointer ${
-                                        selectedRed &&
-                                        "shadow-lg shadow-red-500/50"
-                                      }`}
-                                      value={"Inactive"}
-                                      color={"red"}
-                                    />
-                                  </Typography>
-                                </div>
-                              </PopoverContent>
-                            </Popover>
-                          </td> */}
+                              </td>
                             </tr>
                           </>
                         ))}

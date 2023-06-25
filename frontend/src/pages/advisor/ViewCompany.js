@@ -47,7 +47,7 @@ const ViewCompany = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5000/api/company/get-company", {
+      .post("http://localhost:8080/api/company/get-company", {
         userId: userId,
       })
       .then((result) => {
@@ -58,7 +58,7 @@ const ViewCompany = () => {
 
   const handleSave = () => {
     axios
-      .put("http://localhost:5000/api/company/", {
+      .put("http://localhost:8080/api/company/", {
         userId: userId,
         companyId: companyId,
         companyStatus: companyStatus,

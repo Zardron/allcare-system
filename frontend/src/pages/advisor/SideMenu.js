@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,9 @@ import {
 } from "@material-tailwind/react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+// import MyAvailability from "./MyAvailability";
+import { MdEventAvailable } from "react-icons/md";
 
 const SideMenu = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -26,6 +29,15 @@ const SideMenu = () => {
   const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const date = new Date();
+
+  // Get year, month, and day part from the date
+  const year = date.toLocaleString("default", { year: "numeric" });
+  const month = date.toLocaleString("default", { month: "2-digit" });
+  const day = date.toLocaleString("default", { day: "2-digit" });
+
+  const formattedDate = year + "-" + month + "-" + day;
 
   const logoutHandler = async () => {
     try {
@@ -81,6 +93,49 @@ const SideMenu = () => {
       });
     }
   };
+
+  // Adding Availability
+  const [availabilityDate, setAvailabilityDate] = useState("");
+  const [availabilityTime, setAvailabilityTime] = useState("");
+  // const [userId] = useState(userInfo._id);
+
+  const handleSubmitAvailability = async (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:8080/api/appointment/availability", {
+        userId: userInfo._id,
+        availabilityDate: availabilityDate,
+        availabilityTime: availabilityTime,
+      })
+      .then((result) => {
+        toast.success(result?.data?.message || result.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((error) => {
+        toast.error(
+          error?.response?.data?.message || {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          }
+        );
+      });
+  };
+
   return (
     <>
       <ToastContainer />
@@ -235,6 +290,55 @@ const SideMenu = () => {
                   <span className="ml-3">Profile</span>
                 </Link>
               </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/availability"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <MdEventAvailable className="h-6 w-6" />
+                <Link to="/advisor/availability">
+                  <span className="ml-3">My Availability</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Popover placement="bottom">
+                <PopoverHandler>
+                  <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
+                    <MdEventAvailable className="h-6 w-6" />
+                    <span className="ml-3">Add Availability</span>
+                  </Link>
+                </PopoverHandler>
+                <PopoverContent>
+                  <Typography variant="h6" color="blue-gray" className="mb-6">
+                    Add Availability
+                  </Typography>
+                  <div className="flex gap-2">
+                    <form
+                      onSubmit={handleSubmitAvailability}
+                      className="flex flex-row items-center gap-4"
+                    >
+                      <Input
+                        label="Date"
+                        type="date"
+                        min={formattedDate}
+                        value={availabilityDate}
+                        onChange={(e) => setAvailabilityDate(e.target.value)}
+                      />
+                      <Input
+                        label="Time"
+                        type="time"
+                        value={availabilityTime}
+                        onChange={(e) => setAvailabilityTime(e.target.value)}
+                      />
+                      <Button type="submit" variant="gradient" className="w-32">
+                        Save
+                      </Button>
+                    </form>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </li>
             <li className="my-px">
               <Link
