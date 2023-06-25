@@ -38,6 +38,26 @@ const AddAdvisor = () => {
 
   const [addUser] = useAddUserMutation();
 
+  const clearFields = () => {
+    setFirstName("");
+    setMiddleName("");
+    setLastName("");
+    setAge("");
+    setContactNumber("");
+    setGender("");
+    setBirthDate("");
+    setEmail("");
+    setAddress("");
+    setFacebook("");
+    setInstagram("");
+    setLinkedIn("");
+    setExpertise("");
+    setEducation("");
+    setCompany("");
+    setPassword("");
+    setVerifyPassword("");
+  };
+
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       if (file) {
@@ -109,6 +129,8 @@ const AddAdvisor = () => {
             progress: undefined,
             theme: "colored",
           });
+
+          clearFields();
         }
       } catch (err) {
         toast.error(err?.data?.message || err.message, {

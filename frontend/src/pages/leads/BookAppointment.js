@@ -319,13 +319,13 @@ const BookAppointment = () => {
                           </tr>
                           <tr>
                             <td>
-                              <span className="font-bold">Contact #</span>{" "}
+                              <span className="font-bold">Product Url</span>{" "}
                             </td>
                             <td>
                               <Typography className="capitalize flex flex-row">
                                 <span className="mx-4"> :</span>{" "}
                                 <RxGlobe
-                                  className="h-5 w-5 text-blue-600"
+                                  className="h-5 w-5 text-blue-600 cursor-pointer"
                                   onClick={(e) => {
                                     window.open(
                                       `${product.productUrl}`,
@@ -373,6 +373,8 @@ const BookAppointment = () => {
                                       {convertFrom24To12Format(
                                         data.availabilityTime
                                       )}
+                                      {" - "}
+                                      {data.availabilityType}
                                     </option>
                                   )
                                 )}

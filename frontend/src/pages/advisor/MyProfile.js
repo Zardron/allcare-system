@@ -186,7 +186,7 @@ const MyProfile = () => {
                           <Input value={education} disabled />
                         </div>
                       </div>
-                      {instagram && (
+                      {instagram ? (
                         <div className="mb-6">
                           <div className="w-64">
                             <Button
@@ -200,6 +200,21 @@ const MyProfile = () => {
                                   "_blank"
                                 );
                               }}
+                            >
+                              <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
+                              Instagram Profile
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="mb-6">
+                          <div className="w-64">
+                            <Button
+                              disabled
+                              size="md"
+                              variant="outlined"
+                              color="blue-gray"
+                              className="flex items-center gap-3 w-full"
                             >
                               <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
                               Instagram Profile

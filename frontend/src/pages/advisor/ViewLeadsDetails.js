@@ -1,4 +1,10 @@
-import { Button, Rating, Textarea, Typography } from "@material-tailwind/react";
+import {
+  Avatar,
+  Button,
+  Rating,
+  Textarea,
+  Typography,
+} from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
@@ -27,10 +33,11 @@ const ViewLeadsDetails = () => {
             <section className="p-10 overflow-auto max-h-[74vh] bg-white">
               <div className="flex flex-row justify-between px-6 h-full text-gray-800">
                 <div className="flex flex-col flex-[.3] gap-2 items-center justify-start mb-6">
-                  <img
-                    className="h-[215px] w-[220px]  w-auto border-2 rounded-full"
+                  <Avatar
+                    size="xxl"
+                    alt="avatar"
                     src={user.profilePicture}
-                    alt="nature image"
+                    className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
                   />
                   <div className=" flex flex-row item-center justify-center gap-2">
                     <div className="mb-6">
@@ -142,71 +149,6 @@ const ViewLeadsDetails = () => {
                         </Typography>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <span className="font-bold">Education</span>{" "}
-                      </td>
-                      <td>
-                        <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.education}
-                        </Typography>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span className="font-bold">Expertise</span>{" "}
-                      </td>
-                      <td>
-                        <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.expertise}
-                        </Typography>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <span className="font-bold">Company</span>{" "}
-                      </td>
-                      <td>
-                        <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.company}
-                        </Typography>
-                      </td>
-                    </tr>
-                    <Button onClick={() => setIsOpen(!isOpen)}>
-                      Show Ratings & Review
-                    </Button>
-                    {isOpen ? (
-                      <>
-                        <tr>
-                          <td>
-                            <span className="font-bold">Rating</span>{" "}
-                          </td>
-                          <td>
-                            <Typography className="flex items-center capitalize">
-                              <span className="mr-4"> :</span>{" "}
-                              <Rating value={4} readonly />
-                            </Typography>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td className=" flex flex-start items-start">
-                            <span className="font-bold">Review</span>{" "}
-                          </td>
-                          <td>
-                            <Typography className="flex items-start capitalize">
-                              <span className="mr-4"> :</span>{" "}
-                              <Textarea
-                                className=" w-[20rem]"
-                                value={"Review text here"}
-                              />
-                            </Typography>
-                          </td>
-                        </tr>
-                      </>
-                    ) : (
-                      ""
-                    )}
                   </table>
                 </div>
               </div>

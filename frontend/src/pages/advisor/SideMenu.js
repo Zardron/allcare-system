@@ -97,7 +97,12 @@ const SideMenu = () => {
   // Adding Availability
   const [availabilityDate, setAvailabilityDate] = useState("");
   const [availabilityTime, setAvailabilityTime] = useState("");
+  const [availabilityType, setAvailabilityType] = useState("");
   // const [userId] = useState(userInfo._id);
+
+  const handleAvailability = (type) => {
+    setAvailabilityType(type);
+  };
 
   const handleSubmitAvailability = async (e) => {
     e.preventDefault();
@@ -107,6 +112,7 @@ const SideMenu = () => {
         userId: userInfo._id,
         availabilityDate: availabilityDate,
         availabilityTime: availabilityTime,
+        availabilityType: availabilityType,
       })
       .then((result) => {
         toast.success(result?.data?.message || result.message, {
@@ -332,6 +338,21 @@ const SideMenu = () => {
                         value={availabilityTime}
                         onChange={(e) => setAvailabilityTime(e.target.value)}
                       />
+                      <select
+                        id="countries"
+                        class=" border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onChange={(e) => handleAvailability(e.target.value)}
+                        // onClick={loadCompany}
+                      >
+                        <option selected disabled>
+                          Select Meeting Type
+                        </option>
+                        <option value={"Face-to-Face"}>Face-to-Face</option>
+                        <option value={"Virtual Meeting: Zoom"}>
+                          Virtual Meeting: Zoom
+                        </option>
+                        <optio value={"Virtual Meeting: G-Meet"} n></optio>
+                      </select>
                       <Button type="submit" variant="gradient" className="w-32">
                         Save
                       </Button>

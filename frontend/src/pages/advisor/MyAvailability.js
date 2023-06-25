@@ -139,7 +139,7 @@ const MyAvailability = ({ data }) => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              Edit
+                              {data.availabilityType}
                             </Typography>
                           </td>
                         </tr>

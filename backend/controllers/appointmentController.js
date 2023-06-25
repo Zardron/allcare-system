@@ -24,12 +24,14 @@ const getAllDetails = asyncHandler(async (req, res) => {
 });
 
 const addAvailability = asyncHandler(async (req, res) => {
-  const { userId, availabilityDate, availabilityTime } = req.body;
+  const { userId, availabilityDate, availabilityTime, availabilityType } =
+    req.body;
 
   const checkAvailability = await Availability.findOne({
     userId: userId,
     availabilityDate: availabilityDate,
     availabilityTime: availabilityTime,
+    availabilityType: availabilityType,
   }); // e check niya if ang company is na exist or wala
 
   if (checkAvailability) {
@@ -40,6 +42,7 @@ const addAvailability = asyncHandler(async (req, res) => {
       userId,
       availabilityDate,
       availabilityTime,
+      availabilityType,
     });
 
     if (availability) {
