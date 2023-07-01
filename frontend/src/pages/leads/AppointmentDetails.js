@@ -2,101 +2,67 @@ import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import SideMenu from "./SideMenu";
 import DashboardNavbar from "./DashboardNavbar";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import {
-  Avatar,
-  Button,
-  Rating,
-  Textarea,
-  Typography,
-} from "@material-tailwind/react";
+import { Avatar, Button, Chip, Typography } from "@material-tailwind/react";
 import {
   AiFillFacebook,
   AiFillInstagram,
   AiFillLinkedin,
 } from "react-icons/ai";
 import { RxGlobe } from "react-icons/rx";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { BsArrowLeft } from "react-icons/bs";
 import Moment from "react-moment";
 
-const BookAppointment = () => {
+const AppointmentDetails = () => {
   const location = useLocation();
-  const [details, setDetails] = useState([]);
+  const [appointmentId] = useState(location?.state?.id);
   const [availabilityId, setAvailabilityId] = useState("");
   const [advisorId, setAdvisorId] = useState("");
   const [productId, setProductId] = useState("");
   const [leadsId, setLeadsId] = useState("");
-
-  useEffect(() => {
-    setAdvisorId(location?.state?.advisorId);
-    setProductId(location?.state?.productId);
-    setLeadsId(location?.state?.leadsId);
-  }, [location]);
-
-  const handleBookAppointment = () => {
-    if (!availabilityId) {
-      toast.error("Availability is required!", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } else {
-      axios
-        .post("http://localhost:8080/api/appointment/set-appointment", {
-          productId: productId,
-          advisorId: advisorId,
-          leadsId: leadsId,
-          availabilityId: availabilityId,
-        })
-        .then((result) => {
-          toast.success(result.data.message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        })
-        .catch((error) =>
-          toast.error(error.response.data.message, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          })
-        );
-    }
-  };
+  const [details, setDetails] = useState([]);
+  const [appointmentStatus, setAppointmentStatus] = useState([]);
 
   useEffect(() => {
     axios
-      .post("http://localhost:8080/api/appointment/get-details", {
-        productId: location?.state?.productId,
-        advisorId: location?.state?.advisorId,
-        leadsId: location?.state?.leadsId,
+      .post("http://localhost:8080/api/appointment/appointment-details", {
+        appointmentId: appointmentId,
+      })
+      .then((result) => {
+        setAppointmentStatus(
+          result?.data.map((item) => item.appointmentStatus)
+        );
+        setAvailabilityId(result?.data?.map((item) => item.availabilityId));
+        setAdvisorId(result?.data?.map((item) => item.advisorId));
+        setProductId(result?.data?.map((item) => item.productId));
+        setLeadsId(result?.data?.map((item) => item.leadsId));
+      })
+      .catch((error) => console.log(error));
+  }, [appointmentId]);
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:8080/api/appointment/get-all-details", {
+        availabilityId: availabilityId,
+        productId: productId,
+        advisorId: advisorId,
+        leadsId: leadsId,
       })
       .then((result) => {
         setDetails(result.data);
       })
       .catch((error) => console.log(error));
-  }, [location]);
+  }, [productId, advisorId, leadsId, availabilityId]);
 
+  useEffect(() => {
+    axios.post("http://localhost:8080/api/appointment/read-notification", {
+      appointmentId: appointmentId,
+      userId: leadsId[0],
+    });
+  }, [appointmentId, leadsId]);
   const convertFrom24To12Format = (time24) => {
     const [sHours, minutes] = time24.match(/([0-9]{1,2}):([0-9]{2})/).slice(1);
     const period = +sHours < 12 ? "AM" : "PM";
@@ -104,7 +70,6 @@ const BookAppointment = () => {
 
     return `${hours}:${minutes} ${period}`;
   };
-
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -113,18 +78,11 @@ const BookAppointment = () => {
           <DashboardNavbar />
           <div class="main-content flex flex-col flex-grow p-4 ">
             <h1 class="font-bold text-2xl text-gray-700 mb-4">
-              BOOK AN APPOINTMENT
+              APPOINTMENT DETAILS
             </h1>
             <section className="pt-2 overflow-auto max-h-[74vh]">
               <div className="px-6 h-full text-gray-800">
                 <form className="bg-white p-10 shadow-2xl">
-                  <Link
-                    to={"/leads/view-advisor"}
-                    className="flex flex-row gap-2 items-center mb-4"
-                  >
-                    <BsArrowLeft className="h-6 w-6" />
-                    Go Back
-                  </Link>
                   <h1 class="font-bold text-2xl text-gray-700 mb-6">
                     Advisor Details:
                   </h1>
@@ -246,66 +204,6 @@ const BookAppointment = () => {
                               </Typography>
                             </td>
                           </tr>
-                          <tr>
-                            <td>
-                              <span className="font-bold">Education</span>{" "}
-                            </td>
-                            <td>
-                              <Typography className="capitalize">
-                                <span className="mx-4"> :</span>{" "}
-                                {advisor.education}
-                              </Typography>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <span className="font-bold">Expertise</span>{" "}
-                            </td>
-                            <td>
-                              <Typography className="capitalize">
-                                <span className="mx-4"> :</span>{" "}
-                                {advisor.expertise}
-                              </Typography>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <span className="font-bold">Company</span>{" "}
-                            </td>
-                            <td>
-                              <Typography className="capitalize">
-                                <span className="mx-4"> :</span>{" "}
-                                {advisor.company}
-                              </Typography>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td>
-                              <span className="font-bold">Rating</span>{" "}
-                            </td>
-                            <td>
-                              <Typography className="flex items-center capitalize">
-                                <span className="mx-4"> :</span>{" "}
-                                <Rating value={4} readonly />
-                              </Typography>
-                            </td>
-                          </tr>
-
-                          <tr>
-                            <td className=" flex flex-start items-start">
-                              <span className="font-bold">Review</span>{" "}
-                            </td>
-                            <td>
-                              <Typography className="flex items-start capitalize">
-                                <span className="mx-4"> :</span>{" "}
-                                <Textarea
-                                  className="w-[20rem]"
-                                  value={"Review text here"}
-                                />
-                              </Typography>
-                            </td>
-                          </tr>
                         </table>
                       </div>
                     </div>
@@ -393,44 +291,80 @@ const BookAppointment = () => {
                         Appointment Details:
                       </h1>
                       <table className="w-[40%] min-w-max table-auto text-left">
-                        <tr>
-                          <td>
-                            <span className="font-bold">Availability</span>
-                          </td>
-                          <td>
-                            <Typography className="capitalize flex flex-row items-center">
-                              <span className="mx-4"> :</span>{" "}
-                              <select
-                                id="countries"
-                                class=" border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                onChange={(e) =>
-                                  setAvailabilityId(e.target.value)
-                                }
-                              >
-                                <option selected>Select Availability</option>
-                                {details?.availabilityDetails?.map(
-                                  (data, key) => (
-                                    <option value={data._id}>
-                                      <Moment format="MMMM DD, YYYY">
-                                        {data.availabilityDate}
-                                      </Moment>{" "}
-                                      {convertFrom24To12Format(
-                                        data.availabilityTime
-                                      )}
-                                      {" - "}
-                                      {data.availabilityType}
-                                    </option>
-                                  )
-                                )}
-                              </select>
-                            </Typography>
-                          </td>
-                        </tr>
+                        {details?.availabilityDetails?.map(
+                          (availability, key) => (
+                            <>
+                              <tr className="flex flex-row">
+                                <td className="w-28">
+                                  <span className="font-bold">Date</span>{" "}
+                                </td>
+                                <td className="flex flex-row ">
+                                  <span className="mx-4"> :</span>{" "}
+                                  <Typography>
+                                    <Moment format="MMMM DD, YYYY">
+                                      {availability.avaibilityDate}
+                                    </Moment>{" "}
+                                  </Typography>
+                                </td>
+                              </tr>
+                              <tr className="flex flex-row">
+                                <td className="w-28">
+                                  <span className="font-bold">Time</span>{" "}
+                                </td>
+                                <td className="flex flex-row ">
+                                  <span className="mx-4"> :</span>{" "}
+                                  <Typography>
+                                    {convertFrom24To12Format(
+                                      availability.availabilityTime
+                                    )}
+                                  </Typography>
+                                </td>
+                              </tr>
+                              <tr className="flex flex-row">
+                                <td className="w-28">
+                                  <span className="font-bold">
+                                    Meeting Type:
+                                  </span>{" "}
+                                </td>
+                                <td className="flex flex-row ">
+                                  <span className="mx-4"> :</span>{" "}
+                                  <Typography>
+                                    {availability.availabilityType}
+                                  </Typography>
+                                </td>
+                              </tr>
+                              <tr className="flex flex-row">
+                                <td className="w-28">
+                                  <span className="font-bold">Status:</span>{" "}
+                                </td>
+                                <td className="flex flex-row ">
+                                  <span className="mx-4"> :</span>{" "}
+                                  <Typography className="flex flex-row items-center">
+                                    <Chip
+                                      size="sm"
+                                      variant="ghost"
+                                      className="text-center ml-2 w-24"
+                                      value={
+                                        appointmentStatus === "Pending"
+                                          ? "Pending"
+                                          : appointmentStatus
+                                      }
+                                      color={
+                                        appointmentStatus[0] === "Pending"
+                                          ? "red"
+                                          : appointmentStatus[0] === "Reject"
+                                          ? "red"
+                                          : "green"
+                                      }
+                                    />
+                                  </Typography>
+                                </td>
+                              </tr>
+                            </>
+                          )
+                        )}
                       </table>
                     </div>
-                  </div>
-                  <div className="flex flex-row items-center justify-center mt-6">
-                    <Button onClick={handleBookAppointment}>BOOK NOW</Button>
                   </div>
                 </form>
               </div>
@@ -444,4 +378,4 @@ const BookAppointment = () => {
   );
 };
 
-export default BookAppointment;
+export default AppointmentDetails;

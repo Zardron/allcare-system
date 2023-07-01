@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Availability from "../model/availabilityModel.js";
 import Product from "../model/productModel.js";
+import Appointment from "../model/appointmentModel.js";
+import Notification from "../model/notificationModel.js";
 import User from "../model/userModel.js";
 
 // @desc Add product
@@ -63,4 +65,173 @@ const getAvailabilityByAdvisor = asyncHandler(async (req, res) => {
   res.send(availabilityDetails);
 });
 
-export { addAvailability, getAvailabilityByAdvisor, getAllDetails };
+const setAppointment = asyncHandler(async (req, res) => {
+  const { productId, advisorId, leadsId, availabilityId } = req.body;
+
+  const checkAppointment = await Appointment.findOne({
+    advisorId: advisorId,
+    leadsId: leadsId,
+    productId: productId,
+    availabilityId: availabilityId,
+  }); // e check niya if ang company is na exist or wala
+
+  if (checkAppointment) {
+    res.status(400);
+    throw new Error("Availability is not available or already taken");
+  } else {
+    const appointment = await Appointment.create({
+      advisorId,
+      leadsId,
+      productId,
+      availabilityId,
+    });
+
+    if (appointment) {
+      res
+        .status(200)
+        .send({ message: "Appointment has been successfully booked!" });
+
+      await Notification.create({
+        userId: advisorId,
+        appointmentId: appointment._id,
+        notificationMessage: `You have new appointment request.`,
+      });
+    } else {
+      res.status(401).send({ message: "Something went wrong!" });
+    }
+  }
+});
+
+const leadsAppointmentDetails = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const checkAppointmentDetails = await Appointment.find({ leadsId: userId });
+
+  res.send(checkAppointmentDetails);
+});
+
+const advisorAppointment = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const checkAppointment = await Appointment.find({ advisorId: userId });
+
+  res.send(checkAppointment);
+});
+
+const getNotification = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const notification = await Notification.find({ userId: userId });
+
+  res.send(notification);
+});
+
+const deleteNotification = asyncHandler(async (req, res) => {
+  const { notificationId } = req.body;
+
+  const notification = await Notification.findById({ _id: notificationId });
+
+  const confirmDelete = await notification.deleteOne();
+
+  if (confirmDelete) {
+    res
+      .status(200)
+      .send({ message: "Notification has been deleted successfully" });
+  }
+});
+
+const readNotification = asyncHandler(async (req, res) => {
+  const { appointmentId, userId } = req.body;
+
+  const notification = await Notification.findOne({
+    appointmentId: appointmentId,
+    userId: userId,
+  });
+
+  if (notification) {
+    notification.isOpened = true;
+
+    const updatedNotification = await notification.save();
+
+    if (updatedNotification) {
+      res.status(200).send();
+    }
+  }
+});
+
+const appointmentDetails = asyncHandler(async (req, res) => {
+  const { appointmentId } = req.body;
+
+  const checkAppointmentDetails = await Appointment.find({
+    _id: appointmentId,
+  });
+
+  res.send(checkAppointmentDetails);
+});
+
+const changeAppointmentStatus = asyncHandler(async (req, res) => {
+  const { appointmentId, appointmentStatus } = req.body;
+
+  const appointmentDetails = await Appointment.findById({ _id: appointmentId });
+
+  appointmentDetails.appointmentStatus = appointmentStatus;
+
+  const updatedDetails = await appointmentDetails.save();
+
+  switch (appointmentStatus) {
+    case "Approve":
+      await Notification.create({
+        userId: appointmentDetails.leadsId,
+        appointmentId: appointmentId,
+        notificationMessage: `Your appointment has been approved.`,
+      });
+      break;
+    case "Reject":
+      await Notification.create({
+        userId: appointmentDetails.leadsId,
+        appointmentId: appointmentId,
+        notificationMessage: `Your appointment has been rejected.`,
+      });
+      break;
+    case "Resched":
+      await Notification.create({
+        userId: appointmentDetails.leadsId,
+        appointmentId: appointmentId,
+        notificationMessage: `Your appointment has been rescheduled.`,
+      });
+      break;
+  }
+
+  res.send(updatedDetails);
+});
+
+const getAllAppointmentDetails = asyncHandler(async (req, res) => {
+  const { productId, advisorId, leadsId, availabilityId } = req.body;
+
+  const productDetails = await Product.find({ _id: productId });
+  const availabilityDetails = await Availability.find({ _id: availabilityId });
+  const leadsDetails = await User.find({ _id: leadsId });
+  const advisorDetails = await User.find({ _id: advisorId });
+
+  res.send({
+    productDetails: productDetails,
+    availabilityDetails: availabilityDetails,
+    leadsDetails: leadsDetails,
+    advisorDetails: advisorDetails,
+  });
+});
+
+export {
+  addAvailability,
+  getAvailabilityByAdvisor,
+  getAllDetails,
+  setAppointment,
+  leadsAppointmentDetails,
+  getNotification,
+  appointmentDetails,
+  getAllAppointmentDetails,
+  readNotification,
+  advisorAppointment,
+  changeAppointmentStatus,
+  deleteNotification,
+};

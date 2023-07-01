@@ -1,4 +1,4 @@
-import { Button, Typography } from "@material-tailwind/react";
+import { Button, Chip, Typography } from "@material-tailwind/react";
 import React from "react";
 import { useGetLeadsQuery } from "../../../slices/usersApiSlice";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ const AdvisorTable = ({ userId }) => {
   });
   const navigate = useNavigate();
 
+  console.log(user);
   const handleSelectLeads = (id) => {
     navigate("/advisor/leads-details", {
       state: {
@@ -29,7 +30,11 @@ const AdvisorTable = ({ userId }) => {
     <>
       <tr className="even:bg-blue-gray-50/50">
         <td className="p-4">
-          <img src={user.profilePicture} className="h-10 w-10 rounded-full" />
+          <img
+            src={user.profilePicture}
+            alt="profile"
+            className="h-10 w-10 rounded-full"
+          />
         </td>
         <td className="p-4">
           <Typography variant="small" color="blue-gray" className="font-normal">
@@ -46,6 +51,7 @@ const AdvisorTable = ({ userId }) => {
             {user.email}
           </Typography>
         </td>
+
         <td className="p-4 flex flex-row gap-2">
           <Button
             disabled={user.facebook ? false : true}
@@ -54,37 +60,48 @@ const AdvisorTable = ({ userId }) => {
             color="blue-gray"
             className="flex items-center gap-3"
             onClick={(e) => {
-              window.open(`https://www.${user.facebook}`, "_blank");
+              window.open(`${user.facebook}`, "_blank");
             }}
           >
             <AiFillFacebook className="h-5 w-5 text-[#3b5998]" />
           </Button>
 
           <Button
-            disabled={user.facebook ? false : true}
+            disabled={user.instagram ? false : true}
             size="md"
             variant="outlined"
             color="blue-gray"
             className="flex items-center gap-3"
             onClick={(e) => {
-              window.open(`https://www.${user.instagram}`, "_blank");
+              window.open(`${user.instagram}`, "_blank");
             }}
           >
             <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
           </Button>
 
           <Button
-            disabled={user.facebook ? false : true}
+            disabled={user.linkedIn ? false : true}
             size="md"
             variant="outlined"
             color="blue-gray"
             className="flex items-center gap-3"
             onClick={(e) => {
-              window.open(`https://www.${user.linkedIn}`, "_blank");
+              window.open(`${user.linkedIn}`, "_blank");
             }}
           >
             <AiFillLinkedin className="h-5 w-5 text-[#0072b1]" />
           </Button>
+        </td>
+        <td className="p-4">
+          <Typography variant="small" color="blue-gray" className="font-normal">
+            <Chip
+              size="sm"
+              variant="ghost"
+              className="text-center ml-2 w-24"
+              value={user.isOnline === true ? "Online" : "Offline"}
+              color={user.isOnline === true ? "green" : "red"}
+            />
+          </Typography>
         </td>
         <td className="p-4">
           <Typography

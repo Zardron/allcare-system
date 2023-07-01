@@ -63,7 +63,12 @@ const authUser = asyncHandler(async (req, res) => {
         password: user.password,
         profilePicture: user.profilePicture,
         userType: user.userType,
+        isOnline: user.isOnline,
       });
+
+      user.isOnline = true;
+
+      await user.save();
     } else {
       res.status(400);
       throw new Error("Invalid email or password");
@@ -91,7 +96,12 @@ const authUser = asyncHandler(async (req, res) => {
         expertise: user.expertise,
         education: user.education,
         company: user.company,
+        isOnline: user.isOnline,
       });
+
+      user.isOnline = true;
+
+      await user.save();
     } else {
       res.status(400);
       throw new Error("Invalid email or password");
@@ -252,6 +262,16 @@ const addUser = asyncHandler(async (req, res) => {
   }
 });
 
+const changeToOffline = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const user = await User.findById({ _id: userId });
+
+  user.isOnline = false;
+
+  await user.save();
+});
+
 // @desc Logout user
 // @route POST /api/users
 const logoutUser = asyncHandler(async (req, res) => {
@@ -259,7 +279,6 @@ const logoutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
-
   res.status(200).json({ message: "User logged out" });
 });
 
@@ -413,4 +432,5 @@ export {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  changeToOffline,
 };

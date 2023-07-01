@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -141,6 +141,21 @@ const SideMenu = () => {
         );
       });
   };
+
+  // Check Notification
+  const [notificationCount, setNotificationCount] = useState("");
+
+  setTimeout(() => {
+    axios
+      .post("http://localhost:8080/api/appointment/get-notification", {
+        userId: userInfo._id,
+      })
+      .then((result) => {
+        setNotificationCount(
+          result.data.filter((item) => item.isOpened === false).length
+        );
+      });
+  }, 3000);
 
   return (
     <>
@@ -299,6 +314,17 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
+                to="/advisor/my-appointment"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <MdEventAvailable className="h-6 w-6" />
+                <Link to="/advisor/my-appointment">
+                  <span className="ml-3">My Appointment</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
                 to="/advisor/availability"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
@@ -325,37 +351,57 @@ const SideMenu = () => {
                       onSubmit={handleSubmitAvailability}
                       className="flex flex-row items-center gap-4"
                     >
-                      <Input
-                        label="Date"
-                        type="date"
-                        min={formattedDate}
-                        value={availabilityDate}
-                        onChange={(e) => setAvailabilityDate(e.target.value)}
-                      />
-                      <Input
-                        label="Time"
-                        type="time"
-                        value={availabilityTime}
-                        onChange={(e) => setAvailabilityTime(e.target.value)}
-                      />
-                      <select
-                        id="countries"
-                        class=" border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        onChange={(e) => handleAvailability(e.target.value)}
-                        // onClick={loadCompany}
-                      >
-                        <option selected disabled>
-                          Select Meeting Type
-                        </option>
-                        <option value={"Face-to-Face"}>Face-to-Face</option>
-                        <option value={"Virtual Meeting: Zoom"}>
-                          Virtual Meeting: Zoom
-                        </option>
-                        <optio value={"Virtual Meeting: G-Meet"} n></optio>
-                      </select>
-                      <Button type="submit" variant="gradient" className="w-32">
-                        Save
-                      </Button>
+                      <div>
+                        <div className="mb-4">
+                          <Input
+                            label="Date"
+                            type="date"
+                            min={formattedDate}
+                            value={availabilityDate}
+                            onChange={(e) =>
+                              setAvailabilityDate(e.target.value)
+                            }
+                          />
+                        </div>
+                        <div>
+                          <Input
+                            label="Time"
+                            type="time"
+                            value={availabilityTime}
+                            onChange={(e) =>
+                              setAvailabilityTime(e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="mb-4">
+                          <select
+                            id="countries"
+                            class=" border border-gray-300 text-gray-700 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            onChange={(e) => handleAvailability(e.target.value)}
+                            // onClick={loadCompany}
+                          >
+                            <option selected disabled>
+                              Select Meeting Type
+                            </option>
+                            <option value={"Face-to-Face"}>Face-to-Face</option>
+                            <option value={"Virtual Meeting: Zoom"}>
+                              Virtual Meeting: Zoom
+                            </option>
+                            <option value={"Virtual Meeting: G-Meet"}></option>
+                          </select>
+                        </div>
+                        <div>
+                          <Button
+                            type="submit"
+                            variant="gradient"
+                            className="w-full"
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      </div>
                     </form>
                   </div>
                 </PopoverContent>
@@ -363,7 +409,7 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
-                to="#"
+                to="/advisor/notification"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span className="flex items-center justify-center text-lg text-black">
@@ -380,31 +426,13 @@ const SideMenu = () => {
                   </svg>
                 </span>
                 <span className="ml-3">Notifications</span>
-                <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  10
-                </span>
-              </Link>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/dashboard"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <span className="flex items-center justify-center text-lg text-black">
-                  <svg
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </span>
-                <span className="ml-3">Settings</span>
+                {notificationCount === 0 ? (
+                  ""
+                ) : (
+                  <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                    {notificationCount}
+                  </span>
+                )}
               </Link>
             </li>
             <li className="my-px">

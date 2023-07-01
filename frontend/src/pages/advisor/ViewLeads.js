@@ -11,6 +11,7 @@ const TABLE_HEAD = [
   "Contact #",
   "Email",
   "Social",
+  "Status",
   "Action",
 ];
 

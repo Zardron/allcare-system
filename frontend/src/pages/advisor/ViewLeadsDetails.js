@@ -1,10 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Rating,
-  Textarea,
-  Typography,
-} from "@material-tailwind/react";
+import { Avatar, Button, Typography } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
@@ -14,10 +8,9 @@ import {
   AiFillInstagram,
   AiFillLinkedin,
 } from "react-icons/ai";
-import { useState } from "react";
+import Moment from "react-moment";
 
 const ViewLeadsDetails = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   const { user } = location.state;
@@ -146,6 +139,19 @@ const ViewLeadsDetails = () => {
                       <td>
                         <Typography className="capitalize">
                           <span className="mr-4"> :</span> {user.contactNumber}
+                        </Typography>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="font-bold">Joined Date</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mr-4"> :</span>
+                          <Moment format="MMMM DD, YYYY">
+                            {user.createdAt}
+                          </Moment>
                         </Typography>
                       </td>
                     </tr>

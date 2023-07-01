@@ -4,7 +4,7 @@ import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
 import { useSelector } from "react-redux";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import axios from "axios";

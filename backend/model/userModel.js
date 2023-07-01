@@ -74,6 +74,10 @@ const userSchema = mongoose.Schema(
     rating: {
       type: String,
     },
+    isOnline: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -6,6 +6,8 @@ import {
   Typography,
   Card,
   Avatar,
+  CardHeader,
+  Input,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -16,31 +18,59 @@ import {
   AiFillInstagram,
   AiFillLinkedin,
 } from "react-icons/ai";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import { BsArrowLeft, BsCalendar2Check } from "react-icons/bs";
+import { BsArrowLeft, BsCalendar2Check, BsSearch } from "react-icons/bs";
 import { RxGlobe } from "react-icons/rx";
 import { useSelector } from "react-redux";
+import ProductTableHeader from "./ProductTableHeader";
 
-const TABLE_HEAD = [
-  "Name",
-  "Description",
-  "Type",
-  "Company",
-  "URL",
-  "Status",
-  "Action",
+const productHeader = [
+  { name: "Name", field: "productName", sortable: true },
+  { name: "Description", field: "productDescription", sortable: false },
+  { name: "Type", field: "productType", sortable: true },
+  { name: "Company", field: "company", sortable: true },
+  { name: "Url", field: "productUrl", sortable: false },
+  { name: "Status", field: "productStatus", sortable: false },
+  { name: "Action", field: "action", sortable: false },
 ];
 
 const ViewAdvisorDetails = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const location = useLocation();
 
-  const { user } = location.state;
   const navigate = useNavigate();
 
-  const [userId] = useState(user._id);
+  const [userId] = useState(location?.state?.user?._id);
   const [myProducts, setMyProducts] = useState([]);
+
+  const [search, setSearch] = useState("");
+  const [sorting, setSorting] = useState({ field: "", order: "" });
+
+  const searchData = useMemo(() => {
+    let preData = myProducts;
+
+    let newProductList = preData.filter((data) => data.userType !== "Admin");
+
+    if (search) {
+      newProductList = newProductList.filter(
+        (product) =>
+          product?.productName?.toLowerCase().includes(search.toLowerCase()) ||
+          product?.productType?.toLowerCase().includes(search.toLowerCase()) ||
+          product?.company?.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    //Sorting comments
+    if (sorting.field) {
+      const reversed = sorting.order === "asc" ? 1 : -1;
+      newProductList = newProductList.sort(
+        (a, b) => reversed * a[sorting.field].localeCompare(b[sorting.field])
+      );
+    }
+
+    return newProductList;
+  }, [myProducts, search, sorting]);
 
   useEffect(() => {
     axios
@@ -84,7 +114,7 @@ const ViewAdvisorDetails = () => {
                   <Avatar
                     size="xxl"
                     alt="avatar"
-                    src={user.profilePicture}
+                    src={location?.state?.user?.profilePicture}
                     className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
                   />
                   <div className=" flex flex-row item-center justify-center gap-2">
@@ -97,7 +127,7 @@ const ViewAdvisorDetails = () => {
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${user.facebook}`,
+                              `https://www.${location?.state?.user?.facebook}`,
                               "_blank"
                             );
                           }}
@@ -115,7 +145,7 @@ const ViewAdvisorDetails = () => {
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${user.instagram}`,
+                              `https://www.${location?.state?.user?.instagram}`,
                               "_blank"
                             );
                           }}
@@ -133,7 +163,7 @@ const ViewAdvisorDetails = () => {
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${user.linkedIn}`,
+                              `https://www.${location?.state?.user?.linkedIn}`,
                               "_blank"
                             );
                           }}
@@ -153,7 +183,8 @@ const ViewAdvisorDetails = () => {
                       <td>
                         <Typography className="capitalize">
                           {" "}
-                          <span className="mx-4"> :</span> {user.firstName}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.firstName}
                         </Typography>
                       </td>
                     </tr>
@@ -163,7 +194,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.middleName}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.middleName}
                         </Typography>
                       </td>
                     </tr>
@@ -173,7 +205,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.lastName}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.lastName}
                         </Typography>
                       </td>
                     </tr>
@@ -183,7 +216,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.birthDate}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.birthDate}
                         </Typography>
                       </td>
                     </tr>
@@ -193,7 +227,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.contactNumber}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.contactNumber}
                         </Typography>
                       </td>
                     </tr>
@@ -203,7 +238,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.education}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.education}
                         </Typography>
                       </td>
                     </tr>
@@ -213,7 +249,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.expertise}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.expertise}
                         </Typography>
                       </td>
                     </tr>
@@ -223,7 +260,8 @@ const ViewAdvisorDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mx-4"> :</span> {user.company}
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.company}
                         </Typography>
                       </td>
                     </tr>
@@ -257,62 +295,42 @@ const ViewAdvisorDetails = () => {
                   </table>
                 </div>
               </div>
-              <h1 class="font-bold text-2xl text-gray-700 mb-2">PRODUCTS</h1>
-              <Card className="overflow-scroll max-h-[50vh] w-full">
-                {myProducts.length === 0 ? (
-                  <>
-                    <table className="w-full min-w-max table-auto text-left">
-                      <thead>
-                        <tr>
-                          {TABLE_HEAD.map((head) => (
-                            <th
-                              key={head}
-                              className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                            >
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal leading-none opacity-70"
-                              >
-                                {head}
-                              </Typography>
-                            </th>
-                          ))}
-                        </tr>
-                      </thead>
-                    </table>
-                    <div className="flex w-full h-[50vh] items-center justify-center">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal text-4xl"
-                      >
-                        NO PRODUCT FOUND
-                      </Typography>
+              <h1 class="font-bold text-2xl text-gray-700 mb-2">PRODUCTS</h1>{" "}
+              <div class="main-content flex flex-col flex-grow p-4 ">
+                <Card className="overflow-scroll h-full w-full">
+                  <CardHeader
+                    floated={false}
+                    shadow={false}
+                    className="rounded-none"
+                  >
+                    <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
+                      <div>
+                        <Typography variant="h5" color="blue-gray">
+                          Product List
+                        </Typography>
+                        <Typography color="gray" className="mt-1 font-normal">
+                          These are details about the product of advisor
+                        </Typography>
+                      </div>
+                      <div className="flex w-full shrink-0 gap-2 md:w-max">
+                        <div className="w-full">
+                          <Input
+                            label="Search"
+                            icon={<BsSearch className="h-5 w-5" />}
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </>
-                ) : (
-                  <table className="w-full min-w-max table-auto text-left">
-                    <thead>
-                      <tr>
-                        {TABLE_HEAD.map((head) => (
-                          <th
-                            key={head}
-                            className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                          >
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal leading-none opacity-70"
-                            >
-                              {head}
-                            </Typography>
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
+                  </CardHeader>
+                  <table className="w-full min-w-max table-auto text-left cursor-pointer">
+                    <ProductTableHeader
+                      headers={productHeader}
+                      onSorting={(field, order) => setSorting({ field, order })}
+                    />
                     <tbody>
-                      {myProducts
+                      {searchData
                         .filter((item) => item.productStatus === true)
                         .map((data, key) => (
                           <>
@@ -326,11 +344,11 @@ const ViewAdvisorDetails = () => {
                                   {data.productName}
                                 </Typography>
                               </td>
-                              <td className="p-4">
+                              <td className="p-4 max-w-xs">
                                 <Typography
                                   variant="small"
                                   color="blue-gray"
-                                  className="font-normal"
+                                  className="font-normal text-justify"
                                 >
                                   {data.productDescription}
                                 </Typography>
@@ -391,7 +409,7 @@ const ViewAdvisorDetails = () => {
                                     onClick={() =>
                                       handleAppointment(
                                         data._id,
-                                        user._id,
+                                        location?.state?.user?._id,
                                         userInfo._id
                                       )
                                     }
@@ -404,8 +422,8 @@ const ViewAdvisorDetails = () => {
                         ))}
                     </tbody>
                   </table>
-                )}
-              </Card>
+                </Card>
+              </div>
             </section>
           </div>
           <DashboardFooter />

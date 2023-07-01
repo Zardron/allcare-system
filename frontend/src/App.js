@@ -6,6 +6,7 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminAddAdvisor from "./pages/admin/AddAdvisor";
 import AdminProfile from "./pages/admin/MyProfile";
 import AdminViewUsers from "./pages/admin/ViewUsers";
+import Complaints from "./pages/admin/AllComplaint";
 
 // Advisor Components
 import AdvisorDashboard from "./pages/advisor/Dashboard";
@@ -16,6 +17,9 @@ import AdvisorAddProduct from "./pages/advisor/AddProduct";
 import AdvisorProducts from "./pages/advisor/MyProduct";
 import AdvisorViewCompany from "./pages/advisor/ViewCompany";
 import AdvisorMyAvailability from "./pages/advisor/MyAvailability";
+import AdvisorNotification from "./pages/advisor/Notification";
+import AdvisorAppointmentDetails from "./pages/advisor/AppointmentDetails";
+import AdvisorMyAppointment from "./pages/advisor/MyAppointment";
 
 // Leads Components
 import LeadsDashboard from "./pages/leads/Dashboard";
@@ -24,6 +28,11 @@ import LeadsViewAdvisor from "./pages/leads/ViewAdvisor";
 import LeadsViewAdvisorDetails from "./pages/leads/ViewAdvisorDetails";
 import LeadsAdvisorRatingList from "./pages/leads/AdvisorRatingList";
 import LeadsBookAppointment from "./pages/leads/BookAppointment";
+import LeadsMyAppointment from "./pages/leads/MyAppointment";
+import LeadsAppointmentDetails from "./pages/leads/AppointmentDetails";
+import LeadsNotification from "./pages/leads/Notification";
+import LeadsSubmitComplaint from "./pages/leads/SubmitComplaint";
+import MyComplaint from "./pages/leads/MyComplaint";
 
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -43,6 +52,7 @@ function App() {
           <Route path="/admin/add-advisor" element={<AdminAddAdvisor />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
           <Route path="/admin/view-users" element={<AdminViewUsers />} />
+          <Route path="/admin/complaints" element={<Complaints />} />
         </Route>
 
         {/* Advisor Routes */}
@@ -64,6 +74,18 @@ function App() {
             path="/advisor/availability"
             element={<AdvisorMyAvailability />}
           />
+          <Route
+            path="/advisor/notification"
+            element={<AdvisorNotification />}
+          />
+          <Route
+            path="/advisor/appointment-details"
+            element={<AdvisorAppointmentDetails />}
+          />
+          <Route
+            path="/advisor/my-appointment"
+            element={<AdvisorMyAppointment />}
+          />
         </Route>
 
         {/* Leads Routes */}
@@ -83,6 +105,20 @@ function App() {
             path="/leads/book-appointment"
             element={<LeadsBookAppointment />}
           />
+          <Route
+            path="/leads/my-appointment"
+            element={<LeadsMyAppointment />}
+          />
+          <Route
+            path="/leads/appointment-details"
+            element={<LeadsAppointmentDetails />}
+          />
+          <Route path="/leads/notification" element={<LeadsNotification />} />
+          <Route
+            path="/leads/submit-complaint"
+            element={<LeadsSubmitComplaint />}
+          />
+          <Route path="/leads/my-complaint" element={<MyComplaint />} />
         </Route>
       </Routes>
     </Router>

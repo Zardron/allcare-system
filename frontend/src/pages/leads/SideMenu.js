@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLogoutMutation } from "../../slices/usersApiSlice";
 import { logout } from "../../slices/authSlice";
 import { RiStarHalfFill, RiUserSearchFill } from "react-icons/ri";
-import { MdOutlineRateReview, MdReviews } from "react-icons/md";
+import { MdOutlineRateReview } from "react-icons/md";
+import axios from "axios";
 
 const SideMenu = () => {
+  const { userInfo } = useSelector((state) => state.auth);
+
   const [logoutApiCall] = useLogoutMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleLogout = () => {
+    axios.post("http://localhost:8080/api/users/change-to-offline", {
+      userId: userInfo._id,
+    });
+  };
+
   const logoutHandler = async () => {
+    handleLogout();
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
@@ -21,6 +31,21 @@ const SideMenu = () => {
       console.log(error);
     }
   };
+
+  // Check Notification
+  const [notificationCount, setNotificationCount] = useState("");
+
+  setTimeout(() => {
+    axios
+      .post("http://localhost:8080/api/appointment/get-notification", {
+        userId: userInfo._id,
+      })
+      .then((result) => {
+        setNotificationCount(
+          result.data.filter((item) => item.isOpened === false).length
+        );
+      });
+  }, 3000);
   return (
     <>
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-white">
@@ -80,32 +105,17 @@ const SideMenu = () => {
               >
                 <RiStarHalfFill className="h-6 w-6" />
                 <Link to="/leads/advisor-rating-list">
-                  <span className="ml-3">View Ratings</span>
+                  <span className="ml-3">Ratings & Review</span>
                 </Link>
               </Link>
               <Link
-                to="/leads/add-leads"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <MdReviews className="h-6 w-6" />
-                <Link to="/leads/add-leads">
-                  <span className="ml-3">View Review</span>
-                </Link>
-                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  1k
-                </span> */}
-              </Link>
-              <Link
-                to="/leads/add-leads"
+                to="/leads/submit-complaint"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <MdOutlineRateReview className="h-6 w-6" />
-                <Link to="/leads/add-leads">
+                <Link to="/leads/submit-complaint">
                   <span className="ml-3">Complaint</span>
                 </Link>
-                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  1k
-                </span> */}
               </Link>
             </li>
             <li className="my-px">
@@ -138,7 +148,53 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
-                to="#"
+                to="/leads/my-appointment"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span className="flex items-center justify-center text-lg text-black">
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+                <Link to="/leads/my-appointment">
+                  <span className="ml-3">My Appointment</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/leads/my-complaint"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span className="flex items-center justify-center text-lg text-black">
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+                <Link to="/leads/my-complaint">
+                  <span className="ml-3">My Complaint</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/leads/notification"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
                 <span className="flex items-center justify-center text-lg text-black">
@@ -155,33 +211,16 @@ const SideMenu = () => {
                   </svg>
                 </span>
                 <span className="ml-3">Notifications</span>
-                <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  10
-                </span>
+                {notificationCount === 0 ? (
+                  ""
+                ) : (
+                  <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                    {notificationCount}
+                  </span>
+                )}
               </Link>
             </li>
-            <li className="my-px">
-              <Link
-                to="/leads/dashboard"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <span className="flex items-center justify-center text-lg text-black">
-                  <svg
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </span>
-                <span className="ml-3">Settings</span>
-              </Link>
-            </li>
+
             <li className="my-px">
               <Link
                 onClick={logoutHandler}
