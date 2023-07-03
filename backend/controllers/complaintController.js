@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Product from "../model/productModel.js";
+import Notification from "../model/notificationModel.js";
 import Complaint from "../model/complaintModel.js";
 
 // @desc get product by advisor
@@ -8,6 +8,14 @@ const getAllComplaint = asyncHandler(async (req, res) => {
   const allComplaint = await Complaint.find();
 
   res.send(allComplaint);
+});
+
+const getComplaintDetails = asyncHandler(async (req, res) => {
+  const { complaintId } = req.body;
+
+  const complaintDetails = await Complaint.findOne({ _id: complaintId });
+
+  res.status(200).send(complaintDetails);
 });
 
 const addComplaint = asyncHandler(async (req, res) => {
@@ -46,10 +54,30 @@ const addComplaint = asyncHandler(async (req, res) => {
       description,
     });
 
+    if (type === "User") {
+      await Notification.create({
+        userId: complaintId,
+        appointmentId: complaint._id,
+        notificationMessage: `You received a complaint.`,
+      });
+
+      await Notification.create({
+        userId: "Admin",
+        appointmentId: complaint._id,
+        notificationMessage: `New complaint has been submitted.`,
+      });
+    } else {
+      await Notification.create({
+        userId: "Admin",
+        appointmentId: complaint._id,
+        notificationMessage: `New complaint has been submitted.`,
+      });
+    }
+
     if (complaint) {
       res.status(200).send({ message: "Complaint submitted successfully" });
     }
   }
 });
 
-export { getAllComplaint, addComplaint };
+export { getAllComplaint, addComplaint, getComplaintDetails };

@@ -24,6 +24,7 @@ import { BsArrowLeft, BsCalendar2Check, BsSearch } from "react-icons/bs";
 import { RxGlobe } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import ProductTableHeader from "./ProductTableHeader";
+import Moment from "react-moment";
 
 const productHeader = [
   { name: "Name", field: "productName", sortable: true },
@@ -265,7 +266,19 @@ const ViewAdvisorDetails = () => {
                         </Typography>
                       </td>
                     </tr>
-
+                    <tr>
+                      <td>
+                        <span className="font-bold">Joined Date</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          <Moment format="MMMM DD, YYYY">
+                            {location?.state?.user?.createdAt}
+                          </Moment>
+                        </Typography>
+                      </td>
+                    </tr>
                     <tr>
                       <td>
                         <span className="font-bold">Rating</span>{" "}

@@ -11,6 +11,7 @@ import Complaints from "./pages/admin/AllComplaint";
 // Advisor Components
 import AdvisorDashboard from "./pages/advisor/Dashboard";
 import AdvisorProfile from "./pages/advisor/MyProfile";
+import AdvisorUpdateProfile from "./pages/advisor/UpdateProfile";
 import AdvisorViewLeads from "./pages/advisor/ViewLeads";
 import AdvisorViewLeadsDetails from "./pages/advisor/ViewLeadsDetails";
 import AdvisorAddProduct from "./pages/advisor/AddProduct";
@@ -20,6 +21,7 @@ import AdvisorMyAvailability from "./pages/advisor/MyAvailability";
 import AdvisorNotification from "./pages/advisor/Notification";
 import AdvisorAppointmentDetails from "./pages/advisor/AppointmentDetails";
 import AdvisorMyAppointment from "./pages/advisor/MyAppointment";
+import ComplaintDetails from "./pages/advisor/ComplaintDetails";
 
 // Leads Components
 import LeadsDashboard from "./pages/leads/Dashboard";
@@ -37,6 +39,7 @@ import MyComplaint from "./pages/leads/MyComplaint";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import PrivacyAndPolicy from "./pages/PrivacyAndPolicy";
 function App() {
   return (
     <Router>
@@ -45,6 +48,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/privacy-and-policy" element={<PrivacyAndPolicy />} />
 
         {/* Admin Routes */}
         <Route path="" element={<PrivateRoute />}>
@@ -59,6 +63,10 @@ function App() {
         <Route path="" element={<PrivateRoute />}>
           <Route path="/advisor/dashboard" element={<AdvisorDashboard />} />
           <Route path="/advisor/profile" element={<AdvisorProfile />} />
+          <Route
+            path="/advisor/update-profile"
+            element={<AdvisorUpdateProfile />}
+          />
           <Route path="/advisor/view-leads" element={<AdvisorViewLeads />} />
           <Route
             path="/advisor/leads-details"
@@ -85,6 +93,10 @@ function App() {
           <Route
             path="/advisor/my-appointment"
             element={<AdvisorMyAppointment />}
+          />
+          <Route
+            path="/advisor/complaint-details"
+            element={<ComplaintDetails />}
           />
         </Route>
 

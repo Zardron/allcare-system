@@ -6,6 +6,10 @@ import {
   PopoverHandler,
   Typography,
   Popover,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -35,10 +39,7 @@ const MyAppointment = () => {
   const [selectedResched, setSelectedResched] = useState(false);
   const [appointmentId, setAppointmentId] = useState(false);
   const [showRescheduleOption, setShowRescheduleOption] = useState(false);
-
-  console.log("====================================");
-  console.log(appointmentId);
-  console.log("====================================");
+  const [open, setOpen] = useState(false);
 
   const handleViewAppointment = (id) => {
     navigate("/advisor/appointment-details", {
@@ -93,6 +94,11 @@ const MyAppointment = () => {
     setAppointmentId(id);
   };
 
+  const handleComplete = (id) => {
+    setAppointmentId(id);
+    setOpen(!open);
+  };
+
   useEffect(() => {
     axios
       .post("http://localhost:8080/api/appointment/advisor-appointment", {
@@ -115,6 +121,7 @@ const MyAppointment = () => {
       .catch((error) => console.log(error));
   };
 
+  // Change Status to Approve, Reject & Reject
   const handleSave = () => {
     axios
       .put("http://localhost:8080/api/appointment/change-status", {
@@ -153,12 +160,51 @@ const MyAppointment = () => {
       });
   };
 
+  // Change time format to 12 hours with AM/PM
   const convertFrom24To12Format = (time24) => {
     const [sHours, minutes] = time24.match(/([0-9]{1,2}):([0-9]{2})/).slice(1);
     const period = +sHours < 12 ? "AM" : "PM";
     const hours = +sHours % 12 || 12;
 
     return `${hours}:${minutes} ${period}`;
+  };
+
+  const handleConfirmComplete = () => {
+    axios
+      .put("http://localhost:8080/api/appointment/change-status", {
+        appointmentId: appointmentId,
+        appointmentStatus: "Complete",
+      })
+      .then((result) => {
+        refreshData();
+        setSelectedApprove(false);
+        setSelectedReject(false);
+        setSelectedResched(false);
+        if (result.status === 200) {
+          toast.success("Appointment status successfully changed", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
   };
 
   return (
@@ -286,7 +332,8 @@ const MyAppointment = () => {
                                 <Button
                                   disabled={
                                     data.appointmentStatus === "Approve" ||
-                                    data.appointmentStatus === "Reject"
+                                    data.appointmentStatus === "Reject" ||
+                                    data.appointmentStatus === "Complete"
                                       ? true
                                       : false
                                   }
@@ -412,6 +459,16 @@ const MyAppointment = () => {
                                   </Typography>
                                 </div>
                               </PopoverContent>
+                              <Button
+                                disabled={
+                                  data.appointmentStatus === "Approve"
+                                    ? false
+                                    : true
+                                }
+                                onClick={() => handleComplete(data._id)}
+                              >
+                                Complete
+                              </Button>
                             </Popover>
                           </td>
                         </tr>
@@ -422,6 +479,31 @@ const MyAppointment = () => {
               )}
             </Card>
           </div>
+          <Dialog open={open} handler={handleComplete}>
+            <DialogHeader>Your Attention is Required!</DialogHeader>
+            <DialogBody divider className="grid place-items-center gap-4">
+              <Typography color="red" variant="h4 text-center">
+                Are you sure you want to complete this appointment?
+              </Typography>
+            </DialogBody>
+            <DialogFooter>
+              <Button
+                variant="text"
+                color="red"
+                onClick={handleComplete}
+                className="mr-1"
+              >
+                <span>Cancel</span>
+              </Button>
+              <Button
+                variant="gradient"
+                color="green"
+                onClick={handleConfirmComplete}
+              >
+                <span>Confirm</span>
+              </Button>
+            </DialogFooter>
+          </Dialog>
           <DashboardFooter />
           <ToastContainer />
         </main>

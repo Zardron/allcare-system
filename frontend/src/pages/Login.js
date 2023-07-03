@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import pic1 from "../assets/images/pic1.jpg";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -12,10 +12,28 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [login] = useLoginMutation();
+  const navigate = useNavigate();
+
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    switch (userInfo?.userType) {
+      case "Admin":
+        navigate("/admin/dashboard");
+        break;
+      case "Advisor":
+        navigate("/advisor/dashboard");
+        break;
+      case "Leads":
+        navigate("/leads/dashboard");
+        break;
+
+      default:
+        break;
+    }
+  }, [userInfo, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -401,9 +401,24 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.userId);
 
   if (user) {
-    user.profilePicture = req.body.profilePicture || user.profilePicture;
-    user.name = req.body.name || user.name;
+    user.firstName = req.body.firstName || user.firstName;
+    user.middleName = req.body.middleName || user.middleName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.age = req.body.age || user.age;
+    user.contactNumber = req.body.contactNumber || user.contactNumber;
+    user.gender = req.body.gender || user.gender;
+    user.birthDate = req.body.birthDate || user.birthDate;
     user.email = req.body.email || user.email;
+    user.address = req.body.address || user.address;
+    user.facebook = req.body.facebook || user.facebook;
+    user.instagram = req.body.instagram || user.instagram;
+    user.linkedIn = req.body.linkedIn || user.linkedIn;
+    user.password = req.body.password || user.password;
+    user.profilePicture = req.body.profilePicture || user.profilePicture;
+    user.userType = req.body.userType || user.userType;
+    user.expertise = req.body.expertise || user.expertise;
+    user.education = req.body.education || user.education;
+    user.company = req.body.company || user.company;
 
     if (req.body.password) {
       user.password = req.body.password;
@@ -413,9 +428,24 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
     res.status(200).json({
       _id: updatedUser._id,
-      profilePicture: updatedUser.profilePicture,
-      name: updatedUser.name,
+      firstName: updatedUser.firstName,
+      middleName: updatedUser.middleName,
+      lastName: updatedUser.lastName,
+      age: updatedUser.age,
+      contactNumber: updatedUser.contactNumber,
+      gender: updatedUser.gender,
+      birthDate: updatedUser.birthDate,
       email: updatedUser.email,
+      address: updatedUser.address,
+      facebook: updatedUser.facebook,
+      instagram: updatedUser.instagram,
+      linkedIn: updatedUser.linkedIn,
+      password: updatedUser.password,
+      profilePicture: updatedUser.profilePicture,
+      userType: updatedUser.userType,
+      expertise: updatedUser.expertise,
+      education: updatedUser.education,
+      company: updatedUser.company,
     });
   } else {
     res.status(404);

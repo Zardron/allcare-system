@@ -13,8 +13,6 @@ import Moment from "react-moment";
 const ViewLeadsDetails = () => {
   const location = useLocation();
 
-  const { user } = location.state;
-
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -29,7 +27,7 @@ const ViewLeadsDetails = () => {
                   <Avatar
                     size="xxl"
                     alt="avatar"
-                    src={user.profilePicture}
+                    src={location?.state?.user?.profilePicture}
                     className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
                   />
                   <div className=" flex flex-row item-center justify-center gap-2">
@@ -42,7 +40,7 @@ const ViewLeadsDetails = () => {
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${user.facebook}`,
+                              `${location?.state?.user?.facebook}`,
                               "_blank"
                             );
                           }}
@@ -60,7 +58,7 @@ const ViewLeadsDetails = () => {
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${user.instagram}`,
+                              `${location?.state?.user?.instagram}`,
                               "_blank"
                             );
                           }}
@@ -78,7 +76,7 @@ const ViewLeadsDetails = () => {
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${user.linkedIn}`,
+                              `${location?.state?.user?.linkedIn}`,
                               "_blank"
                             );
                           }}
@@ -98,7 +96,8 @@ const ViewLeadsDetails = () => {
                       <td>
                         <Typography className="capitalize">
                           {" "}
-                          <span className="mr-4"> :</span> {user.firstName}
+                          <span className="mr-4"> :</span>{" "}
+                          {location?.state?.user?.firstName}
                         </Typography>
                       </td>
                     </tr>
@@ -108,7 +107,8 @@ const ViewLeadsDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.middleName}
+                          <span className="mr-4"> :</span>{" "}
+                          {location?.state?.user?.middleName}
                         </Typography>
                       </td>
                     </tr>
@@ -118,7 +118,8 @@ const ViewLeadsDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.lastName}
+                          <span className="mr-4"> :</span>{" "}
+                          {location?.state?.user?.lastName}
                         </Typography>
                       </td>
                     </tr>
@@ -128,7 +129,8 @@ const ViewLeadsDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.birthDate}
+                          <span className="mr-4"> :</span>{" "}
+                          {location?.state?.user?.birthDate}
                         </Typography>
                       </td>
                     </tr>
@@ -138,7 +140,8 @@ const ViewLeadsDetails = () => {
                       </td>
                       <td>
                         <Typography className="capitalize">
-                          <span className="mr-4"> :</span> {user.contactNumber}
+                          <span className="mr-4"> :</span>{" "}
+                          {location?.state?.user?.contactNumber}
                         </Typography>
                       </td>
                     </tr>
@@ -150,7 +153,7 @@ const ViewLeadsDetails = () => {
                         <Typography className="capitalize">
                           <span className="mr-4"> :</span>
                           <Moment format="MMMM DD, YYYY">
-                            {user.createdAt}
+                            {location?.state?.user?.createdAt}
                           </Moment>
                         </Typography>
                       </td>

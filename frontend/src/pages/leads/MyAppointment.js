@@ -1,4 +1,4 @@
-import { Card, Chip, Typography } from "@material-tailwind/react";
+import { Button, Card, Chip, Typography } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { SlMagnifier } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = ["Appointment #", "Status", "Action"];
+const TABLE_HEAD = ["Appointment #", "Status", "Ratings & Review", "Action"];
 
 const MyAppoitnment = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -33,6 +33,17 @@ const MyAppoitnment = () => {
         id,
       },
     });
+  };
+
+  const handleGiveFeedback = (id) => {
+    console.log("====================================");
+    console.log(id);
+    console.log("====================================");
+    //  navigate("/leads/appointment-details", {
+    //    state: {
+    //      id,
+    //    },
+    //  });
   };
 
   return (
@@ -132,6 +143,24 @@ const MyAppoitnment = () => {
                                   : "green"
                               }
                             />
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal uppercase"
+                          >
+                            <Button
+                              disabled={
+                                data.appointmentStatus === "Complete"
+                                  ? false
+                                  : true
+                              }
+                              onClick={() => handleGiveFeedback(data._id)}
+                            >
+                              Give Feedback
+                            </Button>
                           </Typography>
                         </td>
                         <td className="p-4">

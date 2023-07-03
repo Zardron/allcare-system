@@ -4,7 +4,6 @@ const notificationSchema = mongoose.Schema(
   {
     userId: {
       type: String,
-      required: true,
     },
     appointmentId: {
       type: String,

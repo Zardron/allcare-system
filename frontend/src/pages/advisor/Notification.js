@@ -44,17 +44,6 @@ const Notification = () => {
     setOpen(!open);
   };
 
-  setTimeout(() => {
-    axios
-      .post("http://localhost:8080/api/appointment/get-notification", {
-        userId: userId,
-      })
-      .then((result) => {
-        setNotificationDetails(result.data);
-      })
-      .catch((error) => console.log(error));
-  }, 1000);
-
   useEffect(() => {
     axios
       .post("http://localhost:8080/api/appointment/get-notification", {
@@ -68,6 +57,14 @@ const Notification = () => {
 
   const handleViewAppointment = (id) => {
     navigate("/advisor/appointment-details", {
+      state: {
+        id,
+      },
+    });
+  };
+
+  const handleViewComplaint = (id) => {
+    navigate("/advisor/complaint-details", {
       state: {
         id,
       },
@@ -92,7 +89,11 @@ const Notification = () => {
                   <div className="flex flex-row justify-between">
                     <div
                       className="flex flex-col justify-between"
-                      onClick={() => handleViewAppointment(data.appointmentId)}
+                      onClick={
+                        data.notificationMessage === "You received a complaint."
+                          ? () => handleViewComplaint(data.appointmentId)
+                          : () => handleViewAppointment(data.appointmentId)
+                      }
                     >
                       <Moment fromNow className="text-gray-400">
                         {data.createdAt}

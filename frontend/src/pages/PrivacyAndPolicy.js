@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Picture1 from "../assets/images/Picture1.png";
-import Picture2 from "../assets/images/Picture2.png";
+import Picture3 from "../assets/images/Picture3.png";
 
-const Home = () => {
+const PrivacyAndPolicy = () => {
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -29,10 +28,9 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <img src={Picture1} alt="picture" width={"100%"} />
-      <img src={Picture2} alt="picture" width={"100%"} />
+      <img src={Picture3} alt="picture" width={"100%"} />
     </>
   );
 };
 
-export default Home;
+export default PrivacyAndPolicy;

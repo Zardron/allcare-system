@@ -183,21 +183,28 @@ const changeAppointmentStatus = asyncHandler(async (req, res) => {
       await Notification.create({
         userId: appointmentDetails.leadsId,
         appointmentId: appointmentId,
-        notificationMessage: `Your appointment has been approved.`,
+        notificationMessage: `Your appointment is approved.`,
       });
       break;
     case "Reject":
       await Notification.create({
         userId: appointmentDetails.leadsId,
         appointmentId: appointmentId,
-        notificationMessage: `Your appointment has been rejected.`,
+        notificationMessage: `Your appointment is rejected.`,
       });
       break;
     case "Resched":
       await Notification.create({
         userId: appointmentDetails.leadsId,
         appointmentId: appointmentId,
-        notificationMessage: `Your appointment has been rescheduled.`,
+        notificationMessage: `Your appointment is rescheduled.`,
+      });
+      break;
+    case "Complete":
+      await Notification.create({
+        userId: appointmentDetails.leadsId,
+        appointmentId: appointmentId,
+        notificationMessage: `Your appointment is completed.`,
       });
       break;
   }

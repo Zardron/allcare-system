@@ -1,7 +1,7 @@
 import pic1 from "../assets/images/pic1.jpg";
 import Navbar from "../components/Navbar";
 import "react-toastify/dist/ReactToastify.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAddUserMutation } from "../slices/usersApiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,7 @@ import {
   AiFillLinkedin,
 } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Register = () => {
   const [firstName, setFirstName] = useState("");
@@ -34,6 +35,25 @@ const Register = () => {
   const userType = "Leads";
 
   const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    switch (userInfo?.userType) {
+      case "Admin":
+        navigate("/admin/dashboard");
+        break;
+      case "Advisor":
+        navigate("/advisor/dashboard");
+        break;
+      case "Leads":
+        navigate("/leads/dashboard");
+        break;
+
+      default:
+        break;
+    }
+  }, [userInfo, navigate]);
+
   const [addUser] = useAddUserMutation();
 
   const convertToBase64 = (file) => {

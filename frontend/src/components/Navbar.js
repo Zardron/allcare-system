@@ -13,8 +13,8 @@ import { logout } from "../slices/authSlice";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
-  { name: "Services", href: "#", current: false },
-  { name: "About Us", href: "#", current: false },
+  // { name: "Services", href: "#", current: false },
+  // { name: "About Us", href: "#", current: false },
   { name: "Support", href: "#", current: false },
 ];
 
@@ -56,16 +56,18 @@ export default function Navbar() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <img
-                    className="block h-20 w-auto lg:hidden"
-                    src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
-                    alt="Your Company"
-                  />
-                  <img
-                    className="hidden h-20 w-auto lg:block"
-                    src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
-                    alt="Your Company"
-                  />
+                  <Link to="/">
+                    <img
+                      className="block h-20 w-auto lg:hidden"
+                      src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
+                      alt="Your Company"
+                    />
+                    <img
+                      className="hidden h-20 w-auto lg:block"
+                      src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
+                      alt="Your Company"
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -102,10 +104,23 @@ export default function Navbar() {
                             leaveTo="transform opacity-0 scale-95"
                           >
                             <Menu.Items className="absolute right-[-100px] z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                              <Menu.Item>
+                              {/* <Menu.Item>
                                 {({ active }) => (
                                   <Link
                                     to="#"
+                                    className={classNames(
+                                      active ? "bg-gray-100" : "",
+                                      "block px-4 py-2 text-sm text-gray-700"
+                                    )}
+                                  >
+                                    How it works
+                                  </Link>
+                                )}
+                              </Menu.Item> */}
+                              <Menu.Item>
+                                {({ active }) => (
+                                  <Link
+                                    to="/privacy-and-policy"
                                     className={classNames(
                                       active ? "bg-gray-100" : "",
                                       "block px-4 py-2 text-sm text-gray-700"
@@ -115,7 +130,7 @@ export default function Navbar() {
                                   </Link>
                                 )}
                               </Menu.Item>
-                              <Menu.Item>
+                              {/* <Menu.Item>
                                 {({ active }) => (
                                   <Link
                                     to="#"
@@ -127,7 +142,7 @@ export default function Navbar() {
                                     Contact Us
                                   </Link>
                                 )}
-                              </Menu.Item>
+                              </Menu.Item> */}
                             </Menu.Items>
                           </Transition>
                         </Menu>
