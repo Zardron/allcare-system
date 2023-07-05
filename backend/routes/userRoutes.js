@@ -1,5 +1,6 @@
 import express from "express";
 const router = express.Router();
+import { upload } from "../helpers/filehelper.js";
 import {
   authUser,
   addUser,
@@ -20,6 +21,9 @@ router.get("/", getAllUsers);
 router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 router.post("/change-to-offline", changeToOffline);
-router.route("/profile").get(protect, getUserProfile).put(updateUserProfile);
+router
+  .route("/profile")
+  .get(protect, getUserProfile)
+  .put(upload.array("files"), updateUserProfile);
 
 export default router;
