@@ -84,7 +84,9 @@ const userSchema = mongoose.Schema(
     occupation: {
       type: String,
     },
-    files: [Object],
+    credential: {
+      type: String,
+    },
   },
   {
     timestamps: true,

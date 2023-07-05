@@ -13,8 +13,8 @@ import {
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { setCredentials } from "../../slices/authSlice";
 import { useNavigate } from "react-router-dom";
+import { setCredentials } from "../../slices/authSlice";
 
 const UpdateProfile = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -39,7 +39,6 @@ const UpdateProfile = () => {
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifyPassword] = useState("");
   const [profilePicture, setProfilePicture] = useState(userInfo.profilePicture);
-  const [credentials, setCredentials] = useState("");
 
   useEffect(() => {
     setProfilePicture(userInfo.profilePicture);
@@ -75,10 +74,6 @@ const UpdateProfile = () => {
     });
   };
 
-  const handleCredentials = (e) => {
-    setCredentials(e.target.files);
-  };
-
   const handleFileUpload = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
@@ -90,33 +85,28 @@ const UpdateProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("userId", userId);
-    formData.append("firstName", firstName);
-    formData.append("middleName", middleName);
-    formData.append("lastName", lastName);
-    formData.append("age", age);
-    formData.append("contactNumber", contactNumber);
-    formData.append("gender", gender);
-    formData.append("birthDate", birthDate);
-    formData.append("email", email);
-    formData.append("address", address);
-    formData.append("facebook", facebook);
-    formData.append("instagram", instagram);
-    formData.append("linkedIn", linkedIn);
-    formData.append(" expertise", expertise);
-    formData.append("education", education);
-    formData.append("company", company);
-    formData.append("password", password);
-    formData.append("verifyPassword", verifyPassword);
-    formData.append("profilePicture", profilePicture);
-
-    for (let i = 0; i < credentials.length; i++) {
-      formData.append("files", credentials[i]);
-    }
-
     axios
-      .put("http://localhost:8080/api/users/profile", formData)
+      .put("http://localhost:8080/api/users/profile", {
+        userId,
+        firstName,
+        middleName,
+        lastName,
+        age,
+        contactNumber,
+        gender,
+        birthDate,
+        email,
+        address,
+        facebook,
+        instagram,
+        linkedIn,
+        expertise,
+        education,
+        company,
+        password,
+        verifyPassword,
+        profilePicture,
+      })
       .then((result) => {
         dispatch(setCredentials({ ...result.data }));
         navigate("/advisor/profile");
@@ -143,28 +133,15 @@ const UpdateProfile = () => {
                       src={profilePicture}
                       alt="nature image"
                     />
-                    <h1 class="font-bold text-sm text-red-600">
-                      Note: This default profile picture will be used if you
-                      will not upload image.
-                    </h1>
+
                     <div className="mt-2">
                       <div className="w-64">
                         <Input
                           label="Profile Picture"
                           type="file"
+                          accept="image/*"
                           files={profilePicture}
                           onChange={handleFileUpload}
-                          className="file:border-0  file:bg-gray-300 file:text-sm file:font-semibold file:rounded"
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-2">
-                      <div className="w-64">
-                        <input
-                          label="Credentials"
-                          type="file"
-                          multiple
-                          onChange={(e) => handleCredentials(e)}
                           className="file:border-0  file:bg-gray-300 file:text-sm file:font-semibold file:rounded"
                         />
                       </div>

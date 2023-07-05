@@ -412,73 +412,56 @@ const fileSizeFormatter = (bytes, decimal) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.userId);
 
-  try {
-    const filesArray = [];
-    req.files.forEach((element) => {
-      const file = {
-        fileName: element.originalname,
-        filePath: element.path,
-        fileType: element.mimetype,
-        fileSize: fileSizeFormatter(element.size, 2),
-      };
-      filesArray.push(file);
-    });
+  if (user) {
+    user.firstName = req.body.firstName || user.firstName;
+    user.middleName = req.body.middleName || user.middleName;
+    user.lastName = req.body.lastName || user.lastName;
+    user.age = req.body.age || user.age;
+    user.contactNumber = req.body.contactNumber || user.contactNumber;
+    user.gender = req.body.gender || user.gender;
+    user.birthDate = req.body.birthDate || user.birthDate;
+    user.email = req.body.email || user.email;
+    user.address = req.body.address || user.address;
+    user.facebook = req.body.facebook || user.facebook;
+    user.instagram = req.body.instagram || user.instagram;
+    user.linkedIn = req.body.linkedIn || user.linkedIn;
+    user.password = req.body.password || user.password;
+    user.profilePicture = req.body.profilePicture || user.profilePicture;
+    user.userType = req.body.userType || user.userType;
+    user.expertise = req.body.expertise || user.expertise;
+    user.education = req.body.education || user.education;
+    user.company = req.body.company || user.company;
+    user.credentials = req.body.credentials || user.credentials;
 
-    if (user) {
-      user.firstName = req.body.firstName || user.firstName;
-      user.middleName = req.body.middleName || user.middleName;
-      user.lastName = req.body.lastName || user.lastName;
-      user.age = req.body.age || user.age;
-      user.contactNumber = req.body.contactNumber || user.contactNumber;
-      user.gender = req.body.gender || user.gender;
-      user.birthDate = req.body.birthDate || user.birthDate;
-      user.email = req.body.email || user.email;
-      user.address = req.body.address || user.address;
-      user.facebook = req.body.facebook || user.facebook;
-      user.instagram = req.body.instagram || user.instagram;
-      user.linkedIn = req.body.linkedIn || user.linkedIn;
-      user.password = req.body.password || user.password;
-      user.profilePicture = req.body.profilePicture || user.profilePicture;
-      user.userType = req.body.userType || user.userType;
-      user.expertise = req.body.expertise || user.expertise;
-      user.education = req.body.education || user.education;
-      user.company = req.body.company || user.company;
-      user.credentials = filesArray;
-
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
-
-      const updatedUser = await user.save();
-
-      res.status(200).json({
-        _id: updatedUser._id,
-        firstName: updatedUser.firstName,
-        middleName: updatedUser.middleName,
-        lastName: updatedUser.lastName,
-        age: updatedUser.age,
-        contactNumber: updatedUser.contactNumber,
-        gender: updatedUser.gender,
-        birthDate: updatedUser.birthDate,
-        email: updatedUser.email,
-        address: updatedUser.address,
-        facebook: updatedUser.facebook,
-        instagram: updatedUser.instagram,
-        linkedIn: updatedUser.linkedIn,
-        password: updatedUser.password,
-        profilePicture: updatedUser.profilePicture,
-        userType: updatedUser.userType,
-        expertise: updatedUser.expertise,
-        education: updatedUser.education,
-        company: updatedUser.company,
-        credentials: filesArray,
-      });
-    } else {
-      res.status(404);
-      throw new Error("User not found");
+    if (req.body.password) {
+      user.password = req.body.password;
     }
-  } catch (error) {
-    res.status(400).send(error.message);
+    const updatedUser = await user.save();
+    res.status(200).json({
+      _id: updatedUser._id,
+      firstName: updatedUser.firstName,
+      middleName: updatedUser.middleName,
+      lastName: updatedUser.lastName,
+      age: updatedUser.age,
+      contactNumber: updatedUser.contactNumber,
+      gender: updatedUser.gender,
+      birthDate: updatedUser.birthDate,
+      email: updatedUser.email,
+      address: updatedUser.address,
+      facebook: updatedUser.facebook,
+      instagram: updatedUser.instagram,
+      linkedIn: updatedUser.linkedIn,
+      password: updatedUser.password,
+      profilePicture: updatedUser.profilePicture,
+      userType: updatedUser.userType,
+      expertise: updatedUser.expertise,
+      education: updatedUser.education,
+      company: updatedUser.company,
+      credentials: updatedUser.credentials,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
   }
 });
 

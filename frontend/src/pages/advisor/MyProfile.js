@@ -2,17 +2,9 @@ import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import SideMenu from "./SideMenu";
 import DashboardNavbar from "./DashboardNavbar";
-import { useAddUserMutation } from "../../slices/usersApiSlice";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import {
-  Button,
-  Input,
-  Option,
-  Select,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -271,7 +263,6 @@ const MyProfile = () => {
           <DashboardFooter />
         </main>
       </div>
-      <ToastContainer limit={1} />
     </>
   );
 };

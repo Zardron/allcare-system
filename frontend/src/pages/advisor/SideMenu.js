@@ -157,6 +157,66 @@ const SideMenu = () => {
       });
   }, 3000);
 
+  // Add Credentials
+  const [credentials, setCredentials] = useState("");
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      if (file) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      }
+    });
+  };
+
+  const handleCredentialUpload = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+
+    setCredentials(base64);
+  };
+
+  const handleCredentialSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:8080/api/credentials", {
+        userId: userInfo._id,
+        credentials,
+      })
+      .then((result) => {
+        toast.success(result.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
+
   return (
     <>
       <ToastContainer />
@@ -228,6 +288,20 @@ const SideMenu = () => {
             </li>
             <li className="my-px">
               <Link
+                to="/advisor/my-credentials"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <RiProductHuntFill className="h-6 w-6" />
+                <Link to="/advisor/my-credentials">
+                  <span className="ml-3">My Credentials</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
                 to="/advisor/add-product"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
@@ -239,6 +313,46 @@ const SideMenu = () => {
                   1k
                 </span> */}
               </Link>
+            </li>
+
+            <li className="my-px">
+              <Popover placement="bottom">
+                <PopoverHandler>
+                  <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
+                    <BsHouseAddFill className="h-6 w-6" />
+                    <span className="ml-3">Add Credentials</span>
+                  </Link>
+                </PopoverHandler>
+                <PopoverContent className="w-96">
+                  <Typography variant="h6" color="blue-gray" className="mb-2">
+                    Credentials
+                  </Typography>
+                  <form onSubmit={handleCredentialSubmit} className="flex-col">
+                    <div className="mt-2 ">
+                      <div className="w-[100%]">
+                        <Input
+                          label="Credentials"
+                          type="file"
+                          files={credentials}
+                          accept="image/*"
+                          onChange={handleCredentialUpload}
+                          className="file:border-0  file:bg-gray-300 file:text-sm file:font-semibold file:rounded"
+                        />
+                      </div>
+                    </div>
+                    <h1 class="font-bold text-sm my-2 text-red-600">
+                      Note: Only .jpg, .jpeg and .png allowed.
+                    </h1>
+                    <Button
+                      type="submit"
+                      variant="gradient"
+                      className="w-24 float-right"
+                    >
+                      Submit
+                    </Button>
+                  </form>
+                </PopoverContent>
+              </Popover>
             </li>
             <li className="my-px">
               <Popover placement="bottom">

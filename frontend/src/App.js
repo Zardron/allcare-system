@@ -41,6 +41,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PrivacyAndPolicy from "./pages/PrivacyAndPolicy";
 import RatingAndReview from "./pages/leads/RatingAndReview";
+import MyCredentials from "./pages/advisor/MyCredentials";
 function App() {
   return (
     <Router>
@@ -99,6 +100,7 @@ function App() {
             path="/advisor/complaint-details"
             element={<ComplaintDetails />}
           />
+          <Route path="/advisor/my-credentials" element={<MyCredentials />} />
         </Route>
 
         {/* Leads Routes */}
