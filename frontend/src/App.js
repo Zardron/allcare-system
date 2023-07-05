@@ -40,6 +40,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import PrivacyAndPolicy from "./pages/PrivacyAndPolicy";
+import RatingAndReview from "./pages/leads/RatingAndReview";
 function App() {
   return (
     <Router>
@@ -131,6 +132,10 @@ function App() {
             element={<LeadsSubmitComplaint />}
           />
           <Route path="/leads/my-complaint" element={<MyComplaint />} />
+          <Route
+            path="/leads/rating-and-review"
+            element={<RatingAndReview />}
+          />
         </Route>
       </Routes>
     </Router>

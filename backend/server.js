@@ -9,6 +9,7 @@ import productRoutes from "./routes/productRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import complaintRoutes from "./routes/complaintRoutes.js";
+import credentialRoutes from "./routes/credentialRoutes.js";
 import cors from "cors";
 
 const port = process.env.PORT || 8080;
@@ -26,6 +27,7 @@ app.use("/api/company", companyRoutes);
 app.use("/api/product", productRoutes);
 app.use("/api/appointment", appointmentRoutes);
 app.use("/api/complaint", complaintRoutes);
+app.use("/api/credentials", credentialRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -78,6 +78,15 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    workAddress: {
+      type: String,
+    },
+    occupation: {
+      type: String,
+    },
+    credentials: {
+      type: Array,
+    },
   },
   {
     timestamps: true,

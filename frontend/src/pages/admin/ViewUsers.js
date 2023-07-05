@@ -82,7 +82,7 @@ const ViewUsers = () => {
                 <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                   <div>
                     <Typography variant="h5" color="blue-gray">
-                      User List
+                      Users List
                     </Typography>
                     <Typography color="gray" className="mt-1 font-normal">
                       These are details about the users

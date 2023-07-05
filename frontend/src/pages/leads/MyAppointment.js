@@ -36,14 +36,11 @@ const MyAppoitnment = () => {
   };
 
   const handleGiveFeedback = (id) => {
-    console.log("====================================");
-    console.log(id);
-    console.log("====================================");
-    //  navigate("/leads/appointment-details", {
-    //    state: {
-    //      id,
-    //    },
-    //  });
+    navigate("/leads/rating-and-review", {
+      state: {
+        id,
+      },
+    });
   };
 
   return (
@@ -157,7 +154,7 @@ const MyAppoitnment = () => {
                                   ? false
                                   : true
                               }
-                              onClick={() => handleGiveFeedback(data._id)}
+                              onClick={() => handleGiveFeedback(data.advisorId)}
                             >
                               Give Feedback
                             </Button>
