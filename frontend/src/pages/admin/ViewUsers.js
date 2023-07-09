@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardHeader,
   Chip,
@@ -21,6 +20,7 @@ const headers = [
   { name: "Email", field: "email", sortable: false },
   { name: "Address", field: "address", sortable: false },
   { name: "User Type", field: "userType", sortable: true },
+  { name: "Status", field: "isOnline", sortable: false },
 ];
 
 const ViewUsers = () => {
@@ -37,7 +37,9 @@ const ViewUsers = () => {
         })
         .catch((error) => console.log(error));
     };
-    getData();
+    setTimeout(() => {
+      getData();
+    }, 3000);
   }, []);
 
   const searchData = useMemo(() => {
@@ -164,6 +166,23 @@ const ViewUsers = () => {
                             className="font-normal"
                           >
                             {data.userType}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            <Chip
+                              size="sm"
+                              variant="ghost"
+                              className="text-center ml-2 w-24"
+                              value={
+                                data.isOnline === true ? "Online" : "Offline"
+                              }
+                              color={data.isOnline === true ? "green" : "red"}
+                            />
                           </Typography>
                         </td>
                       </tr>

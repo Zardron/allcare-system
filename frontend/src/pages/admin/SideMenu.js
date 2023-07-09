@@ -151,7 +151,7 @@ const SideMenu = () => {
                 </Link>
               </Link>
             </li>
-            <li class="my-px">
+            {/* <li class="my-px">
               <Link
                 to="#"
                 class="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
@@ -174,7 +174,7 @@ const SideMenu = () => {
                   10
                 </span>
               </Link>
-            </li>
+            </li> */}
             <li class="my-px">
               <Link
                 onClick={logoutHandler}

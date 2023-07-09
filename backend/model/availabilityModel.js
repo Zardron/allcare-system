@@ -18,6 +18,9 @@ const availabilitySchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    availabilityStatus: {
+      type: Boolean,
+    },
   },
   {
     timestamps: true,

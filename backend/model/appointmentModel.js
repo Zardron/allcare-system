@@ -28,6 +28,9 @@ const appointmentSchema = mongoose.Schema(
       type: String,
       default: "Pending",
     },
+    reason: {
+      type: String,
+    },
   },
   {
     timestamps: true,

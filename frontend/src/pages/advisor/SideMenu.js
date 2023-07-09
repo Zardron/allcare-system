@@ -8,7 +8,9 @@ import {
 } from "../../slices/usersApiSlice";
 import { logout } from "../../slices/authSlice";
 import { RiUserSearchFill, RiProductHuntFill } from "react-icons/ri";
-import { BsHouseAddFill } from "react-icons/bs";
+import { BsHouseAddFill, BsHousesFill } from "react-icons/bs";
+import { TbCertificate } from "react-icons/tb";
+import { AiFillSchedule } from "react-icons/ai";
 import {
   Popover,
   PopoverHandler,
@@ -39,7 +41,14 @@ const SideMenu = () => {
 
   const formattedDate = year + "-" + month + "-" + day;
 
+  const handleLogout = () => {
+    axios.post("http://localhost:8080/api/users/change-to-offline", {
+      userId: userInfo._id,
+    });
+  };
+
   const logoutHandler = async () => {
+    handleLogout();
     try {
       await logoutApiCall().unwrap();
       dispatch(logout());
@@ -142,20 +151,20 @@ const SideMenu = () => {
       });
   };
 
-  // Check Notification
-  const [notificationCount, setNotificationCount] = useState("");
+  // // Check Notification
+  // const [notificationCount, setNotificationCount] = useState("");
 
-  setTimeout(() => {
-    axios
-      .post("http://localhost:8080/api/appointment/get-notification", {
-        userId: userInfo._id,
-      })
-      .then((result) => {
-        setNotificationCount(
-          result.data.filter((item) => item.isOpened === false).length
-        );
-      });
-  }, 3000);
+  // setTimeout(() => {
+  //   axios
+  //     .post("http://localhost:8080/api/appointment/get-notification", {
+  //       userId: userInfo._id,
+  //     })
+  //     .then((result) => {
+  //       setNotificationCount(
+  //         result.data.filter((item) => item.isOpened === false).length
+  //       );
+  //     });
+  // }, 3000);
 
   // Add Credentials
   const [credentials, setCredentials] = useState("");
@@ -260,48 +269,6 @@ const SideMenu = () => {
 
             <li className="my-px">
               <Link
-                to="/advisor/view-leads"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <RiUserSearchFill className="h-6 w-6" />
-                <Link to="/advisor/view-leads">
-                  <span className="ml-3">View Leads</span>
-                </Link>
-                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  1k
-                </span> */}
-              </Link>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/my-products"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <RiProductHuntFill className="h-6 w-6" />
-                <Link to="/advisor/my-products">
-                  <span className="ml-3">My Products</span>
-                </Link>
-                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  1k
-                </span> */}
-              </Link>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/my-credentials"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <RiProductHuntFill className="h-6 w-6" />
-                <Link to="/advisor/my-credentials">
-                  <span className="ml-3">My Credentials</span>
-                </Link>
-                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  1k
-                </span> */}
-              </Link>
-            </li>
-            <li className="my-px">
-              <Link
                 to="/advisor/add-product"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
               >
@@ -319,7 +286,7 @@ const SideMenu = () => {
               <Popover placement="bottom">
                 <PopoverHandler>
                   <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
-                    <BsHouseAddFill className="h-6 w-6" />
+                    <TbCertificate className="h-6 w-6" />
                     <span className="ml-3">Add Credentials</span>
                   </Link>
                 </PopoverHandler>
@@ -358,101 +325,7 @@ const SideMenu = () => {
               <Popover placement="bottom">
                 <PopoverHandler>
                   <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
-                    <BsHouseAddFill className="h-6 w-6" />
-                    <span className="ml-3">Add Company</span>
-                  </Link>
-                </PopoverHandler>
-                <PopoverContent className="w-96">
-                  <Typography variant="h6" color="blue-gray" className="mb-6">
-                    Add Company
-                  </Typography>
-                  <div className="flex gap-2">
-                    <form
-                      onSubmit={handleSubmit}
-                      className="flex flex-row items-center gap-4"
-                    >
-                      <Input
-                        label="Company Name"
-                        value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
-                      />
-                      <Button type="submit" variant="gradient" className="w-24">
-                        Save
-                      </Button>
-                    </form>
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/view-company"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <RiProductHuntFill className="h-6 w-6" />
-                <Link to="/advisor/view-company">
-                  <span className="ml-3">View Company</span>
-                </Link>
-                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
-                  1k
-                </span> */}
-              </Link>
-            </li>
-            <li className="my-px">
-              <span className="flex font-medium text-sm text-black px-4 my-4 uppercase">
-                Account
-              </span>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/profile"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <span className="flex items-center justify-center text-lg text-black">
-                  <svg
-                    fill="none"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </span>
-                <Link to="/advisor/profile">
-                  <span className="ml-3">Profile</span>
-                </Link>
-              </Link>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/my-appointment"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <MdEventAvailable className="h-6 w-6" />
-                <Link to="/advisor/my-appointment">
-                  <span className="ml-3">My Appointment</span>
-                </Link>
-              </Link>
-            </li>
-            <li className="my-px">
-              <Link
-                to="/advisor/availability"
-                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
-              >
-                <MdEventAvailable className="h-6 w-6" />
-                <Link to="/advisor/availability">
-                  <span className="ml-3">My Availability</span>
-                </Link>
-              </Link>
-            </li>
-            <li className="my-px">
-              <Popover placement="bottom">
-                <PopoverHandler>
-                  <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
-                    <MdEventAvailable className="h-6 w-6" />
+                    <AiFillSchedule className="h-6 w-6" />
                     <span className="ml-3">Add Availability</span>
                   </Link>
                 </PopoverHandler>
@@ -522,6 +395,143 @@ const SideMenu = () => {
               </Popover>
             </li>
             <li className="my-px">
+              <Popover placement="bottom">
+                <PopoverHandler>
+                  <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
+                    <BsHouseAddFill className="h-6 w-6" />
+                    <span className="ml-3">Add Company</span>
+                  </Link>
+                </PopoverHandler>
+                <PopoverContent className="w-96">
+                  <Typography variant="h6" color="blue-gray" className="mb-6">
+                    Add Company
+                  </Typography>
+                  <div className="flex gap-2">
+                    <form
+                      onSubmit={handleSubmit}
+                      className="flex flex-row items-center gap-4"
+                    >
+                      <Input
+                        label="Company Name"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                      />
+                      <Button type="submit" variant="gradient" className="w-24">
+                        Save
+                      </Button>
+                    </form>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/view-company"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <BsHousesFill className="h-6 w-6" />
+                <Link to="/advisor/view-company">
+                  <span className="ml-3">View Company</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/view-leads"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <RiUserSearchFill className="h-6 w-6" />
+                <Link to="/advisor/view-leads">
+                  <span className="ml-3">View Leads</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
+              <span className="flex font-medium text-sm text-black px-4 my-4 uppercase">
+                Account
+              </span>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/profile"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span className="flex items-center justify-center text-lg text-black">
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+                <Link to="/advisor/profile">
+                  <span className="ml-3">Profile</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/my-products"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <RiProductHuntFill className="h-6 w-6" />
+                <Link to="/advisor/my-products">
+                  <span className="ml-3">My Products</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/my-credentials"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <TbCertificate className="h-6 w-6" />
+                <Link to="/advisor/my-credentials">
+                  <span className="ml-3">My Credentials</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/my-appointment"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <MdEventAvailable className="h-6 w-6" />
+                <Link to="/advisor/my-appointment">
+                  <span className="ml-3">My Appointment</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/availability"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <AiFillSchedule className="h-6 w-6" />
+                <Link to="/advisor/availability">
+                  <span className="ml-3">My Availability</span>
+                </Link>
+              </Link>
+            </li>
+
+            {/* <li className="my-px">
               <Link
                 to="/advisor/notification"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
@@ -548,7 +558,7 @@ const SideMenu = () => {
                   </span>
                 )}
               </Link>
-            </li>
+            </li> */}
             <li className="my-px">
               <Link
                 onClick={logoutHandler}

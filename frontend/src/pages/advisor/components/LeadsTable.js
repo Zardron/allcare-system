@@ -17,7 +17,6 @@ const AdvisorTable = ({ userId }) => {
   });
   const navigate = useNavigate();
 
-  console.log(user);
   const handleSelectLeads = (id) => {
     navigate("/advisor/leads-details", {
       state: {
