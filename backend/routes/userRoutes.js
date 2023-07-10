@@ -10,6 +10,7 @@ import {
   getLeads,
   getAllUsers,
   changeToOffline,
+  getUserDetails,
 } from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -21,5 +22,6 @@ router.post("/auth", authUser);
 router.post("/logout", logoutUser);
 router.post("/change-to-offline", changeToOffline);
 router.route("/profile").get(protect, getUserProfile).put(updateUserProfile);
+router.post("/user-data", getUserDetails);
 
 export default router;

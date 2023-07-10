@@ -20,8 +20,25 @@ import {
 } from "react-icons/ai";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { FaStarOfLife } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const AddAdvisor = () => {
+  const location = useLocation();
+  const [userData, setUserData] = useState("");
+
+  console.log(userData);
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:8080/api/users/user-data", {
+        userId: location?.state?.userId,
+      })
+      .then((result) => {
+        setUserData(result.data);
+      });
+  }, [location]);
+
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");

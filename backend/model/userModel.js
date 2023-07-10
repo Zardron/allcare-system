@@ -13,7 +13,6 @@ const userSchema = mongoose.Schema(
     },
     middleName: {
       type: String,
-      required: true,
     },
     lastName: {
       type: String,
@@ -77,6 +76,12 @@ const userSchema = mongoose.Schema(
     isOnline: {
       type: Boolean,
       default: false,
+    },
+    civilStatus: {
+      type: String,
+    },
+    educationalLevel: {
+      type: String,
     },
     workAddress: {
       type: String,

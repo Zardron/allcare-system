@@ -64,6 +64,10 @@ const authUser = asyncHandler(async (req, res) => {
         profilePicture: user.profilePicture,
         userType: user.userType,
         isOnline: user.isOnline,
+        educationalLevel: user.educationalLevel,
+        workAddress: user.workAddress,
+        occupation: user.occupation,
+        civilStatus: user.civilStatus,
       });
 
       user.isOnline = true;
@@ -97,6 +101,10 @@ const authUser = asyncHandler(async (req, res) => {
         education: user.education,
         company: user.company,
         isOnline: user.isOnline,
+        educationalLevel: user.educationalLevel,
+        workAddress: user.workAddress,
+        occupation: user.occupation,
+        civilStatus: user.civilStatus,
       });
 
       user.isOnline = true;
@@ -202,6 +210,10 @@ const addUser = asyncHandler(async (req, res) => {
       expertise,
       education,
       company,
+      educationalLevel,
+      workAddress,
+      occupation,
+      civilStatus,
     } = req.body;
 
     const userExists = await User.findOne({ email });
@@ -230,6 +242,10 @@ const addUser = asyncHandler(async (req, res) => {
       expertise,
       education,
       company,
+      educationalLevel,
+      workAddress,
+      occupation,
+      civilStatus,
     });
 
     if (user) {
@@ -254,6 +270,10 @@ const addUser = asyncHandler(async (req, res) => {
         expertise: user.expertise,
         education: user.education,
         company: user.company,
+        educationalLevel: user.educationalLevel,
+        workAddress: user.workAddress,
+        occupation: user.occupation,
+        civilStatus: user.civilStatus,
       });
     } else {
       res.status(400);
@@ -330,6 +350,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
     };
     res.status(200).json(user);
   }
+});
+
+const getUserDetails = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const user = await User.findById({ _id: userId });
+
+  res.status(200).send(user);
 });
 
 // @desc Get current user
@@ -475,4 +503,5 @@ export {
   getUserProfile,
   updateUserProfile,
   changeToOffline,
+  getUserDetails,
 };

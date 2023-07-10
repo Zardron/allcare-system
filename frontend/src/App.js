@@ -7,6 +7,7 @@ import AdminAddAdvisor from "./pages/admin/AddAdvisor";
 import AdminProfile from "./pages/admin/MyProfile";
 import AdminViewUsers from "./pages/admin/ViewUsers";
 import Complaints from "./pages/admin/AllComplaint";
+import UserDetails from "./pages/admin/UserDetails";
 
 // Advisor Components
 import AdvisorDashboard from "./pages/advisor/Dashboard";
@@ -59,6 +60,7 @@ function App() {
           <Route path="/admin/profile" element={<AdminProfile />} />
           <Route path="/admin/view-users" element={<AdminViewUsers />} />
           <Route path="/admin/complaints" element={<Complaints />} />
+          <Route path="/admin/user-details" element={<UserDetails />} />
         </Route>
 
         {/* Advisor Routes */}

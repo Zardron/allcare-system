@@ -10,8 +10,10 @@ import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
 import { useEffect, useMemo, useState } from "react";
 import { BsSearch } from "react-icons/bs";
+import { MdPersonSearch } from "react-icons/md";
 import axios from "axios";
 import TableHeader from "./TableHeader";
+import { useNavigate } from "react-router-dom";
 
 const headers = [
   { name: "Profile Picture", field: "profilePicture", sortable: false },
@@ -21,12 +23,23 @@ const headers = [
   { name: "Address", field: "address", sortable: false },
   { name: "User Type", field: "userType", sortable: true },
   { name: "Status", field: "isOnline", sortable: false },
+  { name: "Action", field: "action", sortable: false },
 ];
 
 const ViewUsers = () => {
   const [userList, setUserList] = useState([]);
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState({ field: "", order: "" });
+  const navigate = useNavigate();
+
+  setTimeout(() => {
+    axios
+      .get("http://localhost:8080/api/users")
+      .then((result) => {
+        setUserList(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, 3000);
 
   useEffect(() => {
     const getData = () => {
@@ -37,9 +50,7 @@ const ViewUsers = () => {
         })
         .catch((error) => console.log(error));
     };
-    setTimeout(() => {
-      getData();
-    }, 3000);
+    getData();
   }, []);
 
   const searchData = useMemo(() => {
@@ -67,6 +78,14 @@ const ViewUsers = () => {
 
     return newUserList;
   }, [userList, search, sorting]);
+
+  const handleViewUser = (id) => {
+    navigate("/admin/user-details", {
+      state: {
+        userId: id,
+      },
+    });
+  };
 
   return (
     <>
@@ -183,6 +202,16 @@ const ViewUsers = () => {
                               }
                               color={data.isOnline === true ? "green" : "red"}
                             />
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                            onClick={() => handleViewUser(data._id)}
+                          >
+                            <MdPersonSearch className="h-5 w-5 text-blue-600" />
                           </Typography>
                         </td>
                       </tr>
