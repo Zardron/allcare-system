@@ -226,12 +226,33 @@ const BookAppointment = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span className="font-bold">Civil Status</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.civilStatus}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span className="font-bold">Birth Date</span>{" "}
                             </td>
                             <td>
                               <Typography className="capitalize">
                                 <span className="mx-4"> :</span>{" "}
                                 {advisor.birthDate}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Age</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span> {advisor.age}
                               </Typography>
                             </td>
                           </tr>
@@ -259,12 +280,36 @@ const BookAppointment = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span className="font-bold">
+                                Educational Level
+                              </span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.educationalLevel}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span className="font-bold">Expertise</span>{" "}
                             </td>
                             <td>
                               <Typography className="capitalize">
                                 <span className="mx-4"> :</span>{" "}
                                 {advisor.expertise}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Occupation</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.occupation}
                               </Typography>
                             </td>
                           </tr>
@@ -279,7 +324,28 @@ const BookAppointment = () => {
                               </Typography>
                             </td>
                           </tr>
-
+                          <tr>
+                            <td>
+                              <span className="font-bold">Home Address</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.address}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Work Address</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.workAddress}
+                              </Typography>
+                            </td>
+                          </tr>
                           <tr>
                             <td>
                               <span className="font-bold">Rating</span>{" "}
@@ -291,18 +357,16 @@ const BookAppointment = () => {
                               </Typography>
                             </td>
                           </tr>
-
                           <tr>
-                            <td className=" flex flex-start items-start">
-                              <span className="font-bold">Review</span>{" "}
+                            <td>
+                              <span className="font-bold">Joined Date</span>{" "}
                             </td>
                             <td>
-                              <Typography className="flex items-start capitalize">
+                              <Typography className="capitalize">
                                 <span className="mx-4"> :</span>{" "}
-                                <Textarea
-                                  className="w-[20rem]"
-                                  value={"Review text here"}
-                                />
+                                <Moment format="MMMM DD, YYYY">
+                                  {advisor.createdAt}
+                                </Moment>
                               </Typography>
                             </td>
                           </tr>
@@ -408,8 +472,9 @@ const BookAppointment = () => {
                                 }
                               >
                                 <option selected>Select Availability</option>
-                                {details?.availabilityDetails?.map(
-                                  (data, key) => (
+                                {details?.availabilityDetails
+                                  ?.filter((item) => item.isAvailable === true)
+                                  .map((data, key) => (
                                     <option value={data._id}>
                                       <Moment format="MMMM DD, YYYY">
                                         {data.availabilityDate}
@@ -420,8 +485,7 @@ const BookAppointment = () => {
                                       {" - "}
                                       {data.availabilityType}
                                     </option>
-                                  )
-                                )}
+                                  ))}
                               </select>
                             </Typography>
                           </td>

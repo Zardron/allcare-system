@@ -5,7 +5,13 @@ import DashboardNavbar from "./DashboardNavbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import { Avatar, Button, Chip, Typography } from "@material-tailwind/react";
+import {
+  Avatar,
+  Button,
+  Chip,
+  Rating,
+  Typography,
+} from "@material-tailwind/react";
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -184,6 +190,17 @@ const AppointmentDetails = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span className="font-bold">Civil Status</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.civilStatus}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span className="font-bold">Birth Date</span>{" "}
                             </td>
                             <td>
@@ -195,12 +212,125 @@ const AppointmentDetails = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span className="font-bold">Age</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span> {advisor.age}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span className="font-bold">Contact #</span>{" "}
                             </td>
                             <td>
                               <Typography className="capitalize">
                                 <span className="mx-4"> :</span>{" "}
                                 {advisor.contactNumber}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Education</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.education}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">
+                                Educational Level
+                              </span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.educationalLevel}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Expertise</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.expertise}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Occupation</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.occupation}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Company</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.company}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Home Address</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.address}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Work Address</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {advisor.workAddress}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Rating</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="flex items-center capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                <Rating value={4} readonly />
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Joined Date</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                <Moment format="MMMM DD, YYYY">
+                                  {advisor.createdAt}
+                                </Moment>
                               </Typography>
                             </td>
                           </tr>

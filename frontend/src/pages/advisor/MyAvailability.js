@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Card, Chip, Typography } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Moment from "react-moment";
 
-const TABLE_HEAD = ["Date", "Time", "Action"];
+const TABLE_HEAD = ["Date", "Time", "Type", "Availability"];
 
 const MyAvailability = ({ data }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -140,6 +140,23 @@ const MyAvailability = ({ data }) => {
                               className="font-normal"
                             >
                               {data.availabilityType}
+                            </Typography>
+                          </td>
+                          <td className="p-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Chip
+                                size="sm"
+                                variant="ghost"
+                                className="text-center ml-2 w-24"
+                                value={
+                                  data.isAvailable ? "Available" : "Unavailable"
+                                }
+                                color={data.isAvailable ? "green" : "red"}
+                              />
                             </Typography>
                           </td>
                         </tr>

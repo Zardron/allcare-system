@@ -30,6 +30,10 @@ const MyProfile = () => {
   const [education, setEducation] = useState("");
   const [company, setCompany] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
+  const [civilStatus, setCivilStatus] = useState("");
+  const [educationalLevel, setEducationalLevel] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [workAddress, setWorkAddress] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -50,6 +54,10 @@ const MyProfile = () => {
     setExpertise(userInfo.expertise);
     setEducation(userInfo.education);
     setCompany(userInfo.company);
+    setCivilStatus(userInfo.civilStatus);
+    setEducationalLevel(userInfo.educationalLevel);
+    setOccupation(userInfo.occupation);
+    setWorkAddress(userInfo.workAddress);
   }, [userInfo]);
 
   return (
@@ -88,14 +96,6 @@ const MyProfile = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Age:
-                          </Typography>
-                          <Input label="Age" value={age} disabled />
-                        </div>
-                      </div>
-                      <div className="mb-6">
-                        <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
                             Birth Date:
                           </Typography>
                           <Input
@@ -109,12 +109,35 @@ const MyProfile = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Expertise:
+                            Civil Status:
                           </Typography>
-                          <Input value={expertise} disabled />
+                          <Input label="Age" value={civilStatus} disabled />
                         </div>
                       </div>
-
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Home Address:
+                          </Typography>
+                          <Input label="Age" value={address} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Educational Level:
+                          </Typography>
+                          <Input value={educationalLevel} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Occupation:
+                          </Typography>
+                          <Input value={occupation} disabled />
+                        </div>
+                      </div>
                       <div className="mb-6">
                         <div className="w-64">
                           <Button
@@ -143,7 +166,7 @@ const MyProfile = () => {
                           </Typography>
                           <Input
                             label="Middle Name"
-                            value={middleName}
+                            value={middleName === "" ? " " : middleName}
                             disabled
                           />
                         </div>
@@ -151,11 +174,27 @@ const MyProfile = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Contact #:
+                            Age:
+                          </Typography>
+                          <Input label="Age" value={age} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Gender:
+                          </Typography>
+                          <Input label="Gender" value={gender} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Work Address:
                           </Typography>
                           <Input
-                            label="Contact #"
-                            value={contactNumber}
+                            label="Work Address"
+                            value={workAddress}
                             disabled
                           />
                         </div>
@@ -163,17 +202,17 @@ const MyProfile = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Email:
+                            Expertise:
                           </Typography>
-                          <Input label="Email" value={email} disabled />
+                          <Input label="Expertise" value={expertise} disabled />
                         </div>
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Education:
+                            Password:
                           </Typography>
-                          <Input value={education} disabled />
+                          <Input value={" "} disabled />
                         </div>
                       </div>
                       <div className="mb-6">
@@ -207,17 +246,29 @@ const MyProfile = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Gender:
+                            Contact #:
                           </Typography>
-                          <Input label="Gender" value={gender} disabled />
+                          <Input
+                            label="Contact #"
+                            value={contactNumber}
+                            disabled
+                          />
                         </div>
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Address:
+                            Email:
                           </Typography>
-                          <Input label="Address" value={address} disabled />
+                          <Input label="Email" value={email} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Education:
+                          </Typography>
+                          <Input value={education} disabled />
                         </div>
                       </div>
                       <div className="mb-6">
@@ -226,6 +277,14 @@ const MyProfile = () => {
                             Company:
                           </Typography>
                           <Input value={company} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Confirm Password:
+                          </Typography>
+                          <Input value={" "} disabled />
                         </div>
                       </div>
                       <div className="mb-6">

@@ -32,14 +32,14 @@ const ViewUsers = () => {
   const [sorting, setSorting] = useState({ field: "", order: "" });
   const navigate = useNavigate();
 
-  setTimeout(() => {
-    axios
-      .get("http://localhost:8080/api/users")
-      .then((result) => {
-        setUserList(result.data);
-      })
-      .catch((error) => console.log(error));
-  }, 3000);
+  // setTimeout(() => {
+  //   axios
+  //     .get("http://localhost:8080/api/users")
+  //     .then((result) => {
+  //       setUserList(result.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, 3000);
 
   useEffect(() => {
     const getData = () => {

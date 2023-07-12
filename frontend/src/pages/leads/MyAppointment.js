@@ -1,4 +1,10 @@
-import { Button, Card, Chip, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Card,
+  Chip,
+  Typography,
+  rating,
+} from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
@@ -8,7 +14,13 @@ import { useSelector } from "react-redux";
 import { SlMagnifier } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 
-const TABLE_HEAD = ["Appointment #", "Status", "Ratings & Review", "Action"];
+const TABLE_HEAD = [
+  "Appointment #",
+  "Message",
+  "Status",
+  "Ratings & Review",
+  "Action",
+];
 
 const MyAppoitnment = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -35,10 +47,11 @@ const MyAppoitnment = () => {
     });
   };
 
-  const handleGiveFeedback = (id) => {
+  const handleGiveFeedback = (id, appointmentId) => {
     navigate("/leads/rating-and-review", {
       state: {
         id,
+        appointmentId,
       },
     });
   };
@@ -122,6 +135,15 @@ const MyAppoitnment = () => {
                           <Typography
                             variant="small"
                             color="blue-gray"
+                            className="font-normal uppercase"
+                          >
+                            {data.reason}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
                             className="font-normal"
                           >
                             <Chip
@@ -151,10 +173,14 @@ const MyAppoitnment = () => {
                             <Button
                               disabled={
                                 data.appointmentStatus === "Complete"
-                                  ? false
+                                  ? data.reason === "Done rating & review."
+                                    ? true
+                                    : false
                                   : true
                               }
-                              onClick={() => handleGiveFeedback(data.advisorId)}
+                              onClick={() =>
+                                handleGiveFeedback(data.advisorId, data._id)
+                              }
                             >
                               Give Feedback
                             </Button>

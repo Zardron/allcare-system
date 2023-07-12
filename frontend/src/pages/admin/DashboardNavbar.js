@@ -10,19 +10,19 @@ const DashboardNavbar = () => {
   // Check Notification
   const [notificationCount, setNotificationCount] = useState("");
 
-  setTimeout(() => {
-    axios
-      .post("http://localhost:8080/api/appointment/get-notification", {
-        userId: userInfo._id,
-      })
-      .then((result) => {
-        setNotificationCount(
-          result.data.filter(
-            (item) => item.isOpened === false && item.userId === "Admin"
-          ).length
-        );
-      });
-  }, 3000);
+  // setTimeout(() => {
+  //   axios
+  //     .post("http://localhost:8080/api/appointment/get-notification", {
+  //       userId: userInfo._id,
+  //     })
+  //     .then((result) => {
+  //       setNotificationCount(
+  //         result.data.filter(
+  //           (item) => item.isOpened === false && item.userId === "Admin"
+  //         ).length
+  //       );
+  //     });
+  // }, 3000);
 
   return (
     <header className="header bg-white shadow py-4 px-4">

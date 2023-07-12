@@ -122,13 +122,18 @@ const ViewAdvisorDetails = () => {
                     <div className="mb-6">
                       <div className="">
                         <Button
+                          disabled={
+                            location?.state?.user?.facebook === ""
+                              ? true
+                              : false
+                          }
                           size="md"
                           variant="outlined"
                           color="blue-gray"
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${location?.state?.user?.facebook}`,
+                              `${location?.state?.user?.facebook}`,
                               "_blank"
                             );
                           }}
@@ -140,13 +145,18 @@ const ViewAdvisorDetails = () => {
                     <div className="mb-6">
                       <div className="">
                         <Button
+                          disabled={
+                            location?.state?.user?.instagram === ""
+                              ? true
+                              : false
+                          }
                           size="md"
                           variant="outlined"
                           color="blue-gray"
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${location?.state?.user?.instagram}`,
+                              `${location?.state?.user?.instagram}`,
                               "_blank"
                             );
                           }}
@@ -158,13 +168,18 @@ const ViewAdvisorDetails = () => {
                     <div className="mb-6">
                       <div className="">
                         <Button
+                          disabled={
+                            location?.state?.user?.linkedIn === ""
+                              ? true
+                              : false
+                          }
                           size="md"
                           variant="outlined"
                           color="blue-gray"
                           className="flex items-center gap-3"
                           onClick={(e) => {
                             window.open(
-                              `https://www.${location?.state?.user?.linkedIn}`,
+                              `${location?.state?.user?.linkedIn}`,
                               "_blank"
                             );
                           }}
@@ -213,12 +228,34 @@ const ViewAdvisorDetails = () => {
                     </tr>
                     <tr>
                       <td>
+                        <span className="font-bold">Civil Status</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.civilStatus}
+                        </Typography>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         <span className="font-bold">Birth Date</span>{" "}
                       </td>
                       <td>
                         <Typography className="capitalize">
                           <span className="mx-4"> :</span>{" "}
                           {location?.state?.user?.birthDate}
+                        </Typography>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="font-bold">Age</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.age}
                         </Typography>
                       </td>
                     </tr>
@@ -246,12 +283,34 @@ const ViewAdvisorDetails = () => {
                     </tr>
                     <tr>
                       <td>
+                        <span className="font-bold">Educational Level</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.educationalLevel}
+                        </Typography>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
                         <span className="font-bold">Expertise</span>{" "}
                       </td>
                       <td>
                         <Typography className="capitalize">
                           <span className="mx-4"> :</span>{" "}
                           {location?.state?.user?.expertise}
+                        </Typography>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="font-bold">Occupation</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.occupation}
                         </Typography>
                       </td>
                     </tr>
@@ -268,14 +327,23 @@ const ViewAdvisorDetails = () => {
                     </tr>
                     <tr>
                       <td>
-                        <span className="font-bold">Joined Date</span>{" "}
+                        <span className="font-bold">Home Address</span>{" "}
                       </td>
                       <td>
                         <Typography className="capitalize">
                           <span className="mx-4"> :</span>{" "}
-                          <Moment format="MMMM DD, YYYY">
-                            {location?.state?.user?.createdAt}
-                          </Moment>
+                          {location?.state?.user?.address}
+                        </Typography>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className="font-bold">Work Address</span>{" "}
+                      </td>
+                      <td>
+                        <Typography className="capitalize">
+                          <span className="mx-4"> :</span>{" "}
+                          {location?.state?.user?.workAddress}
                         </Typography>
                       </td>
                     </tr>
@@ -290,18 +358,16 @@ const ViewAdvisorDetails = () => {
                         </Typography>
                       </td>
                     </tr>
-
                     <tr>
-                      <td className=" flex flex-start items-start">
-                        <span className="font-bold">Review</span>{" "}
+                      <td>
+                        <span className="font-bold">Joined Date</span>{" "}
                       </td>
                       <td>
-                        <Typography className="flex items-start capitalize">
+                        <Typography className="capitalize">
                           <span className="mx-4"> :</span>{" "}
-                          <Textarea
-                            className="w-[20rem]"
-                            value={"Review text here"}
-                          />
+                          <Moment format="MMMM DD, YYYY">
+                            {location?.state?.user?.createdAt}
+                          </Moment>
                         </Typography>
                       </td>
                     </tr>

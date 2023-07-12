@@ -170,13 +170,26 @@ const appointmentDetails = asyncHandler(async (req, res) => {
 });
 
 const changeAppointmentStatus = asyncHandler(async (req, res) => {
-  const { appointmentId, appointmentStatus } = req.body;
+  const { appointmentId, appointmentStatus, reason } = req.body;
 
   const appointmentDetails = await Appointment.findById({ _id: appointmentId });
 
-  appointmentDetails.appointmentStatus = appointmentStatus;
+  if (appointmentStatus === "Complete") {
+    appointmentDetails.appointmentStatus = appointmentStatus;
+    appointmentDetails.reason = "Please give rating & review about my service.";
+  } else {
+    appointmentDetails.appointmentStatus = appointmentStatus;
+    appointmentDetails.reason = reason;
+  }
+
+  const availabilityDetails = await Availability.findById({
+    _id: appointmentDetails.availabilityId,
+  });
+
+  availabilityDetails.isAvailable = false;
 
   const updatedDetails = await appointmentDetails.save();
+  await availabilityDetails.save();
 
   switch (appointmentStatus) {
     case "Approve":

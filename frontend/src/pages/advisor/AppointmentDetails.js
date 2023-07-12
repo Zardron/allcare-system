@@ -25,6 +25,7 @@ const AppointmentDetails = () => {
   const [leadsId, setLeadsId] = useState("");
   const [details, setDetails] = useState([]);
   const [appointmentStatus, setAppointmentStatus] = useState([]);
+  const [reason, setReason] = useState([]);
 
   useEffect(() => {
     axios
@@ -32,6 +33,7 @@ const AppointmentDetails = () => {
         appointmentId: appointmentId,
       })
       .then((result) => {
+        setReason(result?.data.map((item) => item.reason));
         setAppointmentStatus(
           result?.data.map((item) => item.appointmentStatus)
         );
@@ -359,6 +361,19 @@ const AppointmentDetails = () => {
                                       }
                                     />
                                   </Typography>
+                                </td>
+                              </tr>
+                              <tr className="flex flex-row">
+                                <td className="w-28">
+                                  <span className="font-bold">
+                                    {appointmentStatus === "Approved"
+                                      ? "Message"
+                                      : "Reason"}
+                                  </span>{" "}
+                                </td>
+                                <td className="flex flex-row ">
+                                  <span className="mx-4"> :</span>{" "}
+                                  <Typography>{reason}</Typography>
                                 </td>
                               </tr>
                             </>

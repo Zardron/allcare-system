@@ -1,5 +1,5 @@
 import { useGetAdvisorUsersQuery } from "../../slices/usersApiSlice";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DashboardFooter from "./DashboardFooter";
 import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,10 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 import { Rating, Textarea, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { AiFillStar } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const RatingAndReview = () => {
+  const { userInfo } = useSelector((state) => state.auth);
   const location = useLocation();
   const [userId] = useState(location?.state?.id);
+  const navigate = useNavigate();
 
   const { user } = useGetAdvisorUsersQuery("usersList", {
     selectFromResult: ({ data }) => ({
@@ -24,12 +27,32 @@ const RatingAndReview = () => {
   const [rating, setRating] = useState("");
   const [review, setReview] = useState("");
 
-  console.log("====================================");
-  console.log(userId);
-  console.log("====================================");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!rating && !review) {
+      toast.error("Rating and review are required!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else {
+      await axios.post("http://localhost:8080/api/rating", {
+        advisorId: user._id,
+        advisorName: user.firstName + " " + user.lastName,
+        rating: rating,
+        review: review,
+        leadsId: userInfo._id,
+        leadsName: userInfo.firstName + " " + userInfo.lastName,
+        appointmentId: location?.state?.appointmentId,
+      });
+      navigate("/leads/my-appointment");
+    }
   };
 
   return (

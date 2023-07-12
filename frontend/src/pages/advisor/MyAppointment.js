@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Textarea,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -23,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
+import { MdEditNote } from "react-icons/md";
 
 const TABLE_HEAD = ["Appointmend #", "Submiited Date", "Status", "Action"];
 
@@ -38,6 +40,7 @@ const MyAppointment = () => {
   const [selectedReject, setSelectedReject] = useState(false);
   const [selectedResched, setSelectedResched] = useState(false);
   const [appointmentId, setAppointmentId] = useState(false);
+  const [reason, setReason] = useState("");
   const [showRescheduleOption, setShowRescheduleOption] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -123,31 +126,20 @@ const MyAppointment = () => {
 
   // Change Status to Approve, Reject & Reject
   const handleSave = () => {
-    axios
-      .put("http://localhost:8080/api/appointment/change-status", {
-        appointmentId: appointmentId,
-        appointmentStatus: appointmentStatus,
-      })
-      .then((result) => {
-        refreshData();
-        setSelectedApprove(false);
-        setSelectedReject(false);
-        setSelectedResched(false);
-        if (result.status === 200) {
-          toast.success("Appointment status successfully changed", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
-        }
-      })
-      .catch((error) => {
-        toast.error(error.response.data.message, {
+    if (reason === "") {
+      toast.error("Message is required!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else {
+      if (!appointmentStatus) {
+        toast.error("Please select a status", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -157,7 +149,45 @@ const MyAppointment = () => {
           progress: undefined,
           theme: "colored",
         });
-      });
+      } else {
+        axios
+          .put("http://localhost:8080/api/appointment/change-status", {
+            appointmentId: appointmentId,
+            appointmentStatus: appointmentStatus,
+            reason: reason,
+          })
+          .then((result) => {
+            refreshData();
+            setSelectedApprove(false);
+            setSelectedReject(false);
+            setSelectedResched(false);
+            if (result.status === 200) {
+              toast.success("Appointment status successfully changed", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+              });
+            }
+          })
+          .catch((error) => {
+            toast.error(error.response.data.message, {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
+          });
+      }
+    }
   };
 
   // Change time format to 12 hours with AM/PM
@@ -180,6 +210,7 @@ const MyAppointment = () => {
         setSelectedApprove(false);
         setSelectedReject(false);
         setSelectedResched(false);
+        setOpen(false);
         if (result.status === 200) {
           toast.success("Appointment status successfully changed", {
             position: "top-right",
@@ -338,7 +369,7 @@ const MyAppointment = () => {
                                       : false
                                   }
                                 >
-                                  Edit Status
+                                  <MdEditNote className="w-5 h-5" />
                                 </Button>
                               </PopoverHandler>
                               <PopoverContent className=" flex flex-col gap-4">
@@ -408,6 +439,17 @@ const MyAppointment = () => {
                                   </Typography>
                                 </div>
                                 <hr />
+                                <tr className="flex flex-col">
+                                  <td>
+                                    <Textarea
+                                      label="Message"
+                                      value={reason}
+                                      onChange={(e) =>
+                                        setReason(e.target.value)
+                                      }
+                                    />
+                                  </td>
+                                </tr>
                                 {showRescheduleOption ? (
                                   <div>
                                     <tr className="flex flex-col">

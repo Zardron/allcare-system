@@ -6,7 +6,6 @@ import generateToken from "../util/generateToken.js";
 // @route POST /api/users
 const getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
-
   if (users) {
     res.status(200).send(users);
   } else {
@@ -460,6 +459,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.education = req.body.education || user.education;
     user.company = req.body.company || user.company;
     user.credentials = req.body.credentials || user.credentials;
+    user.civilStatus = req.body.civilStatus || user.civilStatus;
+    user.educationalLevel = req.body.educationalLevel || user.educationalLevel;
+    user.occupation = req.body.occupation || user.occupation;
+    user.workAddress = req.body.workAddress || user.workAddress;
 
     if (req.body.password) {
       user.password = req.body.password;
@@ -486,6 +489,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       education: updatedUser.education,
       company: updatedUser.company,
       credentials: updatedUser.credentials,
+      civilStatus: updatedUser.civilStatus,
+      educationalLevel: updatedUser.educationalLevel,
+      occupation: updatedUser.occupation,
+      workAddress: updatedUser.workAddress,
     });
   } else {
     res.status(404);
