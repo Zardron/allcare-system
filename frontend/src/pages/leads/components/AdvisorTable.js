@@ -1,4 +1,4 @@
-import { Avatar, Typography } from "@material-tailwind/react";
+import { Avatar, Rating, Typography } from "@material-tailwind/react";
 import React from "react";
 import { useGetAdvisorUsersQuery } from "../../../slices/usersApiSlice";
 import { useNavigate } from "react-router-dom";
@@ -49,6 +49,11 @@ const AdvisorTable = ({ userId }) => {
         <td className="p-4">
           <Typography variant="small" color="blue-gray" className="font-normal">
             {user.company}
+          </Typography>
+        </td>
+        <td className="p-4">
+          <Typography variant="small" color="blue-gray" className="font-normal">
+            <Rating value={user.rating} readonly />
           </Typography>
         </td>
         <td className="p-4">

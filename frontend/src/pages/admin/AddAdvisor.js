@@ -705,7 +705,7 @@ const AddAdvisor = () => {
                         >
                           <div className="w-64">
                             <Input
-                              label="Education"
+                              label="Course"
                               value={education}
                               onChange={(e) => setEducation(e.target.value)}
                             />

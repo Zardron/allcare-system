@@ -354,7 +354,10 @@ const ViewAdvisorDetails = () => {
                       <td>
                         <Typography className="flex items-center capitalize">
                           <span className="mx-4"> :</span>{" "}
-                          <Rating value={4} readonly />
+                          <Rating
+                            value={location?.state?.user?.rating}
+                            readonly
+                          />
                         </Typography>
                       </td>
                     </tr>
@@ -423,7 +426,7 @@ const ViewAdvisorDetails = () => {
                                   {data.productName}
                                 </Typography>
                               </td>
-                              <td className="p-4 max-w-xs">
+                              <td className="p-4 w-64">
                                 <Typography
                                   variant="small"
                                   color="blue-gray"

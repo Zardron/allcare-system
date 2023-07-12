@@ -11,6 +11,7 @@ const TABLE_HEAD = [
   "Education",
   "Expertise",
   "Company",
+  "Rating",
   "Action",
 ];
 

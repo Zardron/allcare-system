@@ -1,40 +1,25 @@
 import { Card, Rating, Textarea, Typography } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const TABLE_HEAD = ["Name", "Rating", "Review"];
 
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    review: "Maayo nga Financial Advisor",
-    rate: 5,
-  },
-  {
-    name: "Alexa Liras",
-    review: "Dili kahibaw mo unsaon pag explain sa product",
-    rate: 3,
-  },
-  {
-    name: "Laurent Perrier",
-    review: "Ok ra siya",
-    rate: 4,
-  },
-  {
-    name: "Michael Levi",
-    review: "Bulay.og di kahibaw",
-    rate: 2,
-  },
-  {
-    name: "Richard Gran",
-    review: "Kamao raman siya",
-    rate: 4,
-  },
-];
-
 export default function AdvisorRatingList() {
+  const [ratingList, setRatingList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/rating/")
+      .then((result) => {
+        setRatingList(result?.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
       <SideMenu />
@@ -62,7 +47,7 @@ export default function AdvisorRatingList() {
                 </tr>
               </thead>
               <tbody className="p-10">
-                {TABLE_ROWS.map((data, key) => (
+                {ratingList?.map((data, key) => (
                   <>
                     <tr key={key} className="even:bg-blue-gray-50/50">
                       <td className="p-4">
@@ -71,11 +56,11 @@ export default function AdvisorRatingList() {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {data.name}
+                          {data.advisorName}
                         </Typography>
                       </td>
                       <td className="p-4">
-                        <Rating value={data.rate} readonly />
+                        <Rating value={parseInt(data.rating)} readonly />
                       </td>
                       <td className="p-4">
                         <Textarea value={data.review} />

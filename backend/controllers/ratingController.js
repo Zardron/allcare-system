@@ -3,6 +3,12 @@ import Rating from "../model/ratingAndReviewModel.js";
 import Appointment from "../model/appointmentModel.js";
 import User from "../model/userModel.js";
 
+const getRatings = asyncHandler(async (req, res) => {
+  const ratingList = await Rating.find();
+
+  res.status(200).send(ratingList);
+});
+
 const addRating = asyncHandler(async (req, res) => {
   const {
     advisorId,
@@ -16,7 +22,7 @@ const addRating = asyncHandler(async (req, res) => {
 
   const appointmentDetails = await Appointment.findById({ _id: appointmentId });
 
-  appointmentDetails.reason = "Done rating & review.";
+  appointmentDetails.reason = "Thank you for your feedback";
 
   const advisorDetails = await User.findById({ _id: advisorId });
 
@@ -40,4 +46,4 @@ const addRating = asyncHandler(async (req, res) => {
   }
 });
 
-export { addRating };
+export { addRating, getRatings };

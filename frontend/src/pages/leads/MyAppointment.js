@@ -173,7 +173,8 @@ const MyAppoitnment = () => {
                             <Button
                               disabled={
                                 data.appointmentStatus === "Complete"
-                                  ? data.reason === "Done rating & review."
+                                  ? data.reason ===
+                                    "Thank you for your feedback"
                                     ? true
                                     : false
                                   : true

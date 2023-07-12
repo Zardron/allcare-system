@@ -5,7 +5,7 @@ const ratingSchema = mongoose.Schema(
     leadsId: {
       type: String,
     },
-    LeadsName: {
+    leadsName: {
       type: String,
     },
     rating: {

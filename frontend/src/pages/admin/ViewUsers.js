@@ -169,7 +169,7 @@ const ViewUsers = () => {
                             {data.email}
                           </Typography>
                         </td>
-                        <td className="p-4">
+                        <td className="p-4 w-36">
                           <Typography
                             variant="small"
                             color="blue-gray"

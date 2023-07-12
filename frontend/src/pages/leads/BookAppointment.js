@@ -353,7 +353,7 @@ const BookAppointment = () => {
                             <td>
                               <Typography className="flex items-center capitalize">
                                 <span className="mx-4"> :</span>{" "}
-                                <Rating value={4} readonly />
+                                <Rating value={advisor.rating} readonly />
                               </Typography>
                             </td>
                           </tr>

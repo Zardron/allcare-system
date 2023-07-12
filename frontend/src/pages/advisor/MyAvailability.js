@@ -153,7 +153,7 @@ const MyAvailability = ({ data }) => {
                                 variant="ghost"
                                 className="text-center ml-2 w-24"
                                 value={
-                                  data.isAvailable ? "Available" : "Unavailable"
+                                  data.isAvailable ? "Available" : "Booked"
                                 }
                                 color={data.isAvailable ? "green" : "red"}
                               />

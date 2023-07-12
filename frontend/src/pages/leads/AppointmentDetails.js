@@ -31,6 +31,7 @@ const AppointmentDetails = () => {
   const [leadsId, setLeadsId] = useState("");
   const [details, setDetails] = useState([]);
   const [appointmentStatus, setAppointmentStatus] = useState([]);
+  const [reason, setReason] = useState([]);
 
   useEffect(() => {
     axios
@@ -41,6 +42,7 @@ const AppointmentDetails = () => {
         setAppointmentStatus(
           result?.data.map((item) => item.appointmentStatus)
         );
+        setReason(result?.data.map((item) => item.reason));
         setAvailabilityId(result?.data?.map((item) => item.availabilityId));
         setAdvisorId(result?.data?.map((item) => item.advisorId));
         setProductId(result?.data?.map((item) => item.productId));
@@ -317,7 +319,7 @@ const AppointmentDetails = () => {
                             <td>
                               <Typography className="flex items-center capitalize">
                                 <span className="mx-4"> :</span>{" "}
-                                <Rating value={4} readonly />
+                                <Rating value={advisor.rating} readonly />
                               </Typography>
                             </td>
                           </tr>
@@ -487,6 +489,17 @@ const AppointmentDetails = () => {
                                           : "green"
                                       }
                                     />
+                                  </Typography>
+                                </td>
+                              </tr>
+                              <tr className="flex flex-row">
+                                <td className="w-28">
+                                  <span className="font-bold">Reason:</span>{" "}
+                                </td>
+                                <td className="flex flex-row w-52">
+                                  <span className="mx-4"> :</span>{" "}
+                                  <Typography className="flex flex-row items-center">
+                                    {reason}
                                   </Typography>
                                 </td>
                               </tr>
