@@ -5,6 +5,7 @@ import {
   getUserCredentials,
 } from "../controllers/credentialsController.js";
 
-router.route("/").get(getUserCredentials).post(addCredentials);
+router.post("/add-credentials", addCredentials);
+router.post("/", getUserCredentials);
 
 export default router;

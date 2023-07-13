@@ -176,7 +176,8 @@ const changeAppointmentStatus = asyncHandler(async (req, res) => {
 
   if (appointmentStatus === "Complete") {
     appointmentDetails.appointmentStatus = appointmentStatus;
-    appointmentDetails.reason = "Please give rating & review about my service.";
+    appointmentDetails.reason =
+      "I would love to hear your feedback on my service.";
   } else {
     appointmentDetails.appointmentStatus = appointmentStatus;
     appointmentDetails.reason = reason;

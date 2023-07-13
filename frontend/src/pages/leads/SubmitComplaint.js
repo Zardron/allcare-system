@@ -156,7 +156,8 @@ const SubmitComplaint = () => {
                                 .filter(
                                   (item) =>
                                     item._id !== userInfo._id &&
-                                    item.userType !== "Admin"
+                                    item.userType !== "Admin" &&
+                                    item.userType !== "Leads"
                                 )
                                 .map((data, key) => (
                                   <Option

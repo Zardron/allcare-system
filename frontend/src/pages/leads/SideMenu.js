@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,19 +33,19 @@ const SideMenu = () => {
   };
 
   // Check Notification
-  const [notificationCount, setNotificationCount] = useState("");
+  // const [notificationCount, setNotificationCount] = useState("");
 
-  setTimeout(() => {
-    axios
-      .post("http://localhost:8080/api/appointment/get-notification", {
-        userId: userInfo._id,
-      })
-      .then((result) => {
-        setNotificationCount(
-          result.data.filter((item) => item.isOpened === false).length
-        );
-      });
-  }, 3000);
+  // setTimeout(() => {
+  //   axios
+  //     .post("http://localhost:8080/api/appointment/get-notification", {
+  //       userId: userInfo._id,
+  //     })
+  //     .then((result) => {
+  //       setNotificationCount(
+  //         result.data.filter((item) => item.isOpened === false).length
+  //       );
+  //     });
+  // }, 3000);
   return (
     <>
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-white">
@@ -192,7 +192,7 @@ const SideMenu = () => {
                 </Link>
               </Link>
             </li>
-            <li className="my-px">
+            {/* <li className="my-px">
               <Link
                 to="/leads/notification"
                 className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
@@ -219,7 +219,7 @@ const SideMenu = () => {
                   </span>
                 )}
               </Link>
-            </li>
+            </li> */}
 
             <li className="my-px">
               <Link

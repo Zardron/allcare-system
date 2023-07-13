@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Chip,
-  Typography,
-  rating,
-} from "@material-tailwind/react";
+import { Button, Card, Chip, Typography } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";

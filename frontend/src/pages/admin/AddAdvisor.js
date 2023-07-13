@@ -249,7 +249,7 @@ const AddAdvisor = () => {
                     <img
                       className="h-56 w-56 border-2 rounded-full"
                       src={profilePicture}
-                      alt="nature image"
+                      alt="nature_image"
                     />
                     <h1 class="font-bold text-sm text-red-600">
                       Note: This default profile picture will be used if you

@@ -30,7 +30,7 @@ const addCredentials = asyncHandler(async (req, res) => {
 const getUserCredentials = asyncHandler(async (req, res) => {
   const { userId } = req.body;
 
-  const userCredentials = await Credentials.find(userId);
+  const userCredentials = await Credentials.find({ userId: userId });
 
   res.send(userCredentials);
 });

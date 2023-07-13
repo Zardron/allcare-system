@@ -2,7 +2,6 @@ import {
   Button,
   Chip,
   Rating,
-  Textarea,
   Typography,
   Card,
   Avatar,

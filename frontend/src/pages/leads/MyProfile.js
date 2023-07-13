@@ -2,24 +2,17 @@ import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import SideMenu from "./SideMenu";
 import DashboardNavbar from "./DashboardNavbar";
-import { useAddUserMutation } from "../../slices/usersApiSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import {
-  Avatar,
-  Button,
-  Input,
-  Option,
-  Select,
-  Typography,
-} from "@material-tailwind/react";
+import { Button, Input, Typography } from "@material-tailwind/react";
 import {
   AiFillFacebook,
   AiFillInstagram,
   AiFillLinkedin,
 } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const MyProfile = () => {
   const [firstName, setFirstName] = useState("");
@@ -35,6 +28,11 @@ const MyProfile = () => {
   const [instagram, setInstagram] = useState("");
   const [linkedIn, setLinkedIn] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
+  const [educationalLevel, setEducationalLevel] = useState("");
+  const [civilStatus, setCivilStatus] = useState("");
+  const [workAddress, setWorkAddress] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [education, setEducation] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -52,6 +50,11 @@ const MyProfile = () => {
     setFacebook(userInfo.facebook);
     setInstagram(userInfo.instagram);
     setLinkedIn(userInfo.linkedIn);
+    setEducationalLevel(userInfo.educationalLevel);
+    setCivilStatus(userInfo.educationalLevel);
+    setWorkAddress(userInfo.workAddress);
+    setOccupation(userInfo.occupation);
+    setEducation(userInfo.education);
   }, [userInfo]);
 
   return (
@@ -66,11 +69,10 @@ const MyProfile = () => {
               <div className="px-6 h-full text-gray-800">
                 <form className="bg-white p-10 shadow-2xl">
                   <div className="flex flex-col gap-2 items-center justify-center mb-6">
-                    <Avatar
-                      size="xxl"
-                      alt="avatar"
+                    <img
+                      className="h-56 w-56 border-2 rounded-full"
                       src={profilePicture}
-                      className="mb-4 ring-4 ring-blue-500/30 border border-blue-500 shadow-xl shadow-blue-900/20"
+                      alt="nature_image"
                     />
                   </div>
                   <div className="flex flex-row items-center justify-center gap-5">
@@ -91,14 +93,6 @@ const MyProfile = () => {
                       <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Age:
-                          </Typography>
-                          <Input label="Age" value={age} disabled />
-                        </div>
-                      </div>
-                      <div className="mb-6">
-                        <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
                             Birth Date:
                           </Typography>
                           <Input
@@ -111,13 +105,39 @@ const MyProfile = () => {
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Civil Status:
+                          </Typography>
+                          <Input label="Age" value={civilStatus} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Home Address:
+                          </Typography>
+                          <Input label="Age" value={address} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Educational Level:
+                          </Typography>
+                          <Input value={educationalLevel} disabled />
+                        </div>
+                      </div>
+
+                      <div className="mb-6">
+                        <div className="w-64">
                           <Button
+                            disabled={facebook ? false : true}
                             size="md"
                             variant="outlined"
                             color="blue-gray"
                             className="flex items-center gap-3 w-full"
                             onClick={(e) => {
-                              window.open(`https://www.${facebook}`, "_blank");
+                              window.open(`${facebook}`, "_blank");
                             }}
                           >
                             <AiFillFacebook className="h-5 w-5 text-[#3b5998]" />
@@ -136,9 +156,73 @@ const MyProfile = () => {
                           </Typography>
                           <Input
                             label="Middle Name"
-                            value={middleName}
+                            value={middleName === "" ? " " : middleName}
                             disabled
                           />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Age:
+                          </Typography>
+                          <Input label="Age" value={age} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Gender:
+                          </Typography>
+                          <Input label="Gender" value={gender} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Work Address:
+                          </Typography>
+                          <Input
+                            label="Work Address"
+                            value={workAddress}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Occupation:
+                          </Typography>
+                          <Input value={occupation} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Button
+                            disabled={instagram ? false : true}
+                            size="md"
+                            variant="outlined"
+                            color="blue-gray"
+                            className="flex items-center gap-3 w-full"
+                            onClick={(e) => {
+                              window.open(`${instagram}`, "_blank");
+                            }}
+                          >
+                            <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
+                            Instagram Profile
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    {/* 3rd Column */}
+                    <div className="flex flex-col items-center">
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Last Name:
+                          </Typography>
+                          <Input label="Last Name" value={lastName} disabled />
                         </div>
                       </div>
                       <div className="mb-6">
@@ -161,58 +245,32 @@ const MyProfile = () => {
                           <Input label="Email" value={email} disabled />
                         </div>
                       </div>
-                      <div className="mb-6">
-                        <div className="w-64">
-                          <Button
-                            size="md"
-                            variant="outlined"
-                            color="blue-gray"
-                            className="flex items-center gap-3 w-full"
-                            onClick={(e) => {
-                              window.open(`https://www.${instagram}`, "_blank");
-                            }}
-                          >
-                            <AiFillInstagram className="h-5 w-5 text-[#E4405F]" />
-                            Instagram Profile
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    {/* 3rd Column */}
-                    <div className="flex flex-col items-center">
-                      <div className="mb-6">
+                      <div className="mb-11">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Last Name:
+                            Course:
                           </Typography>
-                          <Input label="Last Name" value={lastName} disabled />
+                          <Input label="Education" value={education} disabled />
                         </div>
                       </div>
-                      <div className="mb-6">
-                        <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Gender:
+                      <div className="mb-6 ">
+                        <div className="w-64 ">
+                          <Typography className="text-blue-gray-400 font-400 text-sm hidden">
+                            Confirm Password:
                           </Typography>
-                          <Input label="Gender" value={gender} disabled />
-                        </div>
-                      </div>
-                      <div className="mb-6">
-                        <div className="w-64">
-                          <Typography className="text-blue-gray-400 font-400 text-sm">
-                            Address:
-                          </Typography>
-                          <Input label="Address" value={address} disabled />
+                          <Input value={" "} className="hidden" disabled />
                         </div>
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
                           <Button
+                            disabled={linkedIn ? false : true}
                             size="md"
                             variant="outlined"
                             color="blue-gray"
                             className="flex items-center gap-3 w-full"
                             onClick={(e) => {
-                              window.open(`https://www.${linkedIn}`, "_blank");
+                              window.open(`${linkedIn}`, "_blank");
                             }}
                           >
                             <AiFillLinkedin className="h-5 w-5 text-[#0072b1]" />
@@ -224,12 +282,12 @@ const MyProfile = () => {
                   </div>
 
                   <div className="text-center lg:text-center">
-                    <button
-                      type="submit"
+                    <Link
+                      to="/leads/update-profile"
                       className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                     >
                       Update Profile
-                    </button>
+                    </Link>
                   </div>
                 </form>
               </div>

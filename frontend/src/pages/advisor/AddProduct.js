@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import SideMenu from "./SideMenu";
 import DashboardNavbar from "./DashboardNavbar";

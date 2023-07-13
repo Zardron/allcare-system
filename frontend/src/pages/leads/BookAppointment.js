@@ -5,13 +5,7 @@ import DashboardNavbar from "./DashboardNavbar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import {
-  Avatar,
-  Button,
-  Rating,
-  Textarea,
-  Typography,
-} from "@material-tailwind/react";
+import { Avatar, Button, Rating, Typography } from "@material-tailwind/react";
 import {
   AiFillFacebook,
   AiFillInstagram,

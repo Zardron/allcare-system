@@ -139,6 +139,7 @@ const ViewUsers = () => {
                             <img
                               src={data.profilePicture}
                               className="h-10 w-10 rounded-full"
+                              alt="as"
                             />
                           </Typography>
                         </td>

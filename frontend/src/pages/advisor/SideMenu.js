@@ -196,7 +196,7 @@ const SideMenu = () => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:8080/api/credentials", {
+      .post("http://localhost:8080/api/credentials/add-credentials", {
         userId: userInfo._id,
         credentials,
       })

@@ -2,16 +2,10 @@ import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import SideMenu from "./SideMenu";
 import DashboardNavbar from "./DashboardNavbar";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashboardFooter from "./DashboardFooter";
-import {
-  Badge,
-  Input,
-  Option,
-  Select,
-  Typography,
-} from "@material-tailwind/react";
+import { Input, Option, Select, Typography } from "@material-tailwind/react";
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -22,7 +16,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setCredentials } from "../../slices/authSlice";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { FaStarOfLife } from "react-icons/fa";
 
 const UpdateProfile = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -177,7 +170,7 @@ const UpdateProfile = () => {
                     <img
                       className="h-56 w-56 border-2 rounded-full"
                       src={profilePicture}
-                      alt="nature image"
+                      alt="nature_image"
                     />
                     <h1 class="font-bold text-sm text-red-600">
                       Note: This default profile picture will be used if you

@@ -75,7 +75,7 @@ const MyProfile = () => {
                     <img
                       className="h-56 w-56 border-2 rounded-full"
                       src={profilePicture}
-                      alt="nature image"
+                      alt="nature_image"
                     />
                   </div>
                   <div className="flex flex-row items-center justify-center gap-5">
