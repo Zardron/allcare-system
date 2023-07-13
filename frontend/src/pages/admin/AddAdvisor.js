@@ -20,6 +20,7 @@ import {
 } from "react-icons/ai";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { FaStarOfLife } from "react-icons/fa";
+import emailjs from "emailjs-com";
 
 const AddAdvisor = () => {
   const [firstName, setFirstName] = useState("");
@@ -196,6 +197,23 @@ const AddAdvisor = () => {
             theme: "colored",
           });
 
+          emailjs
+            .sendForm(
+              "service_szz39al",
+              "template_wi0o7li",
+              e.target,
+              "Ui5JNRcO168IYM_bi"
+            )
+            .then(
+              (result) => {
+                console.log(result.text);
+              },
+              (error) => {
+                console.log(error.text);
+              }
+            );
+          e.target.reset();
+
           clearFields();
         }
       } catch (err) {
@@ -289,6 +307,7 @@ const AddAdvisor = () => {
                           <div className="w-64">
                             <Input
                               label="First Name"
+                              name="firstName"
                               value={firstName}
                               onChange={(e) => setFirstName(e.target.value)}
                             />
@@ -646,6 +665,7 @@ const AddAdvisor = () => {
                           <div className="w-64">
                             <Input
                               label="Last Name"
+                              name="lastName"
                               value={lastName}
                               onChange={(e) => setLastName(e.target.value)}
                             />
@@ -686,6 +706,7 @@ const AddAdvisor = () => {
                           <div className="w-64">
                             <Input
                               label="Email"
+                              name="email"
                               value={email}
                               onChange={(e) => setEmail(e.target.value)}
                             />
