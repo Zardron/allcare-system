@@ -90,4 +90,22 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getAllProduct, addProduct, getProductByAdvisor, updateProduct };
+const deleteProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.body;
+
+  const product = await Product.findById({ _id: productId });
+
+  const confirmDelete = await product.deleteOne();
+
+  if (confirmDelete) {
+    res.status(200).send({ message: "Product has been deleted successfully" });
+  }
+});
+
+export {
+  getAllProduct,
+  addProduct,
+  getProductByAdvisor,
+  updateProduct,
+  deleteProduct,
+};

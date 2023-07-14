@@ -2,11 +2,10 @@ import {
   Avatar,
   Button,
   Card,
-  Carousel,
   Dialog,
   DialogBody,
+  DialogFooter,
   DialogHeader,
-  IconButton,
   Typography,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
@@ -16,9 +15,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import { BsFillTrashFill } from "react-icons/bs";
+import { AiOutlineEye } from "react-icons/ai";
 
 const MyCredentials = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -43,6 +43,45 @@ const MyCredentials = () => {
     setOpen((cur) => !cur);
   };
 
+  const [openDelete, setOpenDelete] = useState(false);
+  const [credentialId, setCredentialId] = useState("");
+
+  const handleDelete = (id) => {
+    setOpenDelete((cur) => !cur);
+    setCredentialId(id);
+  };
+
+  const refreshData = () => {
+    axios
+      .post("http://localhost:8080/api/credentials", {
+        userId: userId,
+      })
+      .then((result) => {
+        setMyCredentials(result.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const handleConfirmDelete = () => {
+    axios
+      .post("http://localhost:8080/api/credentials/delete", {
+        credentialId: credentialId,
+      })
+      .then((res) => {
+        refreshData();
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+    setOpenDelete(false);
+  };
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -53,14 +92,19 @@ const MyCredentials = () => {
             <h1 class="font-bold text-2xl text-gray-700">MY CREDENTIALS</h1>
             <div className="flex flex-row gap-5 flex-wrap">
               {myCredentials.map((data, key) => (
-                <Card
-                  className="h-64 w-[32%] cursor-pointer overflow-hidden transition-opacity hover:opacity-90"
-                  onClick={() => handleOpen(data.credentials)}
-                >
+                <Card className="h-64 w-[32%] overflow-hidden transition-opacity hover:opacity-90">
                   <img
                     alt="nature"
-                    className="h-full w-full object-cover object-center"
+                    className="h-full w-full object-cover object-center blur-sm"
                     src={data.credentials}
+                  />
+                  <BsFillTrashFill
+                    onClick={() => handleDelete(data._id)}
+                    className="bg-red-600 h-14 w-14 rounded-lg text-white absolute top-[40%] right-[30%] transform(-50%, -50%)"
+                  />
+                  <AiOutlineEye
+                    onClick={() => handleOpen(data.credentials)}
+                    className="bg-blue-600 h-14 w-14 rounded-lg text-white absolute top-[40%] right-[55%] transform(-50%, -50%)  cursor-pointer"
                   />
                 </Card>
               ))}
@@ -105,6 +149,30 @@ const MyCredentials = () => {
                   src={imgSrc}
                 />
               </DialogBody>
+            </Dialog>
+
+            <Dialog open={openDelete} handler={handleDelete}>
+              <DialogHeader>Confirmation Message!</DialogHeader>
+              <DialogBody divider>
+                Are you sure you want to delete this credentials?
+              </DialogBody>
+              <DialogFooter>
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={handleDelete}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button
+                  variant="gradient"
+                  color="green"
+                  onClick={handleConfirmDelete}
+                >
+                  <span>Confirm</span>
+                </Button>
+              </DialogFooter>
             </Dialog>
           </div>
           <DashboardFooter />

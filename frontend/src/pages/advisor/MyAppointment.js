@@ -470,8 +470,12 @@ const MyAppointment = () => {
                                             <option selected>
                                               Select Availability
                                             </option>
-                                            {myAvailability?.map(
-                                              (data, key) => (
+                                            {myAvailability
+                                              ?.filter(
+                                                (item) =>
+                                                  item.isAvailable === true
+                                              )
+                                              .map((data, key) => (
                                                 <option value={data._id}>
                                                   <Moment format="MMMM DD, YYYY">
                                                     {data.availabilityDate}
@@ -482,8 +486,7 @@ const MyAppointment = () => {
                                                   {" - "}
                                                   {data.availabilityType}
                                                 </option>
-                                              )
-                                            )}
+                                              ))}
                                           </select>
                                         </Typography>
                                       </td>

@@ -5,9 +5,9 @@ import SideMenu from "./SideMenu";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const TABLE_HEAD = ["Name", "Rating", "Review"];
+const TABLE_HEAD = ["Name", "Rating", "Review", "Reviewed By"];
 
-export default function AdvisorRatingList() {
+export default function ViewRatings() {
   const [ratingList, setRatingList] = useState([]);
 
   useEffect(() => {
@@ -69,6 +69,15 @@ export default function AdvisorRatingList() {
                             className="font-normal"
                           >
                             {data.review}
+                          </Typography>
+                        </td>
+                        <td className="p-4">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal"
+                          >
+                            {data.leadsName}
                           </Typography>
                         </td>
                       </tr>

@@ -43,6 +43,8 @@ import Login from "./pages/Login";
 import PrivacyAndPolicy from "./pages/PrivacyAndPolicy";
 import RatingAndReview from "./pages/leads/RatingAndReview";
 import MyCredentials from "./pages/advisor/MyCredentials";
+import MyRating from "./pages/advisor/MyRatings";
+import ViewRatings from "./pages/admin/ViewRatings";
 function App() {
   return (
     <Router>
@@ -59,6 +61,7 @@ function App() {
           <Route path="/admin/add-advisor" element={<AdminAddAdvisor />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
           <Route path="/admin/view-users" element={<AdminViewUsers />} />
+          <Route path="/admin/view-ratings" element={<ViewRatings />} />
           <Route path="/admin/complaints" element={<Complaints />} />
           <Route path="/admin/user-details" element={<UserDetails />} />
         </Route>
@@ -103,6 +106,7 @@ function App() {
             element={<ComplaintDetails />}
           />
           <Route path="/advisor/my-credentials" element={<MyCredentials />} />
+          <Route path="/advisor/my-rating" element={<MyRating />} />
         </Route>
 
         {/* Leads Routes */}

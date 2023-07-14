@@ -5,6 +5,7 @@ import {
   advisorAppointment,
   appointmentDetails,
   changeAppointmentStatus,
+  deleteAvailability,
   deleteNotification,
   getAllAppointmentDetails,
   getAllDetails,
@@ -27,5 +28,6 @@ router.post("/read-notification", readNotification);
 router.post("/appointment-details", appointmentDetails);
 router.post("/advisor-appointment", advisorAppointment);
 router.put("/change-status", changeAppointmentStatus);
+router.post("/delete-availability", deleteAvailability);
 
 export default router;

@@ -1,16 +1,26 @@
-import { Card, Chip, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Card,
+  Chip,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  Typography,
+} from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
 import SideMenu from "./SideMenu";
 import { useSelector } from "react-redux";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Moment from "react-moment";
+import { BsTrashFill } from "react-icons/bs";
 
-const TABLE_HEAD = ["Date", "Time", "Type", "Availability"];
+const TABLE_HEAD = ["Date", "Time", "Type", "Availability", "Action"];
 
 const MyAvailability = ({ data }) => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -40,12 +50,51 @@ const MyAvailability = ({ data }) => {
       .catch((error) => console.log(error));
   }, 3000);
 
+  const refreshData = () => {
+    axios
+      .post("http://localhost:8080/api/appointment/my-availability", {
+        userId: userId,
+      })
+      .then((result) => {
+        setMyAvailability(result.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   const convertFrom24To12Format = (time24) => {
     const [sHours, minutes] = time24.match(/([0-9]{1,2}):([0-9]{2})/).slice(1);
     const period = +sHours < 12 ? "AM" : "PM";
     const hours = +sHours % 12 || 12;
 
     return `${hours}:${minutes} ${period}`;
+  };
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const [availId, setAvailId] = useState("");
+
+  const handleDelete = (id) => {
+    setOpenDelete((cur) => !cur);
+    setAvailId(id);
+  };
+  const handleConfirmDelete = () => {
+    axios
+      .post("http://localhost:8080/api/appointment/delete-availability", {
+        availId: availId,
+      })
+      .then((res) => {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        refreshData();
+      });
+    setOpenDelete(false);
   };
 
   return (
@@ -159,6 +208,15 @@ const MyAvailability = ({ data }) => {
                               />
                             </Typography>
                           </td>
+                          <td className="p-4">
+                            <Button
+                              disabled={data.isAvailable ? false : true}
+                              className="ml-4 bg-red-600"
+                              onClick={() => handleDelete(data._id)}
+                            >
+                              <BsTrashFill className="h-4 w-4" />
+                            </Button>
+                          </td>
                         </tr>
                       </>
                     ))}
@@ -167,6 +225,29 @@ const MyAvailability = ({ data }) => {
               )}
             </Card>
           </div>
+          <Dialog open={openDelete} handler={handleDelete}>
+            <DialogHeader>Confirmation Message!</DialogHeader>
+            <DialogBody divider>
+              Are you sure you want to delete this availability?
+            </DialogBody>
+            <DialogFooter>
+              <Button
+                variant="text"
+                color="red"
+                onClick={handleDelete}
+                className="mr-1"
+              >
+                <span>Cancel</span>
+              </Button>
+              <Button
+                variant="gradient"
+                color="green"
+                onClick={handleConfirmDelete}
+              >
+                <span>Confirm</span>
+              </Button>
+            </DialogFooter>
+          </Dialog>
           <DashboardFooter />
           <ToastContainer />
         </main>

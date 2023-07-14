@@ -35,4 +35,18 @@ const getUserCredentials = asyncHandler(async (req, res) => {
   res.send(userCredentials);
 });
 
-export { addCredentials, getUserCredentials };
+const deleteCredentials = asyncHandler(async (req, res) => {
+  const { credentialId } = req.body;
+
+  const credential = await Credentials.findById({ _id: credentialId });
+
+  const confirmDelete = await credential.deleteOne();
+
+  if (confirmDelete) {
+    res
+      .status(200)
+      .send({ message: "Credential has been deleted successfully" });
+  }
+});
+
+export { addCredentials, getUserCredentials, deleteCredentials };

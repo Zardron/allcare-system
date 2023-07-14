@@ -2,6 +2,10 @@ import {
   Button,
   Card,
   Chip,
+  Dialog,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
   Popover,
   PopoverContent,
   PopoverHandler,
@@ -15,6 +19,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { BsTrashFill } from "react-icons/bs";
 
 const TABLE_HEAD = ["Name", "Status", "Action"];
 
@@ -56,6 +61,17 @@ const ViewCompany = () => {
       .catch((error) => console.log(error));
   }, [userId]);
 
+  const refreshData = () => {
+    axios
+      .post("http://localhost:8080/api/company/get-company", {
+        userId: userId,
+      })
+      .then((result) => {
+        setMyCompany(result.data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   const handleSave = () => {
     axios
       .put("http://localhost:8080/api/company/", {
@@ -92,6 +108,34 @@ const ViewCompany = () => {
           theme: "colored",
         });
       });
+  };
+
+  const [openDelete, setOpenDelete] = useState(false);
+  const [compId, setCompId] = useState("");
+
+  const handleDelete = (id) => {
+    setOpenDelete((cur) => !cur);
+    setCompId(id);
+  };
+  const handleConfirmDelete = () => {
+    axios
+      .post("http://localhost:8080/api/company/delete", {
+        compId: compId,
+      })
+      .then((res) => {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        refreshData();
+      });
+    setOpenDelete(false);
   };
 
   return (
@@ -254,6 +298,12 @@ const ViewCompany = () => {
                                 </div>
                               </PopoverContent>
                             </Popover>
+                            <Button
+                              className="ml-4 bg-red-600"
+                              onClick={() => handleDelete(data._id)}
+                            >
+                              <BsTrashFill className="h-4 w-4" />
+                            </Button>
                           </td>
                         </tr>
                       </>
@@ -263,6 +313,30 @@ const ViewCompany = () => {
               )}
             </Card>
           </div>
+
+          <Dialog open={openDelete} handler={handleDelete}>
+            <DialogHeader>Confirmation Message!</DialogHeader>
+            <DialogBody divider>
+              Are you sure you want to delete this company?
+            </DialogBody>
+            <DialogFooter>
+              <Button
+                variant="text"
+                color="red"
+                onClick={handleDelete}
+                className="mr-1"
+              >
+                <span>Cancel</span>
+              </Button>
+              <Button
+                variant="gradient"
+                color="green"
+                onClick={handleConfirmDelete}
+              >
+                <span>Confirm</span>
+              </Button>
+            </DialogFooter>
+          </Dialog>
           <DashboardFooter />
           <ToastContainer />
         </main>

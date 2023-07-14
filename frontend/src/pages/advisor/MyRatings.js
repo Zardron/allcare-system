@@ -7,7 +7,7 @@ import axios from "axios";
 
 const TABLE_HEAD = ["Name", "Rating", "Review"];
 
-export default function AdvisorRatingList() {
+export default function MyRating() {
   const [ratingList, setRatingList] = useState([]);
 
   useEffect(() => {

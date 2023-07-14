@@ -71,4 +71,16 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-export { addCompany, getCompany, updateUser };
+const deleteCompany = asyncHandler(async (req, res) => {
+  const { compId } = req.body;
+
+  const company = await Company.findById({ _id: compId });
+
+  const confirmDelete = await company.deleteOne();
+
+  if (confirmDelete) {
+    res.status(200).send({ message: "Company has been deleted successfully" });
+  }
+});
+
+export { addCompany, getCompany, updateUser, deleteCompany };

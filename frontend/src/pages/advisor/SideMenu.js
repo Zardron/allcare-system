@@ -376,7 +376,9 @@ const SideMenu = () => {
                             <option value={"Virtual Meeting: Zoom"}>
                               Virtual Meeting: Zoom
                             </option>
-                            <option value={"Virtual Meeting: G-Meet"}></option>
+                            <option value={"Virtual Meeting: G-Meet"}>
+                              Virtual Meeting: G-Meet
+                            </option>
                           </select>
                         </div>
                         <div>
@@ -477,6 +479,29 @@ const SideMenu = () => {
                 </span>
                 <Link to="/advisor/profile">
                   <span className="ml-3">Profile</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/my-rating"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span className="flex items-center justify-center text-lg text-black">
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    className="h-6 w-6"
+                  >
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+                <Link to="/advisor/my-rating">
+                  <span className="ml-3">My Rating</span>
                 </Link>
               </Link>
             </li>

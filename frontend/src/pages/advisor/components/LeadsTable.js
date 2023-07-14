@@ -36,17 +36,17 @@ const AdvisorTable = ({ userId }) => {
           />
         </td>
         <td className="p-4">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <Typography color="blue-gray" className="font-normal text-[.80rem]">
             {user.firstName} {user.lastName}
           </Typography>
         </td>
         <td className="p-4">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <Typography color="blue-gray" className="font-normal text-[.80rem]">
             {user.contactNumber}
           </Typography>
         </td>
         <td className="p-4">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <Typography color="blue-gray" className="font-normal text-[.80rem]">
             {user.email}
           </Typography>
         </td>
@@ -54,7 +54,7 @@ const AdvisorTable = ({ userId }) => {
         <td className="p-4 flex flex-row gap-2">
           <Button
             disabled={user.facebook ? false : true}
-            size="md"
+            size="sm"
             variant="outlined"
             color="blue-gray"
             className="flex items-center gap-3"
@@ -67,7 +67,7 @@ const AdvisorTable = ({ userId }) => {
 
           <Button
             disabled={user.instagram ? false : true}
-            size="md"
+            size="sm"
             variant="outlined"
             color="blue-gray"
             className="flex items-center gap-3"
@@ -80,7 +80,7 @@ const AdvisorTable = ({ userId }) => {
 
           <Button
             disabled={user.linkedIn ? false : true}
-            size="md"
+            size="sm"
             variant="outlined"
             color="blue-gray"
             className="flex items-center gap-3"
@@ -92,7 +92,7 @@ const AdvisorTable = ({ userId }) => {
           </Button>
         </td>
         <td className="p-4">
-          <Typography variant="small" color="blue-gray" className="font-normal">
+          <Typography color="blue-gray" className="font-normal text-[.80rem]">
             <Chip
               size="sm"
               variant="ghost"
@@ -104,7 +104,6 @@ const AdvisorTable = ({ userId }) => {
         </td>
         <td className="p-4">
           <Typography
-            variant="small"
             color="blue"
             className="font-medium cursor-pointer"
             onClick={() => handleSelectLeads(user._id)}

@@ -242,6 +242,20 @@ const getAllAppointmentDetails = asyncHandler(async (req, res) => {
   });
 });
 
+const deleteAvailability = asyncHandler(async (req, res) => {
+  const { availId } = req.body;
+
+  const availability = await Availability.findById({ _id: availId });
+
+  const confirmDelete = await availability.deleteOne();
+
+  if (confirmDelete) {
+    res
+      .status(200)
+      .send({ message: "Availability has been deleted successfully" });
+  }
+});
+
 export {
   addAvailability,
   getAvailabilityByAdvisor,
@@ -255,4 +269,5 @@ export {
   advisorAppointment,
   changeAppointmentStatus,
   deleteNotification,
+  deleteAvailability,
 };

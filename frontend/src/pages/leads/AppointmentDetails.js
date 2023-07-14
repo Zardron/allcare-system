@@ -494,7 +494,11 @@ const AppointmentDetails = () => {
                               </tr>
                               <tr className="flex flex-row">
                                 <td className="w-28">
-                                  <span className="font-bold">Reason:</span>{" "}
+                                  <span className="font-bold">
+                                    {appointmentStatus[0] === "Approve"
+                                      ? "Message"
+                                      : "Reason"}
+                                  </span>{" "}
                                 </td>
                                 <td className="flex flex-row w-52">
                                   <span className="mx-4"> :</span>{" "}
