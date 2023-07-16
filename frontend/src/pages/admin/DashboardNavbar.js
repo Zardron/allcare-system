@@ -72,7 +72,7 @@ const DashboardNavbar = () => {
         </form>
         <div className="flex flex-row ml-auto items-center justify-center">
           <Link
-            to="/advisor/notification"
+            to="/admin/notification"
             className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
           >
             <Badge

@@ -42,77 +42,96 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (user.userType === "Leads" || user.userType === "Admin") {
-    if (user && (await user.matchPassword(password))) {
-      generateToken(res, user._id);
-      res.status(201).json({
-        _id: user._id,
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
-        age: user.age,
-        contactNumber: user.contactNumber,
-        gender: user.gender,
-        birthDate: user.birthDate,
-        email: user.email,
-        address: user.address,
-        facebook: user.facebook,
-        instagram: user.instagram,
-        linkedIn: user.linkedIn,
-        password: user.password,
-        profilePicture: user.profilePicture,
-        userType: user.userType,
-        isOnline: user.isOnline,
-        education: user.education,
-        educationalLevel: user.educationalLevel,
-        workAddress: user.workAddress,
-        occupation: user.occupation,
-        civilStatus: user.civilStatus,
-      });
-
-      user.isOnline = true;
-
-      await user.save();
-    } else {
-      res.status(400);
-      throw new Error("Invalid email or password");
-    }
+  if (user.isActive === false) {
+    res
+      .status(401)
+      .send({ message: "Your account has been deactivated by Admin." });
   } else {
-    if (user && (await user.matchPassword(password))) {
-      generateToken(res, user._id);
-      res.status(201).json({
-        _id: user._id,
-        firstName: user.firstName,
-        middleName: user.middleName,
-        lastName: user.lastName,
-        age: user.age,
-        contactNumber: user.contactNumber,
-        gender: user.gender,
-        birthDate: user.birthDate,
-        email: user.email,
-        address: user.address,
-        facebook: user.facebook,
-        instagram: user.instagram,
-        linkedIn: user.linkedIn,
-        password: user.password,
-        profilePicture: user.profilePicture,
-        userType: user.userType,
-        expertise: user.expertise,
-        education: user.education,
-        company: user.company,
-        isOnline: user.isOnline,
-        educationalLevel: user.educationalLevel,
-        workAddress: user.workAddress,
-        occupation: user.occupation,
-        civilStatus: user.civilStatus,
-      });
+    if (user.userType === "Leads" || user.userType === "Admin") {
+      if (user && (await user.matchPassword(password))) {
+        generateToken(res, user._id);
+        res.status(201).json({
+          _id: user._id,
+          firstName: user.firstName,
+          middleName: user.middleName,
+          lastName: user.lastName,
+          age: user.age,
+          contactNumber: user.contactNumber,
+          gender: user.gender,
+          birthDate: user.birthDate,
+          email: user.email,
+          address: user.address,
+          facebook: user.facebook,
+          instagram: user.instagram,
+          linkedIn: user.linkedIn,
+          password: user.password,
+          profilePicture: user.profilePicture,
+          userType: user.userType,
+          isOnline: user.isOnline,
+          education: user.education,
+          educationalLevel: user.educationalLevel,
+          workAddress: user.workAddress,
+          occupation: user.occupation,
+          civilStatus: user.civilStatus,
+          isActive: user.isActive,
+          salaryRange: user.salaryRange,
+          smokingStatus: user.smokingStatus,
+          religion: user.religion,
+          dependent1: user.dependent1,
+          dependent2: user.dependent2,
+          dependent3: user.dependent3,
+        });
 
-      user.isOnline = true;
+        user.isOnline = true;
 
-      await user.save();
+        await user.save();
+      } else {
+        res.status(400);
+        throw new Error("Invalid email or password");
+      }
     } else {
-      res.status(400);
-      throw new Error("Invalid email or password");
+      if (user && (await user.matchPassword(password))) {
+        generateToken(res, user._id);
+        res.status(201).json({
+          _id: user._id,
+          firstName: user.firstName,
+          middleName: user.middleName,
+          lastName: user.lastName,
+          age: user.age,
+          contactNumber: user.contactNumber,
+          gender: user.gender,
+          birthDate: user.birthDate,
+          email: user.email,
+          address: user.address,
+          facebook: user.facebook,
+          instagram: user.instagram,
+          linkedIn: user.linkedIn,
+          password: user.password,
+          profilePicture: user.profilePicture,
+          userType: user.userType,
+          expertise: user.expertise,
+          education: user.education,
+          company: user.company,
+          isOnline: user.isOnline,
+          educationalLevel: user.educationalLevel,
+          workAddress: user.workAddress,
+          occupation: user.occupation,
+          civilStatus: user.civilStatus,
+          salaryRange: user.salaryRange,
+          smokingStatus: user.smokingStatus,
+          religion: user.religion,
+          dependent1: user.dependent1,
+          dependent2: user.dependent2,
+          dependent3: user.dependent3,
+        });
+
+        user.isOnline = true;
+
+        await user.save();
+      } else {
+        res.status(400);
+        throw new Error("Invalid email or password");
+      }
     }
   }
 });
@@ -139,6 +158,12 @@ const addUser = asyncHandler(async (req, res) => {
       password,
       profilePicture,
       userType,
+      salaryRange,
+      smokingStatus,
+      religion,
+      dependent1,
+      dependent2,
+      dependent3,
     } = req.body;
 
     const userExists = await User.findOne({ email });
@@ -166,6 +191,12 @@ const addUser = asyncHandler(async (req, res) => {
       password,
       profilePicture,
       userType,
+      salaryRange,
+      smokingStatus,
+      religion,
+      dependent1,
+      dependent2,
+      dependent3,
     });
 
     if (user) {
@@ -187,6 +218,12 @@ const addUser = asyncHandler(async (req, res) => {
         password: user.password,
         profilePicture: user.profilePicture,
         userType: user.userType,
+        salaryRange: user.salaryRange,
+        smokingStatus: user.smokingStatus,
+        religion: user.religion,
+        dependent1: user.dependent1,
+        dependent2: user.dependent2,
+        dependent3: user.dependent3,
       });
     } else {
       res.status(400);
@@ -505,6 +542,22 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const accountManagement = asyncHandler(async (req, res) => {
+  const { userId, accMngt } = req.body;
+
+  const user = await User.findById({ _id: userId });
+
+  if (accMngt === "Deactivate") {
+    user.isActive = false;
+    await user.save();
+    res.status(200).send({ message: "User has been deactivated" });
+  } else {
+    user.isActive = true;
+    await user.save();
+    res.status(200).send({ message: "User has been reactivated" });
+  }
+});
+
 export {
   getAdvisorUsers,
   getLeads,
@@ -516,4 +569,5 @@ export {
   updateUserProfile,
   changeToOffline,
   getUserDetails,
+  accountManagement,
 };

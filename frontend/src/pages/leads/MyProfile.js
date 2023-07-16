@@ -33,6 +33,12 @@ const MyProfile = () => {
   const [workAddress, setWorkAddress] = useState("");
   const [occupation, setOccupation] = useState("");
   const [education, setEducation] = useState("");
+  const [smokingStatus, setSmokingStatus] = useState("");
+  const [salaryRange, setSalaryRange] = useState("");
+  const [religion, setReligion] = useState("");
+  const [dependent1, setDependent1] = useState("");
+  const [dependent2, setDependent2] = useState("");
+  const [dependent3, setDependent3] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
 
@@ -55,6 +61,12 @@ const MyProfile = () => {
     setWorkAddress(userInfo.workAddress);
     setOccupation(userInfo.occupation);
     setEducation(userInfo.education);
+    setSmokingStatus(userInfo.smokingStatus);
+    setSalaryRange(userInfo.salaryRange);
+    setReligion(userInfo.religion);
+    setDependent1(userInfo.dependent1);
+    setDependent2(userInfo.dependent2);
+    setDependent3(userInfo.dependent3);
   }, [userInfo]);
 
   return (
@@ -127,7 +139,22 @@ const MyProfile = () => {
                           <Input value={educationalLevel} disabled />
                         </div>
                       </div>
-
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Salary Range:
+                          </Typography>
+                          <Input value={salaryRange} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Dependent 2:
+                          </Typography>
+                          <Input value={dependent2} disabled />
+                        </div>
+                      </div>
                       <div className="mb-6">
                         <div className="w-64">
                           <Button
@@ -199,6 +226,23 @@ const MyProfile = () => {
                       </div>
                       <div className="mb-6">
                         <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Religion:
+                          </Typography>
+                          <Input value={religion} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Dependent 3:
+                          </Typography>
+                          <Input value={dependent3} disabled />
+                        </div>
+                      </div>
+
+                      <div className="mb-6">
+                        <div className="w-64">
                           <Button
                             disabled={instagram ? false : true}
                             size="md"
@@ -245,12 +289,28 @@ const MyProfile = () => {
                           <Input label="Email" value={email} disabled />
                         </div>
                       </div>
-                      <div className="mb-11">
+                      <div className="mb-6">
                         <div className="w-64">
                           <Typography className="text-blue-gray-400 font-400 text-sm">
                             Course:
                           </Typography>
                           <Input label="Education" value={education} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-6">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Smoking Status:
+                          </Typography>
+                          <Input value={smokingStatus} disabled />
+                        </div>
+                      </div>
+                      <div className="mb-11">
+                        <div className="w-64">
+                          <Typography className="text-blue-gray-400 font-400 text-sm">
+                            Dependent 1:
+                          </Typography>
+                          <Input value={dependent1} disabled />
                         </div>
                       </div>
                       <div className="mb-6 ">

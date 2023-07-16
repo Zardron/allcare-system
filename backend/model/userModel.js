@@ -93,6 +93,28 @@ const userSchema = mongoose.Schema(
     credential: {
       type: String,
     },
+    smokingStatus: {
+      type: String,
+    },
+    salaryRange: {
+      type: String,
+    },
+    religion: {
+      type: String,
+    },
+    dependent1: {
+      type: String,
+    },
+    dependent2: {
+      type: String,
+    },
+    dependent3: {
+      type: String,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     timestamps: true,

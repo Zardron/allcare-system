@@ -10,6 +10,9 @@ import {
   DialogHeader,
   Input,
   Rating,
+  Spinner,
+  Textarea,
+  Tooltip,
   Typography,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
@@ -20,43 +23,46 @@ import { BsSearch } from "react-icons/bs";
 import { MdPersonSearch } from "react-icons/md";
 import axios from "axios";
 import TableHeader from "./TableHeader";
-import { useNavigate } from "react-router-dom";
 import {
   AiFillFacebook,
   AiFillInstagram,
   AiFillLinkedin,
 } from "react-icons/ai";
 import Moment from "react-moment";
+import { FaUserCheck, FaUserTimes } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import emailjs from "emailjs-com";
 
 const headers = [
-  { name: "Profile Picture", field: "profilePicture", sortable: false },
   { name: "Name", field: "firstName", sortable: true },
-  { name: "Address", field: "address", sortable: false },
   { name: "User Type", field: "userType", sortable: true },
   { name: "Status", field: "isOnline", sortable: false },
+  { name: "Account Status", field: "isOnline", sortable: false },
   { name: "Action", field: "action", sortable: false },
 ];
 
 const ViewUsers = () => {
   const [userList, setUserList] = useState([]);
   const [search, setSearch] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
   const [sorting, setSorting] = useState({ field: "", order: "" });
-  const navigate = useNavigate();
 
-  // setTimeout(() => {
-  //   axios
-  //     .get("http://localhost:8080/api/users")
-  //     .then((result) => {
-  //       setUserList(result.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, 3000);
+  const refreshData = () => {
+    axios
+      .get("http://localhost:8080/api/users")
+      .then((result) => {
+        setUserList(result.data);
+      })
+      .catch((error) => console.log(error));
+  };
 
   useEffect(() => {
     const getData = () => {
       axios
         .get("http://localhost:8080/api/users")
         .then((result) => {
+          setIsLoaded(true);
           setUserList(result.data);
         })
         .catch((error) => console.log(error));
@@ -100,6 +106,106 @@ const ViewUsers = () => {
     setSelectedUserInfo(selectedUser);
   };
 
+  const [isDeactivateOpen, setIsDeactivateOpen] = useState(false);
+  const [reason, setReason] = useState("");
+  const [isReactivateOpen, setIsReactivateOpen] = useState(false);
+  const [activeUserId, setActiveUserId] = useState(false);
+  const [userEmail, setUserName] = useState("");
+  const [userFullName, setUserFullName] = useState("");
+
+  console.log("====================================");
+  console.log(userEmail, userFullName);
+  console.log("====================================");
+
+  const handleDeactivate = (id, email, fullname) => {
+    setActiveUserId(id);
+    setIsDeactivateOpen(true);
+    setUserName(email);
+    setUserFullName(fullname);
+  };
+
+  const handleConfirm = () => {
+    axios
+      .post("http://localhost:8080/api/users/account-management", {
+        userId: activeUserId,
+        accMngt: "Reactivate",
+      })
+      .then((res) => {
+        setIsDeactivateOpen(false);
+        refreshData();
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
+
+  const handleReactivate = (id) => {
+    setActiveUserId(id);
+    setIsReactivateOpen(true);
+    handleConfirm();
+  };
+
+  const handleDeactivation = (e) => {
+    e.preventDefault();
+
+    if (reason === "") {
+      setIsDeactivateOpen(false);
+      toast.error("Reason is required!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else {
+      axios
+        .post("http://localhost:8080/api/users/account-management", {
+          userId: activeUserId,
+          accMngt: "Deactivate",
+        })
+        .then((res) => {
+          setIsDeactivateOpen(false);
+          refreshData();
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        });
+      emailjs
+        .sendForm(
+          "service_radlyhj",
+          "template_u2eqlev",
+          e.target,
+          "GOSNKTcFgAf4ET6zy"
+        )
+        .then(
+          (result) => {
+            console.log(result.text);
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
+      e.target.reset();
+    }
+  };
+
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -139,82 +245,124 @@ const ViewUsers = () => {
                   headers={headers}
                   onSorting={(field, order) => setSorting({ field, order })}
                 />
-                <tbody>
-                  {searchData.map((data, key) => (
-                    <>
-                      <tr className="even:bg-blue-gray-50/50">
-                        <td className="p-4 w-44">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            <img
-                              src={data.profilePicture}
-                              className="h-10 w-10 rounded-full"
-                              alt="as"
-                            />
-                          </Typography>
-                        </td>
-                        <td className="p-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {data.firstName} {data.lastName}
-                          </Typography>
-                        </td>
-                        <td className="p-4 w-36">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {data.address}
-                          </Typography>
-                        </td>
-                        <td className="p-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {data.userType}
-                          </Typography>
-                        </td>
-                        <td className="p-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            <Chip
-                              size="sm"
-                              variant="ghost"
-                              className="text-center ml-2 w-24"
-                              value={
-                                data.isOnline === true ? "Online" : "Offline"
-                              }
-                              color={data.isOnline === true ? "green" : "red"}
-                            />
-                          </Typography>
-                        </td>
-                        <td className="p-4">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                            onClick={() => handleViewUser(data._id)}
-                          >
-                            <MdPersonSearch className="h-5 w-5 text-blue-600" />
-                          </Typography>
-                        </td>
-                      </tr>
-                    </>
-                  ))}
-                </tbody>
+                {isLoaded && (
+                  <tbody>
+                    {searchData.map((data, key) => (
+                      <>
+                        <tr className="even:bg-blue-gray-50/50">
+                          <td className="p-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {data.firstName} {data.lastName}
+                            </Typography>
+                          </td>
+                          <td className="p-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {data.userType}
+                            </Typography>
+                          </td>
+                          <td className="p-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Chip
+                                size="sm"
+                                variant="ghost"
+                                className="text-center ml-2 w-24"
+                                value={
+                                  data.isOnline === true ? "Online" : "Offline"
+                                }
+                                color={data.isOnline === true ? "green" : "red"}
+                              />
+                            </Typography>
+                          </td>
+                          <td className="p-4">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Chip
+                                size="sm"
+                                variant="ghost"
+                                className="text-center ml-2 w-24"
+                                value={
+                                  data.isActive === true
+                                    ? "Active"
+                                    : "Deactivated"
+                                }
+                                color={data.isActive === true ? "green" : "red"}
+                              />
+                            </Typography>
+                          </td>
+                          <td className="p-4 flex flex-row">
+                            <Tooltip content="View User Details">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal"
+                                onClick={() => handleViewUser(data._id)}
+                              >
+                                <MdPersonSearch className="h-5 w-5 text-blue-600" />
+                              </Typography>
+                            </Tooltip>
+
+                            {data.isActive ? (
+                              <Tooltip content="Deactivate User">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal ml-4"
+                                  onClick={() =>
+                                    handleDeactivate(
+                                      data._id,
+                                      data.email,
+                                      data.firstName + " " + data.lastName
+                                    )
+                                  }
+                                >
+                                  <FaUserTimes className="h-5 w-5 text-red-600" />
+                                </Typography>
+                              </Tooltip>
+                            ) : (
+                              <Tooltip content="Reactivate User">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal ml-4"
+                                  onClick={() => handleReactivate(data._id)}
+                                >
+                                  <FaUserCheck className="h-5 w-5 text-green-600" />
+                                </Typography>
+                              </Tooltip>
+                            )}
+                          </td>
+                        </tr>
+                      </>
+                    ))}
+                  </tbody>
+                )}
               </table>
+              {!isLoaded ? (
+                <div className="w-full h-full flex flex-row items-center justify-center">
+                  <Spinner className="h-16 w-16 text-blue-500/10" />
+                </div>
+              ) : (
+                searchData.length === 0 && (
+                  <div className="w-full h-full flex flex-row items-center justify-center">
+                    <h1>NO USERS FOUND</h1>
+                  </div>
+                )
+              )}
             </Card>
           </div>
           <DashboardFooter />
@@ -687,6 +835,71 @@ const ViewUsers = () => {
               </Button>
             </DialogFooter>
           </Dialog>
+
+          {/* Deactivate User */}
+          <Dialog open={isDeactivateOpen} handler={handleDeactivate}>
+            <DialogHeader>Deactivate User</DialogHeader>
+            <form onSubmit={handleDeactivation}>
+              <DialogBody divider className="flex flex-col gap-4">
+                <Input
+                  name="fullname"
+                  label="Full Name"
+                  value={userFullName}
+                  className="mb-4"
+                />
+
+                <Input
+                  name="email"
+                  label="Email"
+                  value={userEmail}
+                  className="mb-4"
+                />
+                <Textarea
+                  label="Reason for Deactivation"
+                  value={reason}
+                  name="reason"
+                  onChange={(e) => setReason(e.target.value)}
+                />
+              </DialogBody>
+              <DialogFooter>
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={() => setIsDeactivateOpen(false)}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button type="submit" variant="gradient" color="green">
+                  <span>Confirm</span>
+                </Button>
+              </DialogFooter>
+            </form>
+          </Dialog>
+
+          {/* Deactivate User
+          <Dialog open={isReactivateOpen} handler={handleReactivate}>
+            <DialogHeader>Reactivate User</DialogHeader>
+            <form onSubmit={handleConfirm}>
+              <DialogBody divider>
+                Are you sure you want to reactive this user?
+              </DialogBody>
+              <DialogFooter>
+                <Button
+                  variant="text"
+                  color="red"
+                  onClick={() => setIsReactivateOpen(false)}
+                  className="mr-1"
+                >
+                  <span>Cancel</span>
+                </Button>
+                <Button type="submit" variant="gradient" color="green">
+                  <span>Confirm</span>
+                </Button>
+              </DialogFooter>
+            </form>
+          </Dialog> */}
+          <ToastContainer />
         </main>
       </div>
     </>

@@ -38,6 +38,12 @@ const Register = () => {
   const [civilStatus, setCivilStatus] = useState("");
   const [workAddress, setWorkAddress] = useState("");
   const [occupation, setOccupation] = useState("");
+  const [salaryRange, setSalaryRange] = useState("");
+  const [smokingStatus, setSmokingStatus] = useState("");
+  const [religion, setReligion] = useState("");
+  const [dependent1, setDependent1] = useState("");
+  const [dependent2, setDependent2] = useState("");
+  const [dependent3, setDependent3] = useState("");
 
   const navigate = useNavigate();
   const { userInfo } = useSelector((state) => state.auth);
@@ -118,6 +124,12 @@ const Register = () => {
           password,
           profilePicture,
           userType,
+          salaryRange,
+          smokingStatus,
+          religion,
+          dependent1,
+          dependent2,
+          dependent3,
         }).unwrap();
 
         if (savedUser) {
@@ -379,6 +391,62 @@ const Register = () => {
                         </div>
                       </Badge>
                     </div>
+                    <div className="mb-6">
+                      <Badge
+                        color="white"
+                        content={
+                          <FaStarOfLife
+                            className="h-2 w-2 text-red-600"
+                            strokeWidth={2.5}
+                          />
+                        }
+                        withBorder
+                      >
+                        <div className="w-64">
+                          <Select label="Salary Range">
+                            <Option
+                              onClick={(e) => setSalaryRange("Below 10,000")}
+                            >
+                              Below 10,000
+                            </Option>
+                            <Option
+                              onClick={(e) => setSalaryRange("10,001 - 20,000")}
+                            >
+                              10,001 - 20,000
+                            </Option>
+                            <Option
+                              onClick={(e) => setSalaryRange("20,001 - 30,000")}
+                            >
+                              20,001 - 30,000
+                            </Option>
+                            <Option
+                              onClick={(e) => setSalaryRange("30,001 - 40,000")}
+                            >
+                              30,001 - 40,000
+                            </Option>
+                            <Option
+                              onClick={(e) => setSalaryRange("40,001 - 50,000")}
+                            >
+                              40,001 - 50,000
+                            </Option>
+                            <Option
+                              onClick={(e) => setSalaryRange("Above 50,001")}
+                            >
+                              Above 50,001
+                            </Option>
+                          </Select>
+                        </div>
+                      </Badge>
+                    </div>
+                    <div className="mb-6">
+                      <div className="w-64">
+                        <Input
+                          label="Name of Dependent 2"
+                          value={dependent2}
+                          onChange={(e) => setDependent2(e.target.value)}
+                        />
+                      </div>
+                    </div>
                   </div>
 
                   {/* 2nd Column */}
@@ -455,6 +523,7 @@ const Register = () => {
                         </div>
                       </Badge>
                     </div>
+
                     <div className="mb-6">
                       <Badge
                         color="white"
@@ -474,6 +543,62 @@ const Register = () => {
                           />
                         </div>
                       </Badge>
+                    </div>
+                    <div className="mb-6">
+                      <Badge
+                        color="white"
+                        content={
+                          <FaStarOfLife
+                            className="h-2 w-2 text-red-600"
+                            strokeWidth={2.5}
+                          />
+                        }
+                        withBorder
+                      >
+                        <div className="w-64">
+                          <Select label="Religion">
+                            <Option
+                              onClick={(e) => setReligion("Roman Catholic")}
+                            >
+                              Roman Catholic
+                            </Option>
+                            <Option onClick={(e) => setReligion("Protestant")}>
+                              Protestant
+                            </Option>
+                            <Option
+                              onClick={(e) => setReligion("Iglesia ni Cristo")}
+                            >
+                              Iglesia ni Cristo
+                            </Option>
+                            <Option onClick={(e) => setReligion("Islam")}>
+                              Islam
+                            </Option>
+                            <Option
+                              onClick={(e) =>
+                                setReligion("Seventh-day Adventist")
+                              }
+                            >
+                              Seventh-day Adventist
+                            </Option>
+                            <Option
+                              onClick={(e) =>
+                                setSmokingStatus("Jehovah's Witnesses")
+                              }
+                            >
+                              Jehovah's Witnesses
+                            </Option>
+                          </Select>
+                        </div>
+                      </Badge>
+                    </div>
+                    <div className="mb-6">
+                      <div className="w-64">
+                        <Input
+                          label="Name of Dependent 3"
+                          value={dependent3}
+                          onChange={(e) => setDependent3(e.target.value)}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -562,8 +687,42 @@ const Register = () => {
                       </Badge>
                     </div>
                     <div className="mb-6">
+                      <Badge
+                        color="white"
+                        content={
+                          <FaStarOfLife
+                            className="h-2 w-2 text-red-600"
+                            strokeWidth={2.5}
+                          />
+                        }
+                        withBorder
+                      >
+                        <div className="w-64">
+                          <Select label="Smoking Status">
+                            <Option onClick={(e) => setSmokingStatus("Smoker")}>
+                              Smoker
+                            </Option>
+                            <Option
+                              onClick={(e) => setSmokingStatus("Non-Smoker")}
+                            >
+                              Non-Smoker
+                            </Option>
+                          </Select>
+                        </div>
+                      </Badge>
+                    </div>
+                    <div className="mb-6">
                       <div className="w-64">
-                        <Input type="password" className="hidden" />
+                        <Input
+                          label="Name of Dependent 1"
+                          value={dependent1}
+                          onChange={(e) => setDependent1(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-6">
+                      <div className="w-64">
+                        <Input value={dependent3} className="hidden" />
                       </div>
                     </div>
                   </div>
