@@ -11,6 +11,8 @@ import {
   DialogBody,
   DialogFooter,
   Textarea,
+  Tooltip,
+  Input,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -25,8 +27,19 @@ import "react-toastify/dist/ReactToastify.css";
 import Moment from "react-moment";
 import { useNavigate } from "react-router-dom";
 import { MdEditNote } from "react-icons/md";
+import { AiOutlineFileAdd } from "react-icons/ai";
+import { AiOutlineFileSearch } from "react-icons/ai";
+import { TbTrashFilled } from "react-icons/tb";
 
-const TABLE_HEAD = ["Appointmend #", "Submiited Date", "Status", "Action"];
+const TABLE_HEAD = [
+  "Appointmend #",
+  "Submiited Date",
+  "Status",
+  "Notes",
+  "Action",
+];
+
+const NOTES_TABLE_HEAD = ["Notes", "Time", "Date", "Action"];
 
 const MyAppointment = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -238,6 +251,91 @@ const MyAppointment = () => {
       });
   };
 
+  // Add Notes
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [viewNoteOpen, setViewNoteOpen] = useState(false);
+  const [appointId, setAppointId] = useState("");
+  const [notes, setNotes] = useState("");
+  const [myNotes, setMyNotes] = useState([]);
+
+  console.log(myNotes);
+
+  const handleNote = (id) => {
+    setNoteOpen(true);
+    setAppointId(id);
+  };
+
+  const handleViewNote = (id) => {
+    setViewNoteOpen(true);
+    setAppointId(id);
+    axios
+      .post("http://localhost:8080/api/appointment/get-notes", {
+        appointId: appointId,
+        notes: notes,
+      })
+      .then((res) => {
+        setMyNotes(res.data);
+        setNoteOpen(false);
+      });
+  };
+
+  const handleNoteConfirm = (e) => {
+    e.preventDefault();
+
+    if (notes === "") {
+      toast.error("Notes is required", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      setNoteOpen(false);
+    } else {
+      axios
+        .post("http://localhost:8080/api/appointment/add-notes", {
+          appointId: appointId,
+          notes: notes,
+        })
+        .then((res) => {
+          toast.success(res.data.message, {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setNoteOpen(false);
+        });
+    }
+  };
+
+  const handleDeleteNotes = (id) => {
+    axios
+      .post("http://localhost:8080/api/appointment/delete-notes", {
+        notesId: id,
+      })
+      .then((res) => {
+        toast.success(res.data.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        setViewNoteOpen(false);
+      });
+  };
+
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -323,6 +421,7 @@ const MyAppointment = () => {
                               </Moment>
                             </Typography>
                           </td>
+
                           <td className="p-4">
                             <Typography
                               variant="small"
@@ -346,6 +445,45 @@ const MyAppointment = () => {
                                 }
                               />
                             </Typography>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex flex-row items-center">
+                              <Tooltip content="Add Notes">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal cursor-pointer"
+                                >
+                                  <AiOutlineFileAdd
+                                    disabled={
+                                      data.appointmentStatus === "Approve"
+                                        ? false
+                                        : true
+                                    }
+                                    onClick={() => handleNote(data._id)}
+                                    className="h-6 w-6"
+                                  />
+                                </Typography>
+                              </Tooltip>
+
+                              <Tooltip content="View Notes">
+                                <Typography
+                                  variant="small"
+                                  color="blue-gray"
+                                  className="font-normal cursor-pointer"
+                                >
+                                  <AiOutlineFileSearch
+                                    disabled={
+                                      data.appointmentStatus === "Approve"
+                                        ? false
+                                        : true
+                                    }
+                                    onClick={() => handleViewNote(data._id)}
+                                    className="h-6 w-6"
+                                  />
+                                </Typography>
+                              </Tooltip>
+                            </div>
                           </td>
                           <td className="p-4 flex flex-row gap-6 items-center">
                             <Typography
@@ -450,6 +588,7 @@ const MyAppointment = () => {
                                     />
                                   </td>
                                 </tr>
+
                                 {showRescheduleOption ? (
                                   <div>
                                     <tr className="flex flex-col">
@@ -546,6 +685,117 @@ const MyAppointment = () => {
                 onClick={handleConfirmComplete}
               >
                 <span>Confirm</span>
+              </Button>
+            </DialogFooter>
+          </Dialog>
+
+          <Dialog open={noteOpen} handler={handleNote}>
+            <DialogHeader>Add notes for this appointment</DialogHeader>
+            <DialogBody divider className="grid place-items-center gap-4">
+              <Input
+                label="Notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+              />
+            </DialogBody>
+            <DialogFooter>
+              <Button
+                variant="text"
+                color="red"
+                onClick={() => setNoteOpen(false)}
+                className="mr-1"
+              >
+                <span>Cancel</span>
+              </Button>
+              <Button
+                variant="gradient"
+                color="green"
+                onClick={handleNoteConfirm}
+              >
+                <span>Confirm</span>
+              </Button>
+            </DialogFooter>
+          </Dialog>
+
+          <Dialog open={viewNoteOpen} handler={handleViewNote}>
+            <DialogHeader>My Notes</DialogHeader>
+            <DialogBody divider className="grid gap-4">
+              <table className="w-full min-w-max table-auto text-left">
+                <thead className="text-left">
+                  <tr>
+                    {NOTES_TABLE_HEAD.map((head) => (
+                      <th
+                        key={head}
+                        className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                      >
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal leading-none opacity-70"
+                        >
+                          {head}
+                        </Typography>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {myNotes.map((data, key) => (
+                    <tr key={key}>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {data.notes}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {convertFrom24To12Format(data.createdAt)}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          <Moment format="MMMM DD, YYYY">
+                            {data.createdAt}
+                          </Moment>
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          as="a"
+                          href="#"
+                          variant="small"
+                          color="red"
+                          className="font-medium"
+                          onClick={() => handleDeleteNotes(data._id)}
+                        >
+                          <TbTrashFilled className="h-6 w-6" />
+                        </Typography>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </DialogBody>
+            <DialogFooter>
+              <Button
+                variant="text"
+                color="red"
+                onClick={() => setViewNoteOpen(false)}
+                className="mr-1"
+              >
+                <span>Close</span>
               </Button>
             </DialogFooter>
           </Dialog>

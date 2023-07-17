@@ -2,14 +2,17 @@ import express from "express";
 const router = express.Router();
 import {
   addAvailability,
+  addNotes,
   advisorAppointment,
   appointmentDetails,
   changeAppointmentStatus,
   deleteAvailability,
+  deleteNotes,
   deleteNotification,
   getAllAppointmentDetails,
   getAllDetails,
   getAvailabilityByAdvisor,
+  getNotes,
   getNotification,
   leadsAppointmentDetails,
   readNotification,
@@ -29,5 +32,8 @@ router.post("/appointment-details", appointmentDetails);
 router.post("/advisor-appointment", advisorAppointment);
 router.put("/change-status", changeAppointmentStatus);
 router.post("/delete-availability", deleteAvailability);
+router.post("/add-notes", addNotes);
+router.post("/get-notes", getNotes);
+router.post("/delete-notes", deleteNotes);
 
 export default router;

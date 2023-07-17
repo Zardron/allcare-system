@@ -4,6 +4,7 @@ import Product from "../model/productModel.js";
 import Appointment from "../model/appointmentModel.js";
 import Notification from "../model/notificationModel.js";
 import User from "../model/userModel.js";
+import Notes from "../model/notesModel.js";
 
 // @desc Add product
 // @route POST /api/product
@@ -256,6 +257,45 @@ const deleteAvailability = asyncHandler(async (req, res) => {
   }
 });
 
+const addNotes = asyncHandler(async (req, res) => {
+  const { appointId, notes } = req.body;
+
+  const newNotes = await Notes.create({
+    appointmentId: appointId,
+    notes: notes,
+  });
+
+  if (newNotes) {
+    res.status(200).send({ message: "New notes has been added" });
+  }
+});
+
+const getNotes = asyncHandler(async (req, res) => {
+  const { appointId } = req.body;
+
+  const notesDetails = await Notes.find({
+    appointmentId: appointId,
+  });
+
+  if (notesDetails) {
+    res.status(200).send(notesDetails);
+  }
+});
+
+const deleteNotes = asyncHandler(async (req, res) => {
+  const { notesId } = req.body;
+
+  const notesDetails = await Notes.findById({
+    _id: notesId,
+  });
+
+  const confirmDelete = await notesDetails.deleteOne();
+
+  if (confirmDelete) {
+    res.status(200).send({ message: "Notes has been deleted successfully" });
+  }
+});
+
 export {
   addAvailability,
   getAvailabilityByAdvisor,
@@ -270,4 +310,7 @@ export {
   changeAppointmentStatus,
   deleteNotification,
   deleteAvailability,
+  addNotes,
+  getNotes,
+  deleteNotes,
 };
