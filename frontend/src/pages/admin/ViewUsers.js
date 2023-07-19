@@ -811,6 +811,71 @@ const ViewUsers = () => {
                           </tr>
                           <tr>
                             <td>
+                              <span className="font-bold">Smoking Status</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {data.smokingStatus}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Salary Range</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {data.salaryRange}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Religion</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span> {data.religion}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Dependent 1</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {data.dependent1}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Dependent 2</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {data.dependent2}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <span className="font-bold">Dependent 3</span>{" "}
+                            </td>
+                            <td>
+                              <Typography className="capitalize">
+                                <span className="mx-4"> :</span>{" "}
+                                {data.dependent3}
+                              </Typography>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
                               <span className="font-bold">Joined Date</span>{" "}
                             </td>
                             <td>

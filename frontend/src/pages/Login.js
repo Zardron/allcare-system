@@ -38,31 +38,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await login({
-        email,
-        password,
-      }).unwrap();
-      dispatch(setCredentials({ ...res }));
-
-      switch (res.userType) {
-        case "Admin":
-          navigate("/admin/dashboard");
-          break;
-
-        case "Advisor":
-          navigate("/advisor/dashboard");
-          break;
-
-        case "Leads":
-          navigate("/leads/dashboard");
-          break;
-
-        default:
-          break;
-      }
-    } catch (err) {
-      toast.error(err?.data?.message || err.message, {
+    if (email === "" && password === "") {
+      toast.error("Please enter your email and password", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -72,6 +49,42 @@ const Login = () => {
         progress: undefined,
         theme: "colored",
       });
+    } else {
+      try {
+        const res = await login({
+          email,
+          password,
+        }).unwrap();
+        dispatch(setCredentials({ ...res }));
+
+        switch (res.userType) {
+          case "Admin":
+            navigate("/admin/dashboard");
+            break;
+
+          case "Advisor":
+            navigate("/advisor/dashboard");
+            break;
+
+          case "Leads":
+            navigate("/leads/dashboard");
+            break;
+
+          default:
+            break;
+        }
+      } catch (err) {
+        toast.error(err?.data?.message || err.message, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   };
   return (

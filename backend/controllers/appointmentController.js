@@ -277,6 +277,10 @@ const getNotes = asyncHandler(async (req, res) => {
     appointmentId: appointId,
   });
 
+  console.log("====================================");
+  console.log(notesDetails);
+  console.log("====================================");
+
   if (notesDetails) {
     res.status(200).send(notesDetails);
   }
