@@ -24,6 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 // import MyAvailability from "./MyAvailability";
 import { MdEventAvailable } from "react-icons/md";
+import Logo from "../../assets/images/logo.png";
 
 const SideMenu = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -233,11 +234,7 @@ const SideMenu = () => {
         <div className="sidebar-header flex items-center justify-center py-4">
           <div className="inline-flex">
             <Link to="/advisor/dashboard">
-              <img
-                src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
-                alt="brand"
-                className="h-20 w-auto"
-              />
+              <img src={Logo} alt="brand" className="h-20 w-auto" />
             </Link>
           </div>
         </div>

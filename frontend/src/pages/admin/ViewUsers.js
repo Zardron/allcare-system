@@ -113,10 +113,6 @@ const ViewUsers = () => {
   const [userEmail, setUserName] = useState("");
   const [userFullName, setUserFullName] = useState("");
 
-  console.log("====================================");
-  console.log(userEmail, userFullName);
-  console.log("====================================");
-
   const handleDeactivate = (id, email, fullname) => {
     setActiveUserId(id);
     setIsDeactivateOpen(true);
@@ -593,7 +589,10 @@ const ViewUsers = () => {
                             <td>
                               <Typography className="flex items-center capitalize">
                                 <span className="mx-4"> :</span>{" "}
-                                <Rating value={data.rating} readonly />
+                                <Rating
+                                  value={parseInt(data.rating) / 2}
+                                  readonly
+                                />
                               </Typography>
                             </td>
                           </tr>

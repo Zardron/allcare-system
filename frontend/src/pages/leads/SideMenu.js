@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,18 @@ import { logout } from "../../slices/authSlice";
 import { RiStarHalfFill, RiUserSearchFill } from "react-icons/ri";
 import { MdOutlineRateReview } from "react-icons/md";
 import axios from "axios";
+import Logo from "../../assets/images/logo.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import {
+  Button,
+  Input,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+  Typography,
+} from "@material-tailwind/react";
+import { TbCertificate } from "react-icons/tb";
 
 const SideMenu = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -46,17 +58,74 @@ const SideMenu = () => {
   //       );
   //     });
   // }, 3000);
+
+  // Add Credentials
+  const [credentials, setCredentials] = useState("");
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      if (file) {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      }
+    });
+  };
+
+  const handleCredentialUpload = async (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file);
+
+    setCredentials(base64);
+  };
+
+  const handleCredentialSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("http://localhost:8080/api/credentials/add-credentials", {
+        userId: userInfo._id,
+        credentials,
+      })
+      .then((result) => {
+        toast.success("Medical History has been added successfully", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch((err) => {
+        toast.error("Medical History is already exist", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
+
   return (
     <>
       <aside className="sidebar w-64 md:shadow transform -translate-x-full md:translate-x-0 transition-transform duration-150 ease-in bg-white">
         <div className="sidebar-header flex items-center justify-center py-4">
           <div className="inline-flex">
             <Link to="/leads/dashboard">
-              <img
-                src="https://scontent.fdxb2-1.fna.fbcdn.net/v/t1.15752-9/354946562_1430185717737352_2093950262901227618_n.png?_nc_cat=108&ccb=1-7&_nc_sid=ae9488&_nc_ohc=GZORsWn0Li8AX96PYYk&_nc_ht=scontent.fdxb2-1.fna&oh=03_AdRsED-PzIHHq8I_YGD2Bx52DVC4G5HMh5EkH1EkMGjILw&oe=64B3E809"
-                alt="brand"
-                classNameName="h-20 w-auto"
-              />
+              <img src={Logo} alt="brand" classNameName="h-20 w-auto" />
             </Link>
           </div>
         </div>
@@ -85,7 +154,45 @@ const SideMenu = () => {
                 </Link>
               </Link>
             </li>
-
+            <li className="my-px">
+              <Popover placement="bottom">
+                <PopoverHandler>
+                  <Link className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700">
+                    <TbCertificate className="h-6 w-6" />
+                    <span className="ml-3">Add Medical History</span>
+                  </Link>
+                </PopoverHandler>
+                <PopoverContent className="w-96">
+                  <Typography variant="h6" color="blue-gray" className="mb-2">
+                    Medical History
+                  </Typography>
+                  <form onSubmit={handleCredentialSubmit} className="flex-col">
+                    <div className="mt-2 ">
+                      <div className="w-[100%]">
+                        <Input
+                          label="Medical History"
+                          type="file"
+                          files={credentials}
+                          accept="image/*"
+                          onChange={handleCredentialUpload}
+                          className="file:border-0  file:bg-gray-300 file:text-sm file:font-semibold file:rounded"
+                        />
+                      </div>
+                    </div>
+                    <h1 class="font-bold text-sm my-2 text-red-600">
+                      Note: Only .jpg, .jpeg and .png allowed.
+                    </h1>
+                    <Button
+                      type="submit"
+                      variant="gradient"
+                      className="w-24 float-right"
+                    >
+                      Submit
+                    </Button>
+                  </form>
+                </PopoverContent>
+              </Popover>
+            </li>
             <li className="my-px">
               <Link
                 to="/leads/view-advisor"
@@ -192,6 +299,20 @@ const SideMenu = () => {
                 </Link>
               </Link>
             </li>
+            <li className="my-px">
+              <Link
+                to="/leads/medical-history"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <TbCertificate className="h-6 w-6" />
+                <Link to="/leads/medical-history">
+                  <span className="ml-3">My Medical History</span>
+                </Link>
+                {/* <span className="flex items-center justify-center text-xs text-red-500 font-semibold bg-red-100 h-6 px-2 rounded-full ml-auto">
+                  1k
+                </span> */}
+              </Link>
+            </li>
             {/* <li className="my-px">
               <Link
                 to="/leads/notification"
@@ -247,6 +368,7 @@ const SideMenu = () => {
           </ul>
         </div>
       </aside>
+      <ToastContainer />
     </>
   );
 };

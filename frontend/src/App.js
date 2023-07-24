@@ -45,6 +45,7 @@ import RatingAndReview from "./pages/leads/RatingAndReview";
 import MyCredentials from "./pages/advisor/MyCredentials";
 import MyRating from "./pages/advisor/MyRatings";
 import ViewRatings from "./pages/admin/ViewRatings";
+import MyMedicalHistory from "./pages/leads/MyMedicalHistory";
 function App() {
   return (
     <Router>
@@ -144,6 +145,7 @@ function App() {
             path="/leads/rating-and-review"
             element={<RatingAndReview />}
           />
+          <Route path="/leads/medical-history" element={<MyMedicalHistory />} />
         </Route>
       </Routes>
     </Router>

@@ -7,7 +7,10 @@ import Company from "../model/companyModel.js";
 const addCompany = asyncHandler(async (req, res) => {
   const { userId, companyName } = req.body; //mo hold sa data from frontend to backend
 
-  const checkCompany = await Company.findOne({ companyName }); // e check niya if ang company is na exist or wala
+  const checkCompany = await Company.findOne({
+    companyName: companyName,
+    userId: userId,
+  }); // e check niya if ang company is na exist or wala
 
   if (checkCompany) {
     res.status(400);

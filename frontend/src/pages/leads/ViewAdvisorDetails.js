@@ -7,6 +7,10 @@ import {
   Avatar,
   CardHeader,
   Input,
+  DialogBody,
+  DialogFooter,
+  DialogHeader,
+  Dialog,
 } from "@material-tailwind/react";
 import DashboardFooter from "./DashboardFooter";
 import DashboardNavbar from "./DashboardNavbar";
@@ -43,6 +47,7 @@ const ViewAdvisorDetails = () => {
 
   const [userId] = useState(location?.state?.user?._id);
   const [myProducts, setMyProducts] = useState([]);
+  const [advisorCredentials, setAdvisorCredentials] = useState([]);
 
   const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState({ field: "", order: "" });
@@ -83,6 +88,17 @@ const ViewAdvisorDetails = () => {
       .catch((error) => console.log(error));
   }, [userId]);
 
+  useEffect(() => {
+    axios
+      .post("http://localhost:8080/api/credentials", {
+        userId: userId,
+      })
+      .then((result) => {
+        setAdvisorCredentials(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, [userId]);
+
   const handleAppointment = (productId, advisorId, leadsId) => {
     navigate("/leads/book-appointment", {
       state: {
@@ -93,6 +109,14 @@ const ViewAdvisorDetails = () => {
     });
   };
 
+  const [open, setOpen] = useState(false);
+  const [imgSrc, setImgSrc] = useState("");
+
+  const handleOpen = (src) => {
+    setImgSrc(src);
+    setOpen((cur) => !cur);
+  };
+
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -101,7 +125,7 @@ const ViewAdvisorDetails = () => {
           <DashboardNavbar />
           <div class="main-content flex flex-col flex-grow p-4 ">
             <h1 class="font-bold text-2xl text-gray-700">ADVISOR PROFILE</h1>
-            <section className="p-10 overflow-auto max-h-[74vh] bg-white">
+            <section className="p-6 overflow-auto max-h-[74vh] bg-white">
               <Link
                 to={"/leads/view-advisor"}
                 className="flex flex-row gap-2 items-center mb-10"
@@ -376,8 +400,31 @@ const ViewAdvisorDetails = () => {
                   </table>
                 </div>
               </div>
+              <h1 class="font-bold text-2xl text-gray-700 mb-2 mt-4">
+                CREDENTIALS
+              </h1>
+              {advisorCredentials.length <= 0 ? (
+                <div className="flex flex-row items-center justify-center">
+                  <h1>NO CREDENTIAL FOUND</h1>
+                </div>
+              ) : (
+                <div className="flex flex-row gap-5 flex-wrap my-4">
+                  {advisorCredentials.map((data, key) => (
+                    <Card
+                      className="h-64 w-[32%] overflow-hidden transition-opacity hover:opacity-90 cursor-pointer"
+                      onClick={() => handleOpen(data.credentials)}
+                    >
+                      <img
+                        alt="nature"
+                        className="h-full w-full object-cover object-center"
+                        src={data.credentials}
+                      />
+                    </Card>
+                  ))}
+                </div>
+              )}
               <h1 class="font-bold text-2xl text-gray-700 mb-2">PRODUCTS</h1>{" "}
-              <div class="main-content flex flex-col flex-grow p-4 ">
+              <div class="main-content flex flex-col flex-grow p-2 ">
                 <Card className="overflow-scroll h-full w-full">
                   <CardHeader
                     floated={false}
@@ -416,7 +463,7 @@ const ViewAdvisorDetails = () => {
                         .map((data, key) => (
                           <>
                             <tr className="even:bg-blue-gray-50/50">
-                              <td className="p-4">
+                              <td className="p-4 w-40">
                                 <Typography
                                   variant="small"
                                   color="blue-gray"
@@ -507,6 +554,25 @@ const ViewAdvisorDetails = () => {
               </div>
             </section>
           </div>
+          <Dialog size="xl" open={open} handler={handleOpen}>
+            <DialogHeader className="justify-between">
+              <h1>Advisor Credential</h1>
+            </DialogHeader>
+            <DialogBody divider={true} className="p-0">
+              <img
+                alt="nature"
+                className="h-[35rem] w-full object-contain object-center"
+                src={imgSrc}
+              />
+            </DialogBody>
+            <DialogFooter>
+              <div className="flex float-right gap-2">
+                <Button color="red" size="sm" onClick={() => setOpen(false)}>
+                  Close
+                </Button>
+              </div>
+            </DialogFooter>
+          </Dialog>
           <DashboardFooter />
         </main>
       </div>

@@ -80,4 +80,18 @@ const addComplaint = asyncHandler(async (req, res) => {
   }
 });
 
-export { getAllComplaint, addComplaint, getComplaintDetails };
+const deleteComplaint = asyncHandler(async (req, res) => {
+  const { complaintId } = req.body;
+
+  const complaint = await Complaint.findById({ _id: complaintId });
+
+  const confirmDelete = await complaint.deleteOne();
+
+  if (confirmDelete) {
+    res
+      .status(200)
+      .send({ message: "Complaint has been deleted successfully" });
+  }
+});
+
+export { getAllComplaint, addComplaint, getComplaintDetails, deleteComplaint };
