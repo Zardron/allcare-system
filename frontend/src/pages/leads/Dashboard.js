@@ -158,7 +158,7 @@ const Dashboard = () => {
         <SideMenu />
         <main class="main flex flex-col flex-grow md:ml-0 transition-all duration-150 ease-in">
           <DashboardNavbar />
-          <div class="main-content flex flex-col flex-grow p-4">
+          <div class="main-content flex flex-col flex-grow p-2">
             <h1 class="font-bold text-2xl text-gray-700">Dashboard</h1>
             <div class="flex flex-col flex-grow bg-white rounded mt-4">
               <div>

@@ -185,10 +185,10 @@ const ViewUsers = () => {
         });
       emailjs
         .sendForm(
-          "service_radlyhj",
-          "template_u2eqlev",
+          "service_q3tkz1g",
+          "template_873fnrg",
           e.target,
-          "GOSNKTcFgAf4ET6zy"
+          "9SNtDkwu5iL7PA2e9"
         )
         .then(
           (result) => {

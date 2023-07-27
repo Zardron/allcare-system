@@ -139,7 +139,7 @@ const AllCompaint = () => {
                               {data.complaintName}
                             </Typography>
                           </td>
-                          <td className="p-4">
+                          <td className="p-4 w-72">
                             <Typography
                               variant="small"
                               color="blue-gray"

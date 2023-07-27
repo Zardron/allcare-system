@@ -9,6 +9,16 @@ const getRatings = asyncHandler(async (req, res) => {
   res.status(200).send(ratingList);
 });
 
+const getRatingsByAdvisor = asyncHandler(async (req, res) => {
+  const { userId } = req.body;
+
+  const ratingList = await Rating.find({
+    advisorId: userId,
+  });
+
+  res.status(200).send(ratingList);
+});
+
 const addRating = asyncHandler(async (req, res) => {
   const {
     advisorId,
@@ -46,4 +56,4 @@ const addRating = asyncHandler(async (req, res) => {
   }
 });
 
-export { addRating, getRatings };
+export { addRating, getRatings, getRatingsByAdvisor };

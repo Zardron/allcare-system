@@ -46,6 +46,8 @@ import MyCredentials from "./pages/advisor/MyCredentials";
 import MyRating from "./pages/advisor/MyRatings";
 import ViewRatings from "./pages/admin/ViewRatings";
 import MyMedicalHistory from "./pages/leads/MyMedicalHistory";
+import AdvisorSubmitComplaint from "./pages/advisor/AdvisorSubmitComplaint";
+import AdvisorComplaint from "./pages/advisor/AdvisorComplaint";
 function App() {
   return (
     <Router>
@@ -108,6 +110,11 @@ function App() {
           />
           <Route path="/advisor/my-credentials" element={<MyCredentials />} />
           <Route path="/advisor/my-rating" element={<MyRating />} />
+          <Route
+            path="/advisor/submit-complaint"
+            element={<AdvisorSubmitComplaint />}
+          />
+          <Route path="/advisor/my-complaint" element={<AdvisorComplaint />} />
         </Route>
 
         {/* Leads Routes */}

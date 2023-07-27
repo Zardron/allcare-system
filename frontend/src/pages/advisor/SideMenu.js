@@ -23,7 +23,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 // import MyAvailability from "./MyAvailability";
-import { MdEventAvailable } from "react-icons/md";
+import { MdEventAvailable, MdOutlineRateReview } from "react-icons/md";
 import Logo from "../../assets/images/logo.png";
 
 const SideMenu = () => {
@@ -452,6 +452,17 @@ const SideMenu = () => {
               </Link>
             </li>
             <li className="my-px">
+              <Link
+                to="/advisor/submit-complaint"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <MdOutlineRateReview className="h-6 w-6" />
+                <Link to="/advisor/submit-complaint">
+                  <span className="ml-3">Complaint</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
               <span className="flex font-medium text-sm text-black px-4 my-4 uppercase">
                 Account
               </span>
@@ -549,6 +560,17 @@ const SideMenu = () => {
                 <AiFillSchedule className="h-6 w-6" />
                 <Link to="/advisor/availability">
                   <span className="ml-3">My Availability</span>
+                </Link>
+              </Link>
+            </li>
+            <li className="my-px">
+              <Link
+                to="/advisor/my-complaint"
+                className="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <MdOutlineRateReview className="h-6 w-6" />
+                <Link to="/advisor/my-complaint">
+                  <span className="ml-3">My Complaint</span>
                 </Link>
               </Link>
             </li>
