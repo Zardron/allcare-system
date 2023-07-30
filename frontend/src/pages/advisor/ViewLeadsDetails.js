@@ -51,6 +51,7 @@ const ViewLeadsDetails = () => {
           <DashboardNavbar />
           <div class="main-content flex flex-col flex-grow p-4 ">
             <h1 class="font-bold text-2xl text-gray-700">LEADS PROFILE</h1>
+
             <section className="p-10 overflow-auto max-h-[74vh] bg-white">
               <div className="flex flex-row px-6 text-gray-800 gap-14">
                 <div className="flex flex-col  w-[25%] gap-2 items-center justify-start mb-6">
@@ -375,7 +376,7 @@ const ViewLeadsDetails = () => {
             </section>
             <Dialog size="xl" open={open} handler={handleOpen}>
               <DialogHeader className="justify-between">
-                <h1>Advisor Credential</h1>
+                <h1>Medical History</h1>
               </DialogHeader>
               <DialogBody divider={true} className="p-0">
                 <img

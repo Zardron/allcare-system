@@ -26,8 +26,8 @@ const Dashboard = () => {
 
   const [statusOperating, setStatusOperating] = useState("");
   const [statusColorOperating, setStatusColorOperating] = useState("");
-  const [setStatusInvesting] = useState("");
-  const [setStatusColorInvesting] = useState("");
+  const [statusInvesting, setStatusInvesting] = useState("");
+  const [statusColorInvesting, setStatusColorInvesting] = useState("");
   const [statusFinancing, setStatusFinancing] = useState("");
   const [statusColorFinancing, setStatusColorFinancing] = useState("");
 

@@ -3,6 +3,7 @@ const router = express.Router();
 import {
   addAvailability,
   addNotes,
+  adminAppointmentDetails,
   advisorAppointment,
   appointmentDetails,
   changeAppointmentStatus,
@@ -35,5 +36,6 @@ router.post("/delete-availability", deleteAvailability);
 router.post("/add-notes", addNotes);
 router.post("/get-notes", getNotes);
 router.post("/delete-notes", deleteNotes);
+router.get("/admin-appointment-details", adminAppointmentDetails);
 
 export default router;

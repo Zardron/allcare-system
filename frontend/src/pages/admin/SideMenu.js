@@ -162,6 +162,29 @@ const SideMenu = () => {
                 </Link>
               </Link>
             </li>
+            <li class="my-px">
+              <Link
+                to="/admin/appointment"
+                class="flex flex-row items-center h-10 px-3 rounded-lg text-black hover:bg-gray-100 hover:text-gray-700"
+              >
+                <span class="flex items-center justify-center text-lg text-black">
+                  <svg
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="h-6 w-6"
+                  >
+                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </span>
+                <Link to="/admin/appointment">
+                  <span class="ml-3">Appointment</span>
+                </Link>
+              </Link>
+            </li>
             {/* <li class="my-px">
               <Link
                 to="#"

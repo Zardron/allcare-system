@@ -48,6 +48,7 @@ import ViewRatings from "./pages/admin/ViewRatings";
 import MyMedicalHistory from "./pages/leads/MyMedicalHistory";
 import AdvisorSubmitComplaint from "./pages/advisor/AdvisorSubmitComplaint";
 import AdvisorComplaint from "./pages/advisor/AdvisorComplaint";
+import AllAppointments from "./pages/admin/AllAppointments";
 function App() {
   return (
     <Router>
@@ -67,6 +68,7 @@ function App() {
           <Route path="/admin/view-ratings" element={<ViewRatings />} />
           <Route path="/admin/complaints" element={<Complaints />} />
           <Route path="/admin/user-details" element={<UserDetails />} />
+          <Route path="/admin/appointment" element={<AllAppointments />} />
         </Route>
 
         {/* Advisor Routes */}

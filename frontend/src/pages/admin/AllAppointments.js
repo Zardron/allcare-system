@@ -11,23 +11,23 @@ import { format } from "date-fns";
 
 const TABLE_HEAD = [
   // "Complaint #",
-  "Complainant Name",
-  "Subject",
-  "Type",
-  "Complaint User",
-  "Description",
+  "Advisor Id",
+  "Leads Id",
+  "Product Id",
+  "Status",
+  "Date Created",
 ];
 
-const AllCompaint = () => {
+const AllAppointments = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const [userId] = useState(userInfo._id);
-  const [myComplaint, setMyComplaint] = useState([]);
+  const [appointmentDetails, setAppointmentDetails] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/complaint")
+      .get("http://localhost:8080/api/appointment/admin-appointment-details")
       .then((result) => {
-        setMyComplaint(result.data);
+        setAppointmentDetails(result.data);
       })
       .catch((error) => console.log(error));
   }, [userId]);
@@ -38,12 +38,11 @@ const AllCompaint = () => {
 
     // define the columns we want and their titles
     const tableColumn = [
-      "Complainant Name",
-      "Subject",
-      "Type",
-      "Complaint User",
-      "Description",
-      "Complaint Date",
+      "Advisor Id",
+      "Leads Id",
+      "Product Id",
+      "Status",
+      "Date Created",
     ];
     // define an empty array of rows
     const tableRows = [];
@@ -51,12 +50,11 @@ const AllCompaint = () => {
     // for each ticket pass all its data into an array
     data.forEach((item) => {
       const complains = [
-        item.complainantName,
-        item.subject,
-        item.type,
-        item.complaintName,
-        item.description,
-        format(new Date(item.createdAt), "MM-dd-yyyy"),
+        item.advisorId,
+        item.leadsId,
+        item.productId,
+        item.appointmentStatus,
+        format(new Date(item.createdAt), "MMMM dd, yyyy"),
       ];
       // push each tickcet's info into a row
       tableRows.push(complains);
@@ -68,7 +66,7 @@ const AllCompaint = () => {
     // we use a date string to generate our filename.
     const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
     // ticket title. and margin-top + margin-left
-    doc.text("Users Report", 14, 15);
+    doc.text("Appointment Report", 14, 15);
     // we define the name of our PDF file.
     doc.save(`report_${dateStr}.pdf`);
   };
@@ -80,15 +78,15 @@ const AllCompaint = () => {
         <main class="main flex flex-col flex-grow md:ml-0 transition-all duration-150 ease-in">
           <DashboardNavbar />
           <div class="main-content flex flex-col flex-grow p-4 ">
-            <h1 class="font-bold text-2xl text-gray-700">ALL COMPLAINTS</h1>
+            <h1 class="font-bold text-2xl text-gray-700">ALL APPOINTMENT</h1>
             <Button
               className="btn btn-primary w-64"
-              onClick={() => generatePDF(myComplaint)}
+              onClick={() => generatePDF(appointmentDetails)}
             >
               Generate report
             </Button>
             <Card className="overflow-scroll max-h-[70vh] h-full w-full">
-              {myComplaint.length === 0 ? (
+              {appointmentDetails.length === 0 ? (
                 <>
                   <table className="w-full min-w-max table-auto text-left">
                     <thead>
@@ -141,7 +139,7 @@ const AllCompaint = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {myComplaint.map((data, key) => (
+                    {appointmentDetails.map((data, key) => (
                       <>
                         <tr className="even:bg-blue-gray-50/50">
                           {/* <td className="p-4">
@@ -159,7 +157,7 @@ const AllCompaint = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {data.complainantName}
+                              {data.advisorId}
                             </Typography>
                           </td>
                           <td className="p-4">
@@ -168,7 +166,7 @@ const AllCompaint = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {data.subject}
+                              {data.leadsId}
                             </Typography>
                           </td>
                           <td className="p-4">
@@ -177,7 +175,7 @@ const AllCompaint = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {data.type} Complaint
+                              {data.productId}
                             </Typography>
                           </td>
                           <td className="p-4">
@@ -186,7 +184,7 @@ const AllCompaint = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {data.complaintName}
+                              {data.appointmentStatus}
                             </Typography>
                           </td>
                           <td className="p-4 w-72">
@@ -195,7 +193,10 @@ const AllCompaint = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {data.description}
+                              {format(
+                                new Date(data.createdAt),
+                                "MMMM dd, yyyy"
+                              )}
                             </Typography>
                           </td>
                         </tr>
@@ -214,4 +215,4 @@ const AllCompaint = () => {
   );
 };
 
-export default AllCompaint;
+export default AllAppointments;

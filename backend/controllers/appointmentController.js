@@ -300,6 +300,12 @@ const deleteNotes = asyncHandler(async (req, res) => {
   }
 });
 
+const adminAppointmentDetails = asyncHandler(async (req, res) => {
+  const data = await Appointment.find();
+
+  res.status(200).send(data);
+});
+
 export {
   addAvailability,
   getAvailabilityByAdvisor,
@@ -317,4 +323,5 @@ export {
   addNotes,
   getNotes,
   deleteNotes,
+  adminAppointmentDetails,
 };

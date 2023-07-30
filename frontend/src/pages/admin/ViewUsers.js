@@ -33,6 +33,9 @@ import { FaUserCheck, FaUserTimes } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import emailjs from "emailjs-com";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
+import { format } from "date-fns";
 
 const headers = [
   { name: "Name", field: "firstName", sortable: true },
@@ -104,6 +107,15 @@ const ViewUsers = () => {
     setOpen(true);
     const selectedUser = userList.filter((item) => item._id === id);
     setSelectedUserInfo(selectedUser);
+
+    axios
+      .post("http://localhost:8080/api/credentials", {
+        userId: id,
+      })
+      .then((result) => {
+        setLeadsMedicalHistory(result.data);
+      })
+      .catch((error) => console.log(error));
   };
 
   const [isDeactivateOpen, setIsDeactivateOpen] = useState(false);
@@ -202,6 +214,59 @@ const ViewUsers = () => {
     }
   };
 
+  const generatePDF = (searchData) => {
+    // initialize jsPDF
+    const doc = new jsPDF();
+
+    // define the columns we want and their titles
+    const tableColumn = [
+      "Full Name",
+      "Email",
+      "Contact Number",
+      "Occupation",
+      "Educational Level",
+      "Home Address",
+      "Joined Date",
+    ];
+    // define an empty array of rows
+    const tableRows = [];
+
+    // for each ticket pass all its data into an array
+    searchData.forEach((user) => {
+      const userData = [
+        user.firstName + " " + user.lastName,
+        user.email,
+        user.contactNumber,
+        user.occupation,
+        user.educationalLevel,
+        user.address,
+        format(new Date(user.createdAt), "MM-dd-yyyy"),
+      ];
+      // push each tickcet's info into a row
+      tableRows.push(userData);
+    });
+
+    // startY is basically margin-top
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    const date = Date().split(" ");
+    // we use a date string to generate our filename.
+    const dateStr = date[0] + date[1] + date[2] + date[3] + date[4];
+    // ticket title. and margin-top + margin-left
+    doc.text("Users Report", 14, 15);
+    // we define the name of our PDF file.
+    doc.save(`report_${dateStr}.pdf`);
+  };
+
+  const [leadsMedicalHistory, setLeadsMedicalHistory] = useState([]);
+
+  const [openDetails, setOpenDetails] = useState(false);
+  const [imgSrc, setImgSrc] = useState("");
+
+  const handleOpenDetails = (src) => {
+    setImgSrc(src);
+    setOpen((cur) => !cur);
+  };
+
   return (
     <>
       <div class="flex flex-row min-h-screen bg-gray-100 text-gray-800">
@@ -225,6 +290,12 @@ const ViewUsers = () => {
                     </Typography>
                   </div>
                   <div className="flex w-full shrink-0 gap-2 md:w-max">
+                    <Button
+                      className="btn btn-primary"
+                      onClick={() => generatePDF(searchData)}
+                    >
+                      Generate report
+                    </Button>
                     <div className="w-full">
                       <Input
                         label="Search"
@@ -590,7 +661,7 @@ const ViewUsers = () => {
                               <Typography className="flex items-center capitalize">
                                 <span className="mx-4"> :</span>{" "}
                                 <Rating
-                                  value={parseInt(data.rating) / 2}
+                                  value={data.rating >= 5 ? 5 : 0}
                                   readonly
                                 />
                               </Typography>

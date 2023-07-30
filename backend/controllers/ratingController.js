@@ -36,7 +36,7 @@ const addRating = asyncHandler(async (req, res) => {
 
   const advisorDetails = await User.findById({ _id: advisorId });
 
-  advisorDetails.rating = parseInt(advisorDetails.rating) + parseInt(rating);
+  advisorDetails.rating = parseInt(rating);
 
   await advisorDetails.save();
 
